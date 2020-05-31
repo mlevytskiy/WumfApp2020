@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    app:layoutDescription="@xml/example_1_scene">
+
+    <View
+        android:id="@+id/bg_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_wumf_512"
+        app:altSrc="@drawable/ic_shadow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/incoming_speech_bubble"
+        android:paddingStart="16dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0" />
+
+    <LinearLayout
+        android:id="@+id/your_personal_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1"
+        android:padding="16dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/rounded_rect_green" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your personal info"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:gravity="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginEnd="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:text="Country:"
+                    android:gravity="start"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@android:id/text1"
+                    style="?attr/spinnerDropDownItemStyle"
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/dropdownListPreferredItemHeight"
+                    android:ellipsize="marquee"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:background="@android:color/white"
+                    android:textAlignment="textStart"
+                    android:text="Ukraine" />
+
+<!--                <Button-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:text="Ukraine" />-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:text="Language:"
+                    android:gravity="start"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@android:id/text1"
+                    style="?attr/spinnerDropDownItemStyle"
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/dropdownListPreferredItemHeight"
+                    android:ellipsize="marquee"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:background="@android:color/white"
+                    android:textAlignment="textStart"
+                    android:text="english" />
+
+<!--                <Button-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:text="english" />-->
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_go"
+            android:layout_gravity="center"
+            android:onClick="onClickGo"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

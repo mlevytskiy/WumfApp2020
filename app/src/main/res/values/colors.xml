@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="gray0">#FECF9D</color>
+    <color name="gray3">#7fAFB0AB</color>
+    <color name="orange">#F65C1F</color>
+
+    <color name="gray1">#7f54B6CB</color>
+    <color name="gray2">#ffffffff</color>
+    <color name="white">#7fffffff</color>
+    <color name="telegramBg">#ff34A2DF</color>
+    <color name="anonymouslyBg">#ff232427</color>
+    <color name="yellow">#FECD50</color>
+</resources>

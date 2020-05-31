@@ -1,0 +1,3 @@
+rootProject.name='WumfApp2020'
+//include ':app', ':core-common', 'onboarding', 'telegramCoreModule'
+include ':app', ':core-common', ':onboarding'

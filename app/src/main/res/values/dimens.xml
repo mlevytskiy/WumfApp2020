@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Font sizes -->
+    <dimen name="text_size_40">40dp</dimen>
+    <dimen name="text_size_32">32dp</dimen>
+    <dimen name="text_size_24">24dp</dimen>
+    <dimen name="text_size_22">22dp</dimen>
+    <dimen name="text_size_20">20dp</dimen>
+    <dimen name="text_size_18">18dp</dimen>
+    <dimen name="text_size_16">16dp</dimen>
+    <dimen name="text_size_14">14dp</dimen>
+    <dimen name="text_size_12">12dp</dimen>
+    <dimen name="text_size_8">8dp</dimen>
+    <dimen name="pump_number_text_size">72dp</dimen>
+
+    <!--isDefault spacings-->
+    <dimen name="spacing_none">0dp</dimen>
+    <dimen name="spacing_divider">1dp</dimen>
+    <dimen name="spacing_quarter">2dp</dimen>
+    <dimen name="spacing_semi">4dp</dimen>
+    <dimen name="spacing_normal">8dp</dimen>
+    <dimen name="spacing_normal_semi">12dp</dimen>
+    <dimen name="spacing_double">16dp</dimen>
+    <dimen name="spacing_double_semi">20dp</dimen>
+    <dimen name="spacing_triple">24dp</dimen>
+    <dimen name="spacing_quadruple">32dp</dimen>
+    <dimen name="spacing_quintuple">40dp</dimen>
+    <dimen name="spacing_sextuple">48dp</dimen>
+    <dimen name="spacing_septuple">56dp</dimen>
+    <dimen name="spacing_large">64dp</dimen>
+    <dimen name="spacing_xl">72dp</dimen>
+    <dimen name="common_margin">16dp</dimen>
+
+    <dimen name="toolbar_delimiter">6dp</dimen>
+
+    <!-- shadow -->
+    <dimen name="shadow_top">1dp</dimen>
+    <dimen name="shadow_bottom">3dp</dimen>
+
+    <!-- main button -->
+    <dimen name="card_bar_height">360dp</dimen>
+    <dimen name="dialog_finger_print_width">360dp</dimen>
+    <dimen name="dialog_finger_print_height">530dp</dimen>
+
+    <!-- main edit text -->
+    <dimen name="et_main_height">54dp</dimen>
+
+    <!-- small button -->
+    <dimen name="btn_small_min_size">24dp</dimen>
+
+    <!--corner radius-->
+    <dimen name="micro_corner_radius">2dp</dimen>
+    <dimen name="small_corner_radius">8dp</dimen>
+    <dimen name="normal_corner_radius">16dp</dimen>
+    <dimen name="large_corner_radius">50dp</dimen>
+
+    <dimen name="error_bs__height">200dp</dimen>
+    <dimen name="main_progress_bar_width_height">100dp</dimen>
+    <dimen name="btn_secondary_stoke_width">1dp</dimen>
+    <dimen name="code__et_width">40dp</dimen>
+    <dimen name="btn_small__stroke_width">1dp</dimen>
+    <dimen name="act_common_styled_dialog__top_img_width_height">100dp</dimen>
+</resources>

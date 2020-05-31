@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true" >
+    <scale android:duration="1000" android:pivotX="50%" android:pivotY="50%" android:fromXScale="0" android:toXScale="1" android:fromYScale="0" android:toYScale="1"/>
+    <rotate android:duration="1000" android:fromDegrees="360" android:toDegrees="0" android:pivotX="50%" android:pivotY="50%"/>
+
+<!--    <set xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        android:startOffset="1000"-->
+<!--        android:shareInterpolator="false" >-->
+
+<!--        <translate-->
+<!--            android:duration="1000"-->
+<!--            android:fillAfter="true"-->
+<!--            android:fromYDelta="0%p"-->
+<!--            android:fromXDelta="0%p"-->
+<!--            android:startOffset="300"-->
+<!--            android:toYDelta="-135%p"-->
+<!--            android:toXDelta="-130%p" />-->
+
+<!--        <scale android:duration="1000"-->
+<!--            android:fromXScale="1.0"-->
+<!--            android:fromYScale="1.0"-->
+<!--            android:pivotX="50%"-->
+<!--            android:pivotY="50%"-->
+<!--            android:startOffset="0"-->
+<!--            android:toXScale="0.3"-->
+<!--            android:toYScale="0.3" />-->
+
+<!--    </set>-->
+
+</set>
