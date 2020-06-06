@@ -1,90 +1,50 @@
-//package com.core.wumfapp2020.di
-//
-//import android.app.Application
-//import android.content.Context
-//import androidx.lifecycle.ViewModel
-//import androidx.lifecycle.ViewModelProvider
-//import com.core.wumfapp2020.DynamicApp
-//import com.core.wumfapp2020.MainActivity
-//import com.core.wumfapp2020.fragment.PreOnBoardingFragment
-//import com.core.wumfapp2020.fragment.SampleFragment1
-//import com.core.wumfapp2020.fragment.SampleFragment2
-//import com.core.wumfapp2020.viewmodel.PreOnBoardingViewModule
-//import com.core.wumfapp2020.viewmodel.SampleModule1
-//import com.core.wumfapp2020.viewmodel.SampleModule2
-//import com.google.android.play.core.splitinstall.SplitInstallManager
-//import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
-//import com.library.core.ViewModelFactory
-//import dagger.BindsInstance
-//import dagger.Component
-//import dagger.Module
-//import dagger.Provides
-//import dagger.android.AndroidInjector
-//import dagger.android.support.AndroidSupportInjectionModule
-//import javax.inject.Provider
-//import javax.inject.Singleton
-//import dagger.android.ContributesAndroidInjector
-//
-//
-//
-//@Singleton
-//@Component(
-//        modules = [
-//            AndroidSupportInjectionModule::class,
-//            AppModule::class,
-//            ActivityModule::class,
-//            FragmentsModule::class
-//        ]
-//)
-//interface AppComponent : AndroidInjector<DynamicApp> {
-//    @Component.Builder
-//    interface Builder {
-//        @BindsInstance
-//        fun application(application: Application): Builder
-//
-//        fun build(): AppComponent
-//    }
-//}
-//
-//@Module
-//class AppModule {
-//
-//    @Singleton
-//    @Provides
-//    fun provideContext(application: Application): Context = application.applicationContext
-//
-//    @Singleton
-//    @Provides
-//    fun provideSplitInstallManager(application: Application): SplitInstallManager {
-//        return SplitInstallManagerFactory.create(application)
-//    }
-//
-//    @Module
-//    companion object {
-//        @JvmStatic
-//        @Provides
-//        fun provideViewModelFactory(
-//                providers: MutableMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
-//        ): ViewModelProvider.Factory = ViewModelFactory(providers)
-//    }
-//}
-//
-//@Module
-//abstract class ActivityModule {
-//    @ContributesAndroidInjector
-//    internal abstract fun contributeProductListActivity(): MainActivity
-//}
-//
-//@Module
-//abstract class FragmentsModule {
-//
-//    @ContributesAndroidInjector(modules = [SampleModule1::class])
-//    abstract fun bindSample1(): SampleFragment1
-//
-//    @ContributesAndroidInjector(modules = [SampleModule2::class])
-//    abstract fun bindSample2(): SampleFragment2
-//
-//    @ContributesAndroidInjector(modules = [PreOnBoardingViewModule::class])
-//    abstract fun bindPreOnBoarding(): PreOnBoardingFragment
-//
-//}
+package com.core.wumfapp2020.di
+
+import android.app.Application
+import android.content.Context
+import com.core.wumfapp2020.InternetConnectionChecker
+import com.core.wumfapp2020.testdi.WumfActivity
+import javax.inject.Singleton
+import com.google.android.play.core.splitinstall.SplitInstallManager
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import dagger.*
+
+@Singleton
+@Component(
+    modules = [
+        AppModule::class
+    ]
+)
+interface AppComponent: ViewModelProvision, ForDeliveryFeaturesProvision {
+
+    fun inject(activity: WumfActivity)
+
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance applicationContext: Application): AppComponent
+    }
+
+}
+
+@Module
+object AppModule {
+
+    @JvmStatic
+    @Provides
+    fun provideContext(application: Application): Context = application.applicationContext
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideSplitInstallManager(application: Application): SplitInstallManager {
+        return SplitInstallManagerFactory.create(application)
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideInternetConnectionChecker(context: Context): InternetConnectionChecker {
+        return InternetConnectionChecker(context)
+    }
+
+}

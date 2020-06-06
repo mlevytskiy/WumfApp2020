@@ -11,9 +11,5 @@
         <dist:fusing dist:include="true" />
     </dist:module>
 
-    <application>
-<!--        <activity android:name=".OnBoardingActivity" />-->
-        <activity android:name=".OnBoardingActivity2" />
-    </application>
 </manifest>
 

@@ -2,34 +2,22 @@ package com.core.wumfapp2020.viewmodel
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.core.wumfapp2020.InternetConnectionChecker
-import com.core.wumfapp2020.databinding.FrgPreOnBoardingBinding
-import com.core.wumfapp2020.event.OpenOnBoarding
 import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.google.android.play.core.splitinstall.SplitInstallRequest
-import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
+import com.library.Event
 import com.library.core.BaseViewModel
-import com.library.core.di.ViewModelKey
-import dagger.Module
-import dagger.Provides
-import dagger.multibindings.IntoMap
+import com.library.postEvent
 import kotlinx.coroutines.delay
-import java.io.PrintWriter
-import java.io.StringWriter
 import javax.inject.Inject
 
-@Module
-class PreOnBoardingViewModule {
-    @Provides
-    @IntoMap
-    @ViewModelKey(PreOnBoardingViewModel::class)
-    fun bindViewModelKey(connectionChecker: InternetConnectionChecker, splitInstallManager: SplitInstallManager): ViewModel = PreOnBoardingViewModel(connectionChecker, splitInstallManager)
-}
-
-class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager): BaseViewModel<FrgPreOnBoardingBinding>() {
+class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager): BaseViewModel() {
 
     val inProgress = ObservableBoolean(false)
+
+    private val moveToOnBoardingMutable = MutableLiveData<Event<Unit>>()
+    val moveToOnBoarding: LiveData<Event<Unit>> = moveToOnBoardingMutable
 
     enum class ConnectionCheckingState {
         NO_INTERNET,
@@ -44,7 +32,8 @@ class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: 
     }
 
     fun signInAsAnonymous() {
-        if (!checkInternetConnection()) return
+//        if (!checkInternetConnection()) return
+        moveToOnBoardingMutable.postEvent()
     }
 
     fun signInWithTelegram() {
@@ -53,33 +42,33 @@ class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: 
         startBgJob {
             delay(2000)
             inProgress.set(false)
-            startDownloadModule()
+//            startDownloadModule()
         }
 
     }
 
-    private fun startDownloadModule() {
-        val request = SplitInstallRequest.newBuilder()
-            .addModule("onboarding")
-            .build()
-        manager.registerListener {
-            when (it.status()) {
-                SplitInstallSessionStatus.DOWNLOADING -> showToast("Downloading feature")
-                SplitInstallSessionStatus.INSTALLED -> {
-                    showToast("Feature ready to be used")
-                }
-                else -> { showToast("${it.status()}") }
-            }
-        }
-        manager.startInstall(request).addOnSuccessListener {
-            postEvent(OpenOnBoarding())
-        }.addOnFailureListener {
-            val sw = StringWriter()
-            it.printStackTrace(PrintWriter(sw))
-            val exceptionAsString: String = sw.toString()
-            showToast("failed:" + exceptionAsString)
-        }
-    }
+//    private fun startDownloadModule() {
+//        val request = SplitInstallRequest.newBuilder()
+//            .addModule("onboarding")
+//            .build()
+//        manager.registerListener {
+//            when (it.status()) {
+//                SplitInstallSessionStatus.DOWNLOADING -> showToast("Downloading feature")
+//                SplitInstallSessionStatus.INSTALLED -> {
+//                    showToast("Feature ready to be used")
+//                }
+//                else -> { showToast("${it.status()}") }
+//            }
+//        }
+//        manager.startInstall(request).addOnSuccessListener {
+//            postEvent(OpenOnBoarding())
+//        }.addOnFailureListener {
+//            val sw = StringWriter()
+//            it.printStackTrace(PrintWriter(sw))
+//            val exceptionAsString: String = sw.toString()
+//            showToast("failed:" + exceptionAsString)
+//        }
+//    }
 
     fun checkInternetConnection(): Boolean {
         val result = connectionChecker.hasInternetConnection()
