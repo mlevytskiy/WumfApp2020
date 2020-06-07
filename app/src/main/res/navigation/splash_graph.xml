@@ -52,6 +52,12 @@
         app:moduleName="onboarding"
         android:label=" ">
 
+        <argument
+            android:name="someArg"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
     </fragment>
 
 </navigation>

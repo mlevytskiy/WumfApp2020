@@ -1,24 +1,22 @@
 package com.core.dynamicfeature.fragment
 
+import androidx.navigation.fragment.navArgs
 import com.core.dynamicfeature.R
 import com.core.dynamicfeature.databinding.FrgOnboardingBinding
-import com.core.dynamicfeature.di.DaggerOnBoardingComponent
 import com.core.dynamicfeature.viewmodel.OnBoardingViewModel
-import com.core.wumfapp2020.di.injector
-import com.library.core.BaseFragment2
 import com.library.core.di.lazyViewModel
 
-class OnBoardingFragment: BaseFragment2<FrgOnboardingBinding, OnBoardingViewModel>() {
 
-    val featureInjector by lazy { DaggerOnBoardingComponent.builder().appComponent(injector).build() }
+class OnBoardingFragment: AnyOnBoardingFragment<FrgOnboardingBinding, OnBoardingViewModel>() {
 
-    override val viewModel by lazyViewModel { featureInjector.onBoardingViewModel }
-
-    override fun getLayoutRes(): Int {
-        return R.layout.frg_onboarding
+    override val uiRes = R.layout.frg_onboarding
+    override val viewModel by lazyViewModel {
+        val args: OnBoardingFragmentArgs by navArgs()
+        featureInjector.onBoardingViewModelFactory.create(args.someArg)
     }
 
     override fun setViewModelInBinding(binding: FrgOnboardingBinding, viewModel: OnBoardingViewModel) {
         binding.viewModel = viewModel
     }
+
 }

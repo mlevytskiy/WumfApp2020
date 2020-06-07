@@ -1,19 +1,13 @@
 package com.core.wumfapp2020.fragment
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import androidx.navigation.dynamicfeatures.DynamicExtras
 import androidx.navigation.dynamicfeatures.DynamicInstallMonitor
 import androidx.navigation.fragment.findNavController
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.databinding.FrgPreOnBoardingBinding
 import com.core.wumfapp2020.viewmodel.PreOnBoardingViewModel
-import com.library.core.BaseFragment2
+import com.library.core.BaseFragment
 import com.library.core.di.lazyViewModel
 import com.core.wumfapp2020.di.injector
 import com.library.EventObserver
@@ -21,15 +15,12 @@ import com.library.EventObserver
 
 private const val REQUEST_CODE = 12341
 
-class PreOnBoardingFragment : BaseFragment2<FrgPreOnBoardingBinding, PreOnBoardingViewModel>() {
+class PreOnBoardingFragment : BaseFragment<FrgPreOnBoardingBinding, PreOnBoardingViewModel>() {
 
     private val installMonitor = DynamicInstallMonitor()
 
+    override val uiRes = R.layout.frg_pre_on_boarding
     override val viewModel by lazyViewModel { injector.preOnBoardingViewModel }
-
-    override fun getLayoutRes(): Int {
-        return R.layout.frg_pre_on_boarding
-    }
 
     override fun setViewModelInBinding(binding: FrgPreOnBoardingBinding, viewModel: PreOnBoardingViewModel) {
         binding.viewModel = viewModel
@@ -43,11 +34,8 @@ class PreOnBoardingFragment : BaseFragment2<FrgPreOnBoardingBinding, PreOnBoardi
     }
 
     fun navigateToOnBoarding() {
-        val destinationId = PreOnBoardingFragmentDirections.actionPreOnBoardingToOnBoarding().actionId
         findNavController().navigate(
-            destinationId,
-            null,
-            null,
+            PreOnBoardingFragmentDirections.actionPreOnBoardingToOnBoarding("testArg"),
             DynamicExtras(installMonitor))
 //        inline fun NavController?.safeNavigate(context: Context?, navDirections: NavDirections?) {
 //            navDirections?.let { direction ->

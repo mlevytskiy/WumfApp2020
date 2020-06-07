@@ -12,7 +12,7 @@ import dagger.*
 @Singleton
 @Component(
     modules = [
-        AppModule::class
+        AppModule::class, AssistedModule::class
     ]
 )
 interface AppComponent: ViewModelProvision, ForDeliveryFeaturesProvision {
@@ -25,6 +25,10 @@ interface AppComponent: ViewModelProvision, ForDeliveryFeaturesProvision {
     }
 
 }
+
+@com.squareup.inject.assisted.dagger2.AssistedModule
+@Module(includes = [AssistedInject_AssistedModule::class])
+abstract class AssistedModule
 
 @Module
 object AppModule {
