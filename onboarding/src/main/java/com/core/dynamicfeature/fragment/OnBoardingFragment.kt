@@ -3,16 +3,19 @@ package com.core.dynamicfeature.fragment
 import androidx.navigation.fragment.navArgs
 import com.core.dynamicfeature.R
 import com.core.dynamicfeature.databinding.FrgOnboardingBinding
+import com.core.dynamicfeature.di.featureInjector
 import com.core.dynamicfeature.viewmodel.OnBoardingViewModel
+import com.core.wumfapp2020.base.AppBaseFragment
+import com.core.wumfapp2020.VisibleBottomTabsState
 import com.library.core.di.lazyViewModel
 
+class OnBoardingFragment: AppBaseFragment<FrgOnboardingBinding, OnBoardingViewModel>(R.layout.frg_onboarding) {
 
-class OnBoardingFragment: AnyOnBoardingFragment<FrgOnboardingBinding, OnBoardingViewModel>() {
+    override val bottomTabs = VisibleBottomTabsState(0)
 
-    override val uiRes = R.layout.frg_onboarding
     override val viewModel by lazyViewModel {
         val args: OnBoardingFragmentArgs by navArgs()
-        featureInjector.onBoardingViewModelFactory.create(args.someArg)
+        featureInjector.onBoardingViewModelFactory.create(args.resultListener)
     }
 
     override fun setViewModelInBinding(binding: FrgOnboardingBinding, viewModel: OnBoardingViewModel) {

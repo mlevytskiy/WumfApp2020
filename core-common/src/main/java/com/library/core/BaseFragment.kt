@@ -8,12 +8,11 @@ import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.library.core.di.unsyncLazy
 
-abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel> : Fragment() {
+abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val uiRes: Int) : Fragment() {
 
     protected abstract val viewModel: VM
-
-    protected abstract val uiRes: Int
 
     private lateinit var binding: B
 

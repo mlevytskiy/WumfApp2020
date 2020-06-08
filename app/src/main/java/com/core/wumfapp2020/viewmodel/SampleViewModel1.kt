@@ -5,7 +5,6 @@ import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 //import com.core.wumfapp2020.databinding.FrgSample1Binding
 import com.library.core.BaseViewModel
-import com.library.core.di.ViewModelKey
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap

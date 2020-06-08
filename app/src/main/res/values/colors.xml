@@ -14,4 +14,6 @@
     <color name="telegramBg">#ff34A2DF</color>
     <color name="anonymouslyBg">#ff232427</color>
     <color name="yellow">#FECD50</color>
+
+    <color name="blue">#FF0057B8</color>
 </resources>

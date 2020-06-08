@@ -41,8 +41,12 @@
 
         <action
             android:id="@+id/action_pre_on_boarding_to_on_boarding"
-            app:popUpTo="@id/splash_graph"
-            app:destination="@+id/on_boarding" />
+            app:popUpTo="@id/pre_on_boarding"
+            app:destination="@+id/on_boarding"
+            app:enterAnim="@anim/push_left_in"
+            app:exitAnim="@anim/push_left_out"
+            app:popEnterAnim="@anim/push_right_in"
+            app:popExitAnim="@anim/push_right_out" />
 
     </fragment>
 
@@ -53,9 +57,9 @@
         android:label=" ">
 
         <argument
-            android:name="someArg"
+            android:name="resultListener"
             android:defaultValue="@null"
-            app:argType="string"
+            app:argType="com.core.wumfapp2020.ResultListener"
             app:nullable="true" />
 
     </fragment>

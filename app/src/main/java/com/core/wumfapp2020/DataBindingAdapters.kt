@@ -42,6 +42,28 @@ object DataBindingAdapters {
     }
 
     @JvmStatic
+    @BindingAdapter("visibilityAnimated", "inAnim", "outAnim")
+    fun bindVisibilityAnimated(view: View, visibilityAnimated: Boolean, inAnim: Animation?, outAnim: Animation?) {
+        if (visibilityAnimated && view.visibility != View.VISIBLE) {
+            if (inAnim != null) {
+                view.startAnimation(inAnim)
+            }
+            view.visibility = View.VISIBLE
+        } else if (!visibilityAnimated && view.visibility == View.VISIBLE) {
+            if (outAnim != null) {
+                outAnim.setAnimationListener(object : SimpleAnimationListener() {
+                    override fun onAnimationEnd(animation: Animation) {
+                        view.visibility = View.GONE
+                    }
+                })
+                view.startAnimation(outAnim)
+            } else {
+                view.visibility = View.GONE
+            }
+        }
+    }
+
+    @JvmStatic
     @BindingAdapter("android:src")
     fun setImageViewResource(imageView: ImageView, resource: Int) {
         imageView.setImageResource(resource)
