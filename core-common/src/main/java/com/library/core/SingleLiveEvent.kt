@@ -1,4 +1,4 @@
-package com.core.wumfapp2020
+package com.library.core
 
 import android.util.Log
 import androidx.annotation.MainThread
@@ -6,7 +6,6 @@ import androidx.annotation.Nullable
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import java.io.Serializable
 import java.util.concurrent.atomic.AtomicBoolean
 
 
@@ -22,7 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * Note that only one observer is going to be notified of changes.
  */
-open class SingleLiveEvent<T> : MutableLiveData<T>(), Serializable {
+open class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     private val mPending = AtomicBoolean(false)
 

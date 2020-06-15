@@ -1,23 +1,16 @@
 package com.core.wumfapp2020.fragment
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.navigation.dynamicfeatures.DynamicExtras
 import androidx.navigation.dynamicfeatures.DynamicInstallMonitor
 import androidx.navigation.fragment.findNavController
 import com.core.wumfapp2020.R
-import com.core.wumfapp2020.ResultListener
 import com.core.wumfapp2020.base.AppBaseFragment
 import com.core.wumfapp2020.databinding.FrgPreOnBoardingBinding
 import com.core.wumfapp2020.viewmodel.PreOnBoardingViewModel
 import com.library.core.di.lazyViewModel
 import com.core.wumfapp2020.di.injector
-import com.core.wumfapp2020.observe
-import com.library.EventObserver
-import kotlin.concurrent.fixedRateTimer
-
+import com.core.wumfapp2020.viewmodel.ResultStatus
 
 private const val REQUEST_CODE = 12341
 
@@ -33,31 +26,14 @@ class PreOnBoardingFragment : AppBaseFragment<FrgPreOnBoardingBinding, PreOnBoar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.moveToOnBoarding.observe(this, EventObserver {
-            navigateToOnBoarding()
-        })
-
-//        setResultListener("requestKey") { key, bundle ->
-//        }
     }
 
-    fun navigateToOnBoarding() {
-        val resultListener = ResultListener()
-        resultListener.observe(this, Observer {
-            Toast.makeText(requireContext(), "some message", Toast.LENGTH_LONG).show()
-        })
-        Log.i("testr", "sended resultListener=" + resultListener.hashCode())
-        findNavController().navigate(
-            PreOnBoardingFragmentDirections.actionPreOnBoardingToOnBoarding(resultListener),
-            DynamicExtras(installMonitor))
-//        inline fun NavController?.safeNavigate(context: Context?, navDirections: NavDirections?) {
-//            navDirections?.let { direction ->
-//                this?.currentDestination?.getAction(direction.actionId)?.let {
-//                    this.navigate(direction)
-//                } ?: log("Skip nav to: $direction\n" +
-//                        "  [ Can't find ${context.getResName(direction.actionId)} in ${context.getResName(this?.currentDestination?.id)} ]")
-//            }
-//        }
+    override fun onResume() {
+        super.onResume()
+        viewModel.sharedViewModel.status?.let {
+            viewModel.handleOnBoardingResult(it == ResultStatus.SUCCESS)
+            viewModel.sharedViewModel.status = null
+        }
     }
 
 //    override fun getViewModelClass(): KClass<PreOnBoardingViewModel> {

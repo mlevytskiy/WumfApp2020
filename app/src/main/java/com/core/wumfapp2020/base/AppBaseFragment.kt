@@ -1,11 +1,13 @@
 package com.core.wumfapp2020.base
 
 import androidx.databinding.ViewDataBinding
+import androidx.navigation.NavDirections
 import com.core.wumfapp2020.MainActivity
 import com.library.core.BaseFragment
 import com.library.core.BaseViewModel
 import com.core.wumfapp2020.BottomTabsState
 import com.core.wumfapp2020.GoneBottomTabsState
+import com.library.core.SingleLiveEvent
 
 abstract class AppBaseFragment<B : ViewDataBinding, VM : BaseViewModel>(uiRes: Int): BaseFragment<B, VM>(uiRes) {
 

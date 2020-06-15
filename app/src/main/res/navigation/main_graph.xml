@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/splash_graph"
+    android:id="@+id/main_graph"
     app:startDestination="@id/pre_on_boarding">
 
 <!--    <fragment android:id="@+id/sample1"-->
@@ -40,9 +40,18 @@
         tools:layout="@layout/frg_pre_on_boarding" >
 
         <action
-            android:id="@+id/action_pre_on_boarding_to_on_boarding"
+            android:id="@+id/action_pre_on_boarding_to_enter_phone_number"
             app:popUpTo="@id/pre_on_boarding"
-            app:destination="@+id/on_boarding"
+            app:destination="@id/enter_phone_number"
+            app:enterAnim="@anim/push_left_in"
+            app:exitAnim="@anim/push_left_out"
+            app:popEnterAnim="@anim/push_right_in"
+            app:popExitAnim="@anim/push_right_out" />
+
+        <action
+            android:id="@+id/action_pre_on_boarding_to_detecting_your_phone_number"
+            app:popUpTo="@id/pre_on_boarding"
+            app:destination="@id/detecting_phone_number"
             app:enterAnim="@anim/push_left_in"
             app:exitAnim="@anim/push_left_out"
             app:popEnterAnim="@anim/push_right_in"
@@ -56,11 +65,31 @@
         app:moduleName="onboarding"
         android:label=" ">
 
-        <argument
-            android:name="resultListener"
-            android:defaultValue="@null"
-            app:argType="com.core.wumfapp2020.ResultListener"
-            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detecting_phone_number"
+        android:name="com.core.dynamicfeature.fragment.DetectingYourPhoneNumberFragment"
+        app:moduleName="onboarding"
+        android:label=" ">
+
+        <action
+            android:id="@+id/action_detecting_your_phone_number_to_enter_phone_number"
+            app:destination="@id/enter_phone_number"
+            app:enterAnim="@anim/push_left_in"
+            app:exitAnim="@anim/push_left_out"
+            app:popEnterAnim="@anim/push_right_in"
+            app:popExitAnim="@anim/push_right_out"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/detecting_phone_number" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/enter_phone_number"
+        android:name="com.core.dynamicfeature.fragment.EnterPhoneNumberFragment"
+        app:moduleName="onboarding"
+        android:label=" ">
 
     </fragment>
 

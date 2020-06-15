@@ -1,23 +1,22 @@
 package com.core.wumfapp2020.viewmodel
 
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.core.wumfapp2020.InternetConnectionChecker
+import com.core.wumfapp2020.fragment.PreOnBoardingFragmentDirections
+import com.core.wumfapp2020.memory.UserInfoRepository
 import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.library.Event
 import com.library.core.BaseViewModel
-import com.library.postEvent
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
-class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager): BaseViewModel() {
+class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager,
+                                                 val sharedViewModel: SharedViewModel, userInfoRepository: UserInfoRepository, private val repository: UserInfoRepository): BaseViewModel() {
+
+    private val directions = PreOnBoardingFragmentDirections.Companion
 
     val inProgress = ObservableBoolean(false)
-
-    private val moveToOnBoardingMutable = MutableLiveData<Event<Unit>>()
-    val moveToOnBoarding: LiveData<Event<Unit>> = moveToOnBoardingMutable
 
     enum class ConnectionCheckingState {
         NO_INTERNET,
@@ -25,15 +24,27 @@ class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: 
         SHOW_MESSAGE_CONNECTED,
         CONNECTED
     }
-    val internetConnectionState = ObservableField<ConnectionCheckingState>(ConnectionCheckingState.CONNECTED)
+    val internetConnectionState = ObservableField(ConnectionCheckingState.CONNECTED)
+
+    init {
+        Log.i("testr", "token=" + userInfoRepository.getToken())
+    }
 
     override fun handleException(e: Throwable) {
 
     }
 
     fun signInAsAnonymous() {
-//        if (!checkInternetConnection()) return
-        moveToOnBoardingMutable.postEvent()
+        if (!repository.isPhoneNumberHintShowed()) {
+            navigate(directions.actionPreOnBoardingToDetectingYourPhoneNumber())
+        } else {
+            navigate(directions.actionPreOnBoardingToEnterPhoneNumber())
+        }
+    }
+
+    fun handleOnBoardingResult(isOnboardingPassed: Boolean) {
+        Log.i("testr", "handleOnBoardingResult " + "hashcode=" + this.hashCode())
+        toast("1=" + isOnboardingPassed)
     }
 
     fun signInWithTelegram() {

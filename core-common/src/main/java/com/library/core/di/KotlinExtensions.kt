@@ -1,5 +1,6 @@
 package com.library.core.di
 
+import android.os.Looper
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -74,3 +75,5 @@ inline fun <reified T : ViewModel> Fragment.lazySavedStateActivityViewModel(
       viewModelProducer(handle) as T
   }
 }
+
+inline fun isMainThread(): Boolean = Looper.getMainLooper().thread == Thread.currentThread()

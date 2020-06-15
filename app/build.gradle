@@ -85,9 +85,9 @@ dependencies {
     kapt "io.objectbox:objectbox-processor:2.5.1"
 
     api 'com.google.dagger:dagger:2.27'
-    api "androidx.navigation:navigation-fragment-ktx:2.3.0-beta01"
-    api "androidx.navigation:navigation-ui-ktx:2.3.0-beta01"
-    api "androidx.navigation:navigation-dynamic-features-fragment:2.3.0-beta01"
+    api "androidx.navigation:navigation-fragment-ktx:2.3.0-rc01"
+    api "androidx.navigation:navigation-ui-ktx:2.3.0-rc01"
+    api "androidx.navigation:navigation-dynamic-features-fragment:2.3.0-rc01"
 
     compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.5.2'
     kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.5.2"
@@ -104,18 +104,18 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
 
-    implementation 'com.google.android.gms:play-services-base:17.2.1'
-    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+    api 'com.google.android.gms:play-services-base:17.3.0'
+    api 'com.google.android.gms:play-services-auth:18.0.0'
 
-    implementation 'com.google.api-client:google-api-client:1.30.7'
-    implementation 'com.google.api-client:google-api-client-android:1.30.7'
-    implementation 'com.google.apis:google-api-services-people:v1-rev506-1.18.0-rc'
+    api 'com.google.api-client:google-api-client:1.30.7'
+    api 'com.google.api-client:google-api-client-android:1.30.7'
+    api 'com.google.apis:google-api-services-people:v1-rev506-1.18.0-rc'
 
     implementation "io.objectbox:objectbox-android:2.5.1"
     implementation "io.objectbox:objectbox-kotlin:2.5.1"
 
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta6'
-    implementation 'androidx.constraintlayout:constraintlayout-solver:2.0.0-beta6'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-beta7'
+    api 'androidx.constraintlayout:constraintlayout-solver:2.0.0-beta7'
 
     api 'com.google.android.play:core:1.7.3'
 

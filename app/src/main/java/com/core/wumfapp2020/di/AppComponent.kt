@@ -3,6 +3,7 @@ package com.core.wumfapp2020.di
 import android.app.Application
 import android.content.Context
 import com.core.wumfapp2020.InternetConnectionChecker
+import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.testdi.WumfActivity
 import javax.inject.Singleton
 import com.google.android.play.core.splitinstall.SplitInstallManager
@@ -49,6 +50,15 @@ object AppModule {
     @Provides
     fun provideInternetConnectionChecker(context: Context): InternetConnectionChecker {
         return InternetConnectionChecker(context)
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideUserInfoRepository(context: Context): UserInfoRepository {
+        val repository = UserInfoRepository(context)
+        repository.initCache()
+        return repository
     }
 
 }
