@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="PhoneNumberEditTextLabelTheme">
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.03</item>
+    </style>
+
+    <style name="KeyboardButtonTheme" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/circle_selector</item>
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">italic</item>
+    </style>
+
+    <style name="Delete.KeyboardButtonTheme" parent="KeyboardButtonTheme">
+        <item name="android:background">@drawable/red_circle_selector</item>
+        <item name="android:textColor">@color/japanese_maple</item>
+    </style>
+
+</resources>

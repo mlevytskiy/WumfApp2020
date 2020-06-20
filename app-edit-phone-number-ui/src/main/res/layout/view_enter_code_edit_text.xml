@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="9dp"
+        android:background="@drawable/labled_edit_text_background_active"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:maxLength="5" />
+
+    <LinearLayout
+        android:id="@+id/text_container"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/label1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:background="@android:color/white"
+            android:text="Code"
+            android:textColor="#ff2090ea"
+            style="@style/PhoneNumberEditTextLabelTheme"
+            tools:text="Code" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/label3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:background="@android:color/white"
+            android:text="+380 63 000 000 0"
+            android:textColor="#ff2090ea"
+            style="@style/PhoneNumberEditTextLabelTheme"
+            tools:text="+380 63 000 000 0" />
+
+    </LinearLayout>
+
+</merge>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dodger_blue_alpha_100">#FF2090EA</color>
+    <color name="dodger_blue_alpha_50">#7F2090EA</color>
+    <color name="black2">#FF202020</color>
+    <color name="japanese_maple">#BD0711</color>
+
+    <color name="lite_gray">#fff8f8f8</color>
+    <color name="gray">#ff888888</color>
+    <color name="silver_sand">#BBBDBE</color>
+</resources>

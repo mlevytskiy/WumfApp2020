@@ -16,4 +16,13 @@
     <color name="yellow">#FECD50</color>
 
     <color name="blue">#FF0057B8</color>
+
+    <color name="signal_primary">#ff2090ea</color>
+    <color name="signal_primary_dark">#ff1c7ac5</color>
+    <color name="signal_primary_alpha33">#552090ea</color>
+    <color name="signal_primary_alpha_focus">#882090ea</color>
+
+    <color name="textsecure_primary">#ff2090ea</color>
+    <color name="textsecure_primary_dark">@color/signal_primary_dark</color>
+    <color name="textsecure_primary_alpha33">@color/signal_primary_alpha33</color>
 </resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LabeledEditText">
+
+        <attr name="bindCustomKeyboard" format="integer"/>
+        <attr name="hintText" format="string" localization="suggested" />
+        <attr name="text" format="string" />
+        <attr name="lBackground" format="color" />
+        <attr name="borderColor" format="color" />
+        <attr name="mode" format="enum">
+            <enum name="SIMPLE_LABEL" value="0"/>
+            <enum name="PHONE_NUMBER" value="1"/>
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="PhoneNumberFlipWrapper">
+
+        <attr name="customKeyboard" format="integer"/>
+
+    </declare-styleable>
+
+</resources>

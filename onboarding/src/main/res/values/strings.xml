@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="wait_your_phone_number_detecting">Wait\nYour phone number\ndetecting...\n(+XXX)????6??8??</string>
+    <string name="enter_your_phone_number_to_get_started">Enter your phone\nnumber to get started</string>
+    <string name="you_will_receive_a_verification_code">You will receive a verification code\nin Telegram app</string>
+    <string name="next">Next</string>
+    <string name="code_sent">Success!</string>
+
+</resources>

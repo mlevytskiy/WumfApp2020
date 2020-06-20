@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="9dp"
+        android:background="@drawable/labled_edit_text_background_active"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp" />
+
+    <LinearLayout
+        android:id="@+id/text_container"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/label1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:background="@android:color/white"
+            android:text="@string/phone_number"
+            android:textColor="#ff2090ea"
+            style="@style/PhoneNumberEditTextLabelTheme"
+            tools:text="Profile Name" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:id="@+id/country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="12dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:gravity="center"
+            android:background="@android:color/white"
+            android:clickable="true">
+
+            <ImageView
+                android:id="@+id/flag"
+                android:layout_width="16dp"
+                android:layout_height="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_ua"
+                android:paddingTop="3dp"
+                android:paddingEnd="4dp" />
+
+            <TextView
+                android:id="@+id/label_country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/country"
+                android:textColor="@color/dodger_blue_alpha_100"
+                style="@style/PhoneNumberEditTextLabelTheme" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</merge>

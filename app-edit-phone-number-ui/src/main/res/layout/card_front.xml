@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.onboarding.enterphonenumberui.LabeledEditText
+        android:id="@+id/phone_number_edit_text"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:hintText="Hint text"
+        app:borderColor="#FF2090EA"
+        app:lBackground="#FF2090EA" />
+
+</FrameLayout>

@@ -18,7 +18,10 @@ abstract class BaseViewModel: ViewModel(), Observable {
     private val popBackToMutable = SingleLiveEvent<PopBackTo>()
     val popBackTo: LiveData<PopBackTo> = popBackToMutable
 
+    @Transient
     private val showToastMutable = SingleLiveEvent<String>()
+
+    @Transient
     val showToast: LiveData<String> = showToastMutable
 
     @Transient
@@ -28,6 +31,9 @@ abstract class BaseViewModel: ViewModel(), Observable {
     private val handler = CoroutineExceptionHandler { _, exception ->
         handleException(exception)
     }
+
+    @Transient
+    val scope = viewModelScope.plus(handler)
 
     override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
         synchronized(this) {
@@ -50,7 +56,7 @@ abstract class BaseViewModel: ViewModel(), Observable {
     abstract fun handleException(e: Throwable)
 
     fun startBgJob(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.plus(handler).launch(block = {
+        return scope.launch(block = {
                 block.invoke(this)
         })
     }
@@ -71,7 +77,7 @@ abstract class BaseViewModel: ViewModel(), Observable {
         if (isMainThread()) {
             this?.value = value
         } else {
-            viewModelScope.plus(handler).launch(Dispatchers.Main) {
+            scope.launch(Dispatchers.Main) {
                 this@postEvent?.value = value
             }
         }

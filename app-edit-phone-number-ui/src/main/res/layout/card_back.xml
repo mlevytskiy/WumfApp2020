@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+<!--    <include layout="@layout/view_enter_code_edit_text" />-->
+
+<!--    <com.onboarding.enterphonenumberui.LabeledEditText-->
+<!--        android:id="@+id/phone_number_edit_text"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:padding="8dp"-->
+<!--        app:hintText="Hint text"-->
+<!--        app:borderColor="#FF2090EA"-->
+<!--        app:lBackground="#FF2090EA" />-->
+
+    <com.onboarding.enterphonenumberui.CodeEditText
+        android:id="@+id/code_edit_text"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+</FrameLayout>
