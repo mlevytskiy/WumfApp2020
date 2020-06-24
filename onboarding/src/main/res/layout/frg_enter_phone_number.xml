@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.dd.State" />
+
         <variable
             name="viewModel"
             type="com.core.dynamicfeature.viewmodel.EnterPhoneNumberViewModel" />
@@ -26,6 +28,11 @@
             android:layout_width="match_parent"
             android:layout_height="32dp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5" />
+
         <TextView
             style="@style/HeaderTheme"
             android:layout_width="match_parent"
@@ -34,6 +41,11 @@
             android:gravity="center"
             android:padding="16dp"
             android:text="@string/enter_your_phone_number_to_get_started" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2" />
 
         <TextView
             style="@style/Text.Body"
@@ -46,11 +58,17 @@
             android:paddingBottom="16dp"
             android:text="@string/you_will_receive_a_verification_code" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2" />
+
         <com.onboarding.enterphonenumberui.PhoneNumberFlipWrapper
             android:id="@+id/phone_number_flip_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:customKeyboard="@id/in_app_keyboard" />
+            app:customKeyboard="@id/in_app_keyboard"
+            app:phoneNumber="@{viewModel.phoneNumber}" />
 
         <View
             android:layout_width="match_parent"
@@ -86,6 +104,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/stripe_repeatable" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5" />
 
     </LinearLayout>
 

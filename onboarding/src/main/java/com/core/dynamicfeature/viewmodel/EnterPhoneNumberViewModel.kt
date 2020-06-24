@@ -1,36 +1,59 @@
 package com.core.dynamicfeature.viewmodel
 
 import android.util.Log
+import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.app.api.api.CheckRegistrationRequest
+import com.app.api.api.LoginRequest
+import com.app.api.api.RegistrationRequest
 import com.app.api.api.WumfApi
+import com.core.dynamicfeature.R
+import com.core.dynamicfeature.fragment.EnterPhoneNumberFragmentDirections
 import com.core.wumfapp2020.memory.RegistrationInfo
 import com.core.wumfapp2020.memory.UserInfoRepository
+import com.core.wumfapp2020.viewmodel.ResultStatus
 import com.core.wumfapp2020.viewmodel.SharedViewModel
+import com.dd.State
 import com.library.core.BaseViewModel
 import com.library.telegramkotlinapi.SimpleTelegramApi
 import com.library.telegramkotlinapi.TelegramUser
+import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import org.drinkless.td.libcore.telegram.Client
 import org.drinkless.td.libcore.telegram.TdApi
+import retrofit2.await
 
 class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel: SharedViewModel, private val userInfoRepository: UserInfoRepository,
-                                                            client: Client, private var wumfApi: WumfApi): BaseViewModel() {
+                                                            client: Client, private var wumfApi: WumfApi, @Assisted var phoneNumber: String?): BaseViewModel() {
 
+    private val showNextButtonInProgressStateMutable = MutableLiveData<Unit>()
+    val showNextButtonInProgressState: LiveData<Unit> = showNextButtonInProgressStateMutable
 
-//    private val directions = EnterPhoneNumberFragmentDirections.Companion
+    private val showEnterCodeStateMutable = MutableLiveData<Unit>()
+    val showEnterCodeState: LiveData<Unit> = showEnterCodeStateMutable
+
+    private val showSuccessMutable = MutableLiveData<Unit>()
+    val showSuccess: LiveData<Unit> = showSuccessMutable
+
+    private val directions = EnterPhoneNumberFragmentDirections.Companion
+
+    init {
+        Log.i("testr", "init viewmodel phone=" + phoneNumber)
+    }
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(): EnterPhoneNumberViewModel
+        fun create(phoneNumber: String?): EnterPhoneNumberViewModel
     }
 
     override fun handleException(e: Throwable) {
-//        showToast("error happens")
+        toast("error happens")
     }
 
-    var phoneNumber: String = ""
     var code: String = ""
     var state: State = State.ENTER_PHONE_NUMBER
 
@@ -43,7 +66,9 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
     fun onClickNextButton() {
         when(state) {
             State.ENTER_PHONE_NUMBER -> {
-                sendPhoneToTelegram(phoneNumber)
+                phoneNumber?.let {
+                    sendPhoneToTelegram(it)
+                }
             }
             State.ENTER_CODE -> {
                 sendCodeToTelegram(code)
@@ -77,7 +102,7 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
             }
         }
 
-//        postEvent(ShowNextButtonInProgressState())
+        showNextButtonInProgressStateMutable.postEvent(Unit)
         state = State.PROGRESS
         startBgJob {
             var isCorrectCode: Boolean? = null
@@ -90,39 +115,39 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
                     val userInfo = telegramApi.getUserInfo()
 
                     userInfo?.let {
-//                        val checkRegistration =
-//                            wumfApi.checkReg(CheckRegistrationRequest(userInfo.id.toString()))
-//                                .await()
-//                        repository.setTelegramUser(
-//                            getRegistrationInfo(
-//                                userInfo,
-//                                checkRegistration.hasInDb
-//                            )
-//                        )
-//                        Log.i("testr", "hasInDb=" + checkRegistration.hasInDb)
+                        val checkRegistration =
+                            wumfApi.checkReg(CheckRegistrationRequest(userInfo.id.toString()))
+                                .await()
+                        userInfoRepository.setTelegramUser(
+                            getRegistrationInfo(
+                                userInfo,
+                                checkRegistration.hasInDb
+                            )
+                        )
+                        Log.i("testr", "hasInDb=" + checkRegistration.hasInDb)
 
                         val contacts = telegramApi.getContacts()
                         Log.i("testr", "contacts.count=" + contacts?.totalCount)
 
-//                        if (checkRegistration.hasInDb) {
-//                            val data = LoginRequest(
-//                                userInfo.id.toString(),
-//                                getContactsStr(contacts),
-//                                "123"
-//                            )
-//                            val response = wumfApi.login(data).await()
-//                            repository.setToken(response.token)
-//                        } else {
-//                            val data = RegistrationRequest(
-//                                userInfo.id.toString(),
-//                                getContactsStr(contacts),
-//                                "123",
-//                                userInfo.name,
-//                                "ua"
-//                            )
-//                            val response = wumfApi.registration(data).await()
-//                            repository.setToken(response.token)
-//                        }
+                        if (checkRegistration.hasInDb) {
+                            val data = LoginRequest(
+                                userInfo.id.toString(),
+                                getContactsStr(contacts),
+                                "123"
+                            )
+                            val response = wumfApi.login(data).await()
+                            userInfoRepository.setToken(response.token)
+                        } else {
+                            val data = RegistrationRequest(
+                                userInfo.id.toString(),
+                                getContactsStr(contacts),
+                                "123",
+                                userInfo.name,
+                                "ua"
+                            )
+                            val response = wumfApi.registration(data).await()
+                            userInfoRepository.setToken(response.token)
+                        }
                         isRegistrationCompleted = true
                     }
 
@@ -130,7 +155,7 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
             }, 2000)
 
             if (isRegistrationCompleted == true) {
-//                postEvent(ShowSuccess())
+                showSuccessMutable.postEvent(Unit)
                 delay(1000)
                 navigateToHome()
             } else {
@@ -140,7 +165,7 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
     }
 
     fun sendPhoneToTelegram(phoneNumber: String) {
-//        postEvent(ShowNextButtonInProgressState())
+        showNextButtonInProgressStateMutable.postEvent(Unit)
         state = State.PROGRESS
         startBgJob {
             var sendPhoneNumberResult: SimpleTelegramApi.AuthWithPhoneResult? = null
@@ -153,23 +178,24 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
 
             when (sendPhoneNumberResult) {
                 SimpleTelegramApi.AuthWithPhoneResult.SUCCESS -> {
-//                    showToast("onClickSendPhone success")
+                    toast("onClickSendPhone success")
                 }
                 SimpleTelegramApi.AuthWithPhoneResult.ERROR -> {
-//                    showToast("onClickSendPhone error")
+                    toast("onClickSendPhone error")
                 }
                 SimpleTelegramApi.AuthWithPhoneResult.ERROR_TOO_MANY_REQUESTS -> {
-//                    showToast("Too many requests")
+                    toast("Too many requests")
                 }
             }
 
             state = State.ENTER_CODE
-//            postEvent(ShowEnterCodeState())
+            showEnterCodeStateMutable.postEvent(Unit)
         }
     }
 
     fun navigateToHome() {
-//        navigate(EnterPhoneNumberFragmentDirections.actionPhoneNumberToHome())
+        sharedViewModel.status = ResultStatus.SUCCESS
+        navigate(directions.actionEnterPhoneNumberToPreOnBoarding())
     }
 
     enum class State {

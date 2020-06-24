@@ -2,6 +2,7 @@ package com.core.wumfapp2020.di
 
 import android.app.Application
 import android.content.Context
+import com.core.wumfapp2020.FastActivity
 import com.core.wumfapp2020.InternetConnectionChecker
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.testdi.WumfActivity

@@ -1,6 +1,7 @@
 package com.core.dynamicfeature.viewmodel
 
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
@@ -81,15 +82,17 @@ class DetectingYourPhoneNumberViewModel @AssistedInject constructor(private val 
         nextScreenWithDelay(phoneNumber)
     }
 
-    private fun nextScreenWithDelay(phoneNumber: String="") {
-        startBgJob {
-            delay(100)//Todo fixme (onActivityResult called when activity paused)
-            navigate(directions.actionDetectingYourPhoneNumberToEnterPhoneNumber())
-        }
+    private fun nextScreenWithDelay(phoneNumber: String? = null) {
+//        startBgJob {
+//            delay(100)//Todo fixme (onActivityResult called when activity paused)
+        Log.i("testr", "phoneNumber=" + phoneNumber)
+            navigate(directions.actionDetectingYourPhoneNumberToEnterPhoneNumber(detectedPhone = phoneNumber))
+//        }
     }
 
     fun nextScreen() {
-        navigate(directions.actionDetectingYourPhoneNumberToEnterPhoneNumber())
+        nextScreenWithDelay(repository.getPhoneNumberFromSystem())
+//        navigate(directions.actionDetectingYourPhoneNumberToEnterPhoneNumber())
     }
 
     fun isPhoneNumberDetectingStarted(): Boolean {

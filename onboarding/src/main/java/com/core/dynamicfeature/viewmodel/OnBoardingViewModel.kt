@@ -2,7 +2,7 @@ package com.core.dynamicfeature.viewmodel
 
 import android.util.Log
 import com.core.dynamicfeature.Obj2T
-import com.core.dynamicfeature.fragment.DetectingYourPhoneNumberFragmentDirections
+//import com.core.dynamicfeature.fragment.DetectingYourPhoneNumberFragmentDirections
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.testdi.Obj1T
 import com.core.wumfapp2020.viewmodel.ResultStatus

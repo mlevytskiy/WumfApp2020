@@ -44,8 +44,8 @@ private const val TRACE_ID_HEADER_KEY = "trace-id"
 @Module
 class RetrofitModule {
 
-    //    private val BASE_URL = "https://radiant-plains-90522.herokuapp.com/"
-    private val BASE_URL = "http://192.168.0.105:8080/"
+    private val BASE_URL = "https://radiant-plains-90522.herokuapp.com/"
+//    private val BASE_URL = "http://192.168.0.105:8080/"
 
     @OnBoardingScope
     @Provides

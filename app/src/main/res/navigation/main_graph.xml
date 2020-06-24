@@ -57,6 +57,19 @@
             app:popEnterAnim="@anim/push_right_in"
             app:popExitAnim="@anim/push_right_out" />
 
+        <action
+            android:id="@+id/action_pre_on_boarding_to_home"
+            app:popUpTo="@id/pre_on_boarding"
+            app:popUpToInclusive="true"
+            app:destination="@id/home" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/home"
+        android:name="com.core.wumfapp2020.fragment.HomeFragment"
+        tools:layout="@layout/frg_pre_on_boarding" >
+
     </fragment>
 
     <fragment
@@ -90,6 +103,16 @@
         android:name="com.core.dynamicfeature.fragment.EnterPhoneNumberFragment"
         app:moduleName="onboarding"
         android:label=" ">
+
+        <argument
+            android:name="detectedPhone"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/action_enter_phone_number_to_pre_on_boarding"
+            app:popUpTo="@id/pre_on_boarding" />
 
     </fragment>
 

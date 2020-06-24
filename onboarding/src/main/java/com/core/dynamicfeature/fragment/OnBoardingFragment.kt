@@ -10,6 +10,8 @@ import com.library.core.di.lazyViewModel
 
 class OnBoardingFragment: AppBaseFragment<FrgOnboardingBinding, OnBoardingViewModel>(R.layout.frg_onboarding) {
 
+//    val args: OnBoardingFragmentArgs by navArgs()
+
     override val bottomTabs = VisibleBottomTabsState(0)
 
     override val viewModel by lazyViewModel { featureInjector.onBoardingViewModelFactory.create() }

@@ -17,6 +17,14 @@ class PhoneNumberFlipWrapper(context: Context, attrs: AttributeSet) : FrameLayou
     private val cardFrontLayout: View
     private var isBackVisible = false
     private var bindCustomKeyboard: Int? = null
+    var phoneNumber: String? = null
+        set(value) {
+            field = value
+            value?.let {
+                phoneNumberEditText?.enterPhoneByUser(it)
+            }
+        }
+    private var prefiledPhone: String? = null
     private var phoneNumberEditText: LabeledEditText? = null
     private var codeEditText: CodeEditText? = null
     var phoneNumberChangeListener: PhoneNumberChangeListener? = null
@@ -48,6 +56,7 @@ class PhoneNumberFlipWrapper(context: Context, attrs: AttributeSet) : FrameLayou
             0, 0).apply {
             try {
                 bindCustomKeyboard = getResourceId(R.styleable.PhoneNumberFlipWrapper_customKeyboard, -1)
+                phoneNumber = getString(R.styleable.PhoneNumberFlipWrapper_phoneNumber)
             } finally {
                 recycle()
             }

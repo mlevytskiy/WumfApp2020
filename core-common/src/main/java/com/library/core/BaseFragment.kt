@@ -18,7 +18,7 @@ import com.library.core.di.unsyncLazy
 abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val uiRes: Int) : Fragment() {
 
     protected abstract val viewModel: VM
-    private lateinit var binding: B
+    protected lateinit var binding: B
     private val navController by unsyncLazy { findNavController() }
 
     protected abstract fun setViewModelInBinding(binding: B, viewModel: VM)

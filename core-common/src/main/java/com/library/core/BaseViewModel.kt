@@ -1,5 +1,6 @@
 package com.library.core
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.databinding.*
 import androidx.lifecycle.LiveData
@@ -29,6 +30,7 @@ abstract class BaseViewModel: ViewModel(), Observable {
 
     @Transient
     private val handler = CoroutineExceptionHandler { _, exception ->
+        Log.d("XXX_error", Log.getStackTraceString(exception))
         handleException(exception)
     }
 

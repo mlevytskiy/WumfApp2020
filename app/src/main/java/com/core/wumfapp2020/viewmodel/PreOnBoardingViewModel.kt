@@ -38,13 +38,14 @@ class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: 
         if (!repository.isPhoneNumberHintShowed()) {
             navigate(directions.actionPreOnBoardingToDetectingYourPhoneNumber())
         } else {
-            navigate(directions.actionPreOnBoardingToEnterPhoneNumber())
+            navigate(directions.actionPreOnBoardingToEnterPhoneNumber(detectedPhone = repository.getPhoneNumberFromSystem()))
         }
     }
 
     fun handleOnBoardingResult(isOnboardingPassed: Boolean) {
-        Log.i("testr", "handleOnBoardingResult " + "hashcode=" + this.hashCode())
-        toast("1=" + isOnboardingPassed)
+        if (isOnboardingPassed) {
+            navigate(directions.actionPreOnBoardingToHome())
+        }
     }
 
     fun signInWithTelegram() {

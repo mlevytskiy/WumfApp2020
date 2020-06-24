@@ -21,6 +21,8 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginTop
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
@@ -190,7 +192,7 @@ object DataBindingAdapters {
     fun disableTouch(v: View, disable: Boolean) {
         if (disable) {
             v.setOnClickListener { }
-            v.setOnTouchListener { _, _ -> true }
+            v.setOnTouchListener { view, motionEvent -> true }
         }
     }
 

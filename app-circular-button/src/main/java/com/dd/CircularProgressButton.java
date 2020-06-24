@@ -36,7 +36,7 @@ public class CircularProgressButton extends AppCompatButton {
     private StateListDrawable mErrorStateDrawable;
 
     private StateManager mStateManager;
-    private State mState;
+    private State state;
     private String mIdleText;
     private String mCompleteText;
     private String mErrorText;
@@ -52,10 +52,6 @@ public class CircularProgressButton extends AppCompatButton {
     private float mCornerRadius;
     private boolean mIndeterminateProgressMode;
     private boolean mConfigurationChanged;
-
-    private enum State {
-        PROGRESS, IDLE, COMPLETE, ERROR
-    }
 
     private int mMaxProgress;
     private int mProgress;
@@ -83,7 +79,7 @@ public class CircularProgressButton extends AppCompatButton {
         initAttributes(context, attributeSet);
 
         mMaxProgress = 100;
-        mState = State.IDLE;
+        state = State.IDLE;
         mStateManager = new StateManager(this);
 
         setText(mIdleText);
@@ -161,18 +157,18 @@ public class CircularProgressButton extends AppCompatButton {
 
     @Override
     protected void drawableStateChanged() {
-        if (mState == State.COMPLETE) {
+        if (state == State.COMPLETE) {
             initCompleteStateDrawable();
             setBackgroundCompat(mCompleteStateDrawable);
-        } else if (mState == State.IDLE) {
+        } else if (state == State.IDLE) {
             initIdleStateDrawable();
             setBackgroundCompat(mIdleStateDrawable);
-        } else if (mState == State.ERROR) {
+        } else if (state == State.ERROR) {
             initErrorStateDrawable();
             setBackgroundCompat(mErrorStateDrawable);
         }
 
-        if (mState != State.PROGRESS) {
+        if (state != State.PROGRESS) {
             super.drawableStateChanged();
         }
     }
@@ -232,7 +228,7 @@ public class CircularProgressButton extends AppCompatButton {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (mProgress > 0 && mState == State.PROGRESS && !mMorphingInProgress) {
+        if (mProgress > 0 && state == State.PROGRESS && !mMorphingInProgress) {
             if (mIndeterminateProgressMode) {
                 drawIndeterminateProgress(canvas);
             } else {
@@ -348,7 +344,7 @@ public class CircularProgressButton extends AppCompatButton {
         @Override
         public void onAnimationEnd() {
             mMorphingInProgress = false;
-            mState = State.PROGRESS;
+            state = State.PROGRESS;
 
             mStateManager.checkState(CircularProgressButton.this);
         }
@@ -394,7 +390,7 @@ public class CircularProgressButton extends AppCompatButton {
                 setText(mCompleteText);
             }
             mMorphingInProgress = false;
-            mState = State.COMPLETE;
+            state = State.COMPLETE;
 
             mStateManager.checkState(CircularProgressButton.this);
         }
@@ -436,7 +432,7 @@ public class CircularProgressButton extends AppCompatButton {
             removeIcon();
             setText(mIdleText);
             mMorphingInProgress = false;
-            mState = State.IDLE;
+            state = State.IDLE;
 
             mStateManager.checkState(CircularProgressButton.this);
         }
@@ -480,7 +476,7 @@ public class CircularProgressButton extends AppCompatButton {
                 setText(mErrorText);
             }
             mMorphingInProgress = false;
-            mState = State.ERROR;
+            state = State.ERROR;
 
             mStateManager.checkState(CircularProgressButton.this);
         }
@@ -500,7 +496,7 @@ public class CircularProgressButton extends AppCompatButton {
                 removeIcon();
                 setText(mIdleText);
                 mMorphingInProgress = false;
-                mState = State.IDLE;
+                state = State.IDLE;
 
                 mStateManager.checkState(CircularProgressButton.this);
             }
@@ -546,29 +542,29 @@ public class CircularProgressButton extends AppCompatButton {
         mStateManager.saveProgress(this);
 
         if (mProgress >= mMaxProgress) {
-            if (mState == State.PROGRESS) {
+            if (state == State.PROGRESS) {
                 morphProgressToComplete();
-            } else if (mState == State.IDLE) {
+            } else if (state == State.IDLE) {
                 morphIdleToComplete();
             }
         } else if (mProgress > IDLE_STATE_PROGRESS) {
-            if (mState == State.IDLE) {
+            if (state == State.IDLE) {
                 morphToProgress();
-            } else if (mState == State.PROGRESS) {
+            } else if (state == State.PROGRESS) {
                 invalidate();
             }
         } else if (mProgress == ERROR_STATE_PROGRESS) {
-            if (mState == State.PROGRESS) {
+            if (state == State.PROGRESS) {
                 morphProgressToError();
-            } else if (mState == State.IDLE) {
+            } else if (state == State.IDLE) {
                 morphIdleToError();
             }
         } else if (mProgress == IDLE_STATE_PROGRESS) {
-            if (mState == State.COMPLETE) {
+            if (state == State.COMPLETE) {
                 morphCompleteToIdle();
-            } else if (mState == State.PROGRESS) {
+            } else if (state == State.PROGRESS) {
                 morphProgressToIdle();
-            } else if (mState == State.ERROR) {
+            } else if (state == State.ERROR) {
                 morphErrorToIdle();
             }
         }
@@ -608,6 +604,15 @@ public class CircularProgressButton extends AppCompatButton {
 
     public void setErrorText(String text) {
         mErrorText = text;
+    }
+
+    public void setState(State value) {
+        state = value;
+        mStateManager.checkState(CircularProgressButton.this);
+    }
+
+    public State getState() {
+        return state;
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
+import com.core.wumfapp2020.di.injector
 
 class FastActivity : AppCompatActivity() {
 
@@ -21,6 +22,10 @@ class FastActivity : AppCompatActivity() {
             "<p>Here you can:</p>\n" +
             "<p>• Create collection with your favourite apps and share them with friends. <a href=\"http://google.com/\">Details...</a></p>\n" +
             "<p>• Install and use different plugins&nbsp;<a href=\"http://google.com/\">Details...</a></p>"
+
+    private val memory by lazy {
+        injector.provideUserInfoRepository()
+    }
 
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -36,6 +41,10 @@ class FastActivity : AppCompatActivity() {
             decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
         super.onCreate(savedInstanceState)
+        if (!memory.isEmpty()) {
+            nextScreen()
+            return
+        }
         setContentView(R.layout.activity_fast)
         val rotate = AnimationUtils.loadAnimation(this, R.anim.splash_screen_rotate)
         rotate.interpolator = WaveInterpolator()
@@ -66,6 +75,11 @@ class FastActivity : AppCompatActivity() {
     }
 
     fun onClickGo(view: View) {
+        nextScreen()
+    }
+
+    fun nextScreen() {
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }

@@ -16,7 +16,8 @@
 
     <declare-styleable name="PhoneNumberFlipWrapper">
 
-        <attr name="customKeyboard" format="integer"/>
+        <attr name="customKeyboard" format="integer" />
+        <attr name="phoneNumber" format="string" />
 
     </declare-styleable>
 

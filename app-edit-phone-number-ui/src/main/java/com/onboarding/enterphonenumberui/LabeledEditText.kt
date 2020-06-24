@@ -15,6 +15,8 @@ import android.widget.*
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class LabeledEditText(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -93,8 +95,9 @@ class LabeledEditText(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     fun enterPhoneByUser(phone: String) {
+        val fixedPhone = prefillPhone(phone)
         try {
-            val phoneNumber = phoneNumberUtil?.parseAndKeepRawInput(phone, "")
+            val phoneNumber = phoneNumberUtil?.parseAndKeepRawInput(fixedPhone, "")
             editText?.setText(
                 phoneNumberUtil?.format(
                     phoneNumber,
@@ -107,15 +110,29 @@ class LabeledEditText(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 //ignore
             }
         } catch (exception: Exception) {
-            editText?.setText(phone)
+            editText?.setText(fixedPhone)
+        }
+    }
+
+    private fun prefillPhone(phone: String):String {
+        if (phone.isBlank()) {
+            return ""
+        }
+        if (phone.length > 3 && phone.startsWith("0")) {
+            //use ukraine as default countryCode
+            return "+38$phone"
+        } else if (!phone.startsWith("+") && !phone.startsWith("0")) {
+            return "+$phone"
+        } else {
+            return phone
         }
     }
 
     private fun setDetectedCountryCode(code: Int?) {
-        val codeIso = countryCodes[code]?.toLowerCase()
-        if (codeIso != "") {
+        val codeIso = countryCodes[code]?.toLowerCase(Locale.ROOT)
+        if (!codeIso.isNullOrBlank()) {
             try {
-                val id = resources.getIdentifier("ic_" + codeIso, "drawable", context.packageName)
+                val id = resources.getIdentifier("ic_$codeIso", "drawable", resources.getResourcePackageName(R.drawable.ic_ad))
                 flag?.setImageDrawable(resources.getDrawable(id))
             } catch (resourceNotFound: Resources.NotFoundException) {
                 //ignore
