@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="black_alpha_50">#7F000000</color>
     <color name="gray0">#FECF9D</color>
     <color name="gray3">#7fAFB0AB</color>
     <color name="orange">#F65C1F</color>
@@ -14,6 +15,8 @@
     <color name="telegramBg">#ff34A2DF</color>
     <color name="anonymouslyBg">#ff232427</color>
     <color name="yellow">#FECD50</color>
+    <color name="finn_alpha_69">#AF6B255E</color>
+    <color name="observatory_alpha_6">#10008577</color>
 
     <color name="blue">#FF0057B8</color>
 

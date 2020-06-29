@@ -58,7 +58,7 @@ abstract class BaseViewModel: ViewModel(), Observable {
     abstract fun handleException(e: Throwable)
 
     fun startBgJob(block: suspend CoroutineScope.() -> Unit): Job {
-        return scope.launch(block = {
+        return scope.launch(context = Dispatchers.IO, block = {
                 block.invoke(this)
         })
     }

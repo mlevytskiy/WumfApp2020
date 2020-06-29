@@ -16,5 +16,14 @@
     <string name="cancel">cancel</string>
     <string name="close">close</string>
 
+    <string name="the_most_useful_apps">The most useful apps\n</string>
+
+    <string-array name="type_of_apps">
+        <item>in the world</item>
+        <item>in %s</item>
+        <item>in another country</item>
+        <item>among friends</item>
+    </string-array>
+
 
 </resources>

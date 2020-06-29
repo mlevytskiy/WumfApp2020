@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="wumf.com.appsprovider">
+    <application>
+        <receiver android:name=".broadcastreceiver.ChangeAppReceiverImpl"
+                  android:exported="true"
+                  android:enabled="true" >
+
+            <intent-filter
+                android:priority="999">
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.ACTION_PACKAGE_REPLACED" />
+                <data android:scheme="package" />
+            </intent-filter>
+
+        </receiver>
+    </application>
+</manifest>

@@ -76,18 +76,21 @@ android {
 
 dependencies {
     api project(':core-common')
+    implementation project(':app-app-recycle-view')
+    implementation project(':app-get-all-apps')
+    implementation project(':app-app-info-view')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
-    kapt 'com.google.dagger:dagger-compiler:2.27'
+    kapt 'com.google.dagger:dagger-compiler:2.28.1'
 
     kapt 'com.android.databinding:compiler:3.1.4'
-    kapt "io.objectbox:objectbox-processor:2.5.1"
+    kapt "io.objectbox:objectbox-processor:2.6.0"
 
-    api 'com.google.dagger:dagger:2.27'
-    api "androidx.navigation:navigation-fragment-ktx:2.3.0-rc01"
-    api "androidx.navigation:navigation-ui-ktx:2.3.0-rc01"
-    api "androidx.navigation:navigation-dynamic-features-fragment:2.3.0-rc01"
+    api 'com.google.dagger:dagger:2.28.1'
+    api "androidx.navigation:navigation-fragment-ktx:2.3.0"
+    api "androidx.navigation:navigation-ui-ktx:2.3.0"
+    api "androidx.navigation:navigation-dynamic-features-fragment:2.3.0"
 
     compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.5.2'
     kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.5.2"
@@ -110,8 +113,8 @@ dependencies {
     api 'com.google.api-client:google-api-client-android:1.30.7'
     api 'com.google.apis:google-api-services-people:v1-rev506-1.18.0-rc'
 
-    implementation "io.objectbox:objectbox-android:2.5.1"
-    implementation "io.objectbox:objectbox-kotlin:2.5.1"
+    implementation "io.objectbox:objectbox-android:2.6.0"
+    implementation "io.objectbox:objectbox-kotlin:2.6.0"
 
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta7'
     api 'androidx.constraintlayout:constraintlayout-solver:2.0.0-beta7'

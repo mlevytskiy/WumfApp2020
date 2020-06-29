@@ -68,7 +68,7 @@
     <fragment
         android:id="@+id/home"
         android:name="com.core.wumfapp2020.fragment.HomeFragment"
-        tools:layout="@layout/frg_pre_on_boarding" >
+        tools:layout="@layout/frg_home" >
 
     </fragment>
 

@@ -1,6 +1,7 @@
 package com.core.wumfapp2020.di
 
 import android.content.Context
+import com.app.api.api.WumfApi
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.testdi.Obj1T
 import com.core.wumfapp2020.viewmodel.HomeViewModel
@@ -21,4 +22,5 @@ interface ForDeliveryFeaturesProvision {
     fun provideCustomObject(): Obj1T
     fun provideSplitInstallManager(): SplitInstallManager
     fun provideUserInfoRepository(): UserInfoRepository
+    fun provideWumfApi(): WumfApi
 }

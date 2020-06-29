@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.appinfo.appmonsta.AppInfoView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/app_info_view"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_margin="3dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp" />

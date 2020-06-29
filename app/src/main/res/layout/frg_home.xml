@@ -12,18 +12,51 @@
             type="com.core.wumfapp2020.viewmodel.HomeViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp">
+        android:orientation="vertical" >
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Home" />
+            android:layout_height="wrap_content">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/home_top_bg"
+                android:scaleType="centerCrop"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/black_alpha_50" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:textSpannable="@{viewModel.span}"
+                android:textSize="33dp"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:padding="8dp"
+                android:gravity="center|start"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{() -> viewModel.showPickTypeOfAppsDialog()}" />
+
+        </RelativeLayout>
+
+        <com.core.core_adapters.AppsRecycleView
+            android:id="@+id/apps_recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:items=""
+            app:getAllAppsFromPhone="false" />
+
+    </LinearLayout>
 
 </layout>
