@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import com.library.core.di.isMainThread
 import kotlinx.coroutines.*
 
 abstract class BaseViewModel: ViewModel(), Observable {
@@ -24,6 +23,7 @@ abstract class BaseViewModel: ViewModel(), Observable {
 
     @Transient
     val showToast: LiveData<String> = showToastMutable
+    val progress = ObservableBoolean(false)
 
     @Transient
     private var callbacks: PropertyChangeRegistry? = null
@@ -58,8 +58,10 @@ abstract class BaseViewModel: ViewModel(), Observable {
     abstract fun handleException(e: Throwable)
 
     fun startBgJob(block: suspend CoroutineScope.() -> Unit): Job {
+        progress.set(true)
         return scope.launch(context = Dispatchers.IO, block = {
                 block.invoke(this)
+            progress.set(false)
         })
     }
 

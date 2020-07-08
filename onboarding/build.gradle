@@ -11,8 +11,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -38,6 +38,7 @@ dependencies {
     implementation project(':app')
     implementation project(':app-edit-phone-number-ui')
     implementation project(':app-circular-button')
+    implementation project(':app-detect-country')
     implementation "androidx.core:core-ktx:1.3.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

@@ -6,7 +6,7 @@ import com.core.dynamicfeature.di.featureInjector
 import com.core.dynamicfeature.viewmodel.OnBoardingViewModel
 import com.core.wumfapp2020.base.AppBaseFragment
 import com.core.wumfapp2020.VisibleBottomTabsState
-import com.library.core.di.lazyViewModel
+import com.library.core.lazyViewModel
 
 class OnBoardingFragment: AppBaseFragment<FrgOnboardingBinding, OnBoardingViewModel>(R.layout.frg_onboarding) {
 

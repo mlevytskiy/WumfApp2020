@@ -1,11 +1,13 @@
 package com.core.wumfapp2020
 
 import android.os.Bundle
+import androidx.navigation.Navigation
+import androidx.navigation.ui.setupWithNavController
 import com.core.wumfapp2020.databinding.ActivityMainBinding
 import com.core.wumfapp2020.di.injector
 import com.core.wumfapp2020.viewmodel.MainActivityViewModel
 import com.library.core.BaseActivity
-import com.library.core.di.lazyViewModel
+import com.library.core.lazyViewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainActivityViewModel>(R.layout.activity_main, R.id.main_nav_host) {
 
@@ -24,11 +26,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainActivityViewModel>(R.
 
     override fun setViewModelInBinding(binding: ActivityMainBinding, viewModel: MainActivityViewModel) {
         binding.viewModel = viewModel
+        binding.homeBottomNav.setupWithNavController(Navigation.findNavController(this, R.id.main_nav_host))
     }
 
     fun makeHomeStart() {
         navController.graph.startDestination = R.id.home
         navController.graph = navController.graph
     }
-
 }

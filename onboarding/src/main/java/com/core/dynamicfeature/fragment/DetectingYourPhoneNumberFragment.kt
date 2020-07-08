@@ -15,7 +15,7 @@ import com.google.android.gms.auth.api.credentials.Credential
 import com.google.android.gms.auth.api.credentials.HintRequest
 import com.google.android.gms.common.api.GoogleApiClient
 import com.library.core.OnActivityResultHandler
-import com.library.core.di.lazyViewModel
+import com.library.core.lazyViewModel
 import java.lang.ref.WeakReference
 
 class DetectingYourPhoneNumberFragment: AppBaseFragment<FrgDetectingPhoneNumberBinding, DetectingYourPhoneNumberViewModel>(R.layout.frg_detecting_phone_number),

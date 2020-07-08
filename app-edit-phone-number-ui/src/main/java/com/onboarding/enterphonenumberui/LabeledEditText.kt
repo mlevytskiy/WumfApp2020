@@ -2,22 +2,14 @@ package com.onboarding.enterphonenumberui
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
-import android.graphics.Shader
-import android.graphics.LinearGradient
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.*
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
-import java.io.BufferedReader
-import java.io.InputStreamReader
+import wumf.com.detectphone.AppCountryDetector
 import java.util.*
-import kotlin.collections.HashMap
-
 
 class LabeledEditText(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -37,8 +29,8 @@ class LabeledEditText(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private var flag: ImageView? = null
     private var labelCountry: TextView? = null
 
-    private val countryCodes: HashMap<Int, String> = HashMap()
-    private val countryNames: HashMap<Int, String> = HashMap()
+    var detectedCountryMCC: Int = 0
+        private set
 
     init {
         phoneNumberUtil = PhoneNumberUtil.createInstance(getContext().applicationContext)
@@ -89,12 +81,10 @@ class LabeledEditText(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 phoneNumberChangeListener?.onChange(s.toString())
             }
         })
-
-        fillMap()
-
+        AppCountryDetector.fillMap(context)
     }
 
-    fun enterPhoneByUser(phone: String) {
+    fun enterPhoneByUser(phone: String): Int {
         val fixedPhone = prefillPhone(phone)
         try {
             val phoneNumber = phoneNumberUtil?.parseAndKeepRawInput(fixedPhone, "")
@@ -106,12 +96,16 @@ class LabeledEditText(context: Context, attrs: AttributeSet) : FrameLayout(conte
             )
             try {
                 setDetectedCountryCode(phoneNumber?.countryCode)
+                detectedCountryMCC = phoneNumber?.countryCode ?: 0
+                return detectedCountryMCC
             } catch (exc : java.lang.Exception) {
                 //ignore
             }
         } catch (exception: Exception) {
             editText?.setText(fixedPhone)
         }
+        detectedCountryMCC = 0
+        return detectedCountryMCC
     }
 
     private fun prefillPhone(phone: String):String {
@@ -129,7 +123,8 @@ class LabeledEditText(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun setDetectedCountryCode(code: Int?) {
-        val codeIso = countryCodes[code]?.toLowerCase(Locale.ROOT)
+        val country = AppCountryDetector.detectCountryByPhoneCode(code)
+        val codeIso = country?.code?.toLowerCase(Locale.ROOT)
         if (!codeIso.isNullOrBlank()) {
             try {
                 val id = resources.getIdentifier("ic_$codeIso", "drawable", resources.getResourcePackageName(R.drawable.ic_ad))
@@ -137,9 +132,9 @@ class LabeledEditText(context: Context, attrs: AttributeSet) : FrameLayout(conte
             } catch (resourceNotFound: Resources.NotFoundException) {
                 //ignore
             }
-            labelCountry?.setText(countryNames[code])
+            val name = country.name
+            labelCountry?.text = name
         }
-
     }
 
     fun getPhoneNumberStr() = editText?.text.toString()
@@ -173,16 +168,6 @@ class LabeledEditText(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     }
                 }
             })
-        }
-    }
-
-    private fun fillMap() {
-        val reader = BufferedReader(InputStreamReader(context.assets.open("countries.csv")))
-        for (item in reader.lineSequence()) {
-            val value = TextUtils.split(item, ",")
-            val code = Integer.parseInt(value[6])
-            countryCodes.put(code, value[3])
-            countryNames.put(code, value[2])
         }
     }
 

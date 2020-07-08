@@ -1,20 +1,17 @@
 package com.core.dynamicfeature.viewmodel
 
 import android.util.Log
-import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.api.api.CheckRegistrationRequest
 import com.app.api.api.LoginRequest
 import com.app.api.api.RegistrationRequest
 import com.app.api.api.WumfApi
-import com.core.dynamicfeature.R
 import com.core.dynamicfeature.fragment.EnterPhoneNumberFragmentDirections
 import com.core.wumfapp2020.memory.RegistrationInfo
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.viewmodel.ResultStatus
 import com.core.wumfapp2020.viewmodel.SharedViewModel
-import com.dd.State
 import com.library.core.BaseViewModel
 import com.library.telegramkotlinapi.SimpleTelegramApi
 import com.library.telegramkotlinapi.TelegramUser
@@ -191,6 +188,10 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
             state = State.ENTER_CODE
             showEnterCodeStateMutable.postEvent(Unit)
         }
+    }
+
+    fun saveCountryMCC(mcc: Int) {
+        userInfoRepository.setCountryMCC(mcc)
     }
 
     fun navigateToHome() {

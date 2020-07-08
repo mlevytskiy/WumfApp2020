@@ -93,8 +93,8 @@ class PhoneNumberFlipWrapper(context: Context, attrs: AttributeSet) : FrameLayou
 
     fun getPhoneNumberStr() = phoneNumberEditText?.getPhoneNumberStr()
 
-    fun enterPhoneByUser(value: String) {
-        phoneNumberEditText?.enterPhoneByUser(value)
+    fun getCountryMCC(): Int {
+        return phoneNumberEditText?.detectedCountryMCC ?: 0
     }
 
 //    fun flipCard() {

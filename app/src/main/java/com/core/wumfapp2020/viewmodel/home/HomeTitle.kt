@@ -6,11 +6,11 @@ import com.core.wumfapp2020.R
 import com.core.wumfapp2020.base.ColorRes
 import com.core.wumfapp2020.base.StringRes
 
-class HomeTitle(private val strRes: StringRes, colorRes: ColorRes): ObservableField<Spannable>() {
+class HomeTitle(private val strRes: StringRes, colorRes: ColorRes, type: Type = Type.IN_THE_WORLD): ObservableField<Spannable>() {
 
     var countryName: String = "Ukraine"
 
-    var type: Type = Type.IN_THE_WORLD
+    var type: Type = type
         set(value) {
             field = value
             set(buildSpannable(strPrefix, getTagStr(strRes, value)))
@@ -30,7 +30,8 @@ class HomeTitle(private val strRes: StringRes, colorRes: ColorRes): ObservableFi
 
     private fun getTagStr(strRes: StringRes, type: Type) = when (type) {
         Type.IN_THE_WORLD -> strRes.getStrFromArray(R.array.type_of_apps, 0)
-        Type.IN_COUNTRY -> String.format(strRes.getStrFromArray(R.array.type_of_apps, 1), countryName)
+        Type.IN_ANOTHER_COUNTRY,
+        Type.IN_MY_COUNTRY -> String.format(strRes.getStrFromArray(R.array.type_of_apps, 1), countryName)
         Type.AMONG_FRIENDS -> strRes.getStrFromArray(R.array.type_of_apps, 3)
     }
 
@@ -40,8 +41,9 @@ class HomeTitle(private val strRes: StringRes, colorRes: ColorRes): ObservableFi
 
     enum class Type {
         IN_THE_WORLD,
-        IN_COUNTRY,
-        AMONG_FRIENDS
+        IN_MY_COUNTRY,
+        AMONG_FRIENDS,
+        IN_ANOTHER_COUNTRY
     }
 
 }

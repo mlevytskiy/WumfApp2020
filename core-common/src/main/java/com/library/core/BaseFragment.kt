@@ -1,7 +1,6 @@
 package com.library.core
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.library.core.di.unsyncLazy
 
 abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val uiRes: Int) : Fragment() {
 
@@ -32,6 +30,7 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val
             .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN or WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
         binding = DataBindingUtil.inflate(inflater, uiRes, container, false)
+        binding.lifecycleOwner = this
         setViewModelInBinding(binding, viewModel)
 
         return binding.root

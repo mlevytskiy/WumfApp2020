@@ -3,6 +3,8 @@ package com.core.wumfapp2020.memory
 import io.objectbox.converter.PropertyConverter
 import java.lang.StringBuilder
 
+private const val DIMEN = "|"
+
 class RegistrationInfoConverter : PropertyConverter<RegistrationInfo, String> {
 
     override fun convertToDatabaseValue(entityProperty: RegistrationInfo?): String {
@@ -10,10 +12,10 @@ class RegistrationInfoConverter : PropertyConverter<RegistrationInfo, String> {
             return ""
         }
         val strBuilder = StringBuilder()
-        strBuilder.append(entityProperty.photo).append("|")
-        strBuilder.append(entityProperty.name).append("|")
-        strBuilder.append(entityProperty.telegramId).append("|")
-        strBuilder.append(entityProperty.hasRegistration).append("|")
+        strBuilder.append(entityProperty.photo).append(DIMEN)
+        strBuilder.append(entityProperty.name).append(DIMEN)
+        strBuilder.append(entityProperty.telegramId).append(DIMEN)
+        strBuilder.append(entityProperty.hasRegistration).append(DIMEN)
         strBuilder.append(entityProperty.isRegWumfChecked)
         return strBuilder.toString()
     }
@@ -23,7 +25,7 @@ class RegistrationInfoConverter : PropertyConverter<RegistrationInfo, String> {
             return RegistrationInfo()
         }
         val result = RegistrationInfo()
-        val arr = databaseValue.split("|")
+        val arr = databaseValue.split(DIMEN)
         result.photo = arr[0]
         result.name = arr[1]
         result.telegramId = arr[2].toInt()

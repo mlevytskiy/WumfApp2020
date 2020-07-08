@@ -70,7 +70,35 @@
         android:name="com.core.wumfapp2020.fragment.HomeFragment"
         tools:layout="@layout/frg_home" >
 
+        <action
+            android:id="@+id/action_home_to_people_who_likes"
+            app:destination="@id/people_who_likes"
+            app:enterAnim="@anim/push_left_in"
+            app:exitAnim="@anim/push_left_out"
+            app:popEnterAnim="@anim/push_right_in"
+            app:popExitAnim="@anim/push_right_out" />
+
     </fragment>
+
+    <fragment android:id="@+id/apps"
+        android:name="com.core.wumfapp2020.fragment.AppsFragment"
+        tools:layout="@layout/frg_apps" />
+
+    <fragment android:id="@+id/friends"
+        android:name="com.core.wumfapp2020.fragment.FriendsFragment"
+        tools:layout="@layout/frg_friends" />
+
+    <fragment android:id="@+id/profile"
+        android:name="com.core.wumfapp2020.fragment.ProfileFragment"
+        tools:layout="@layout/frg_profile" />
+
+    <fragment android:id="@+id/more"
+        android:name="com.core.wumfapp2020.fragment.MoreFragment"
+        tools:layout="@layout/frg_more" />
+
+    <fragment android:id="@+id/people_who_likes"
+        android:name="com.core.wumfapp2020.fragment.PeopleWhoLikesFragment"
+        tools:layout="@layout/frg_people_who_likes" />
 
     <fragment
         android:id="@+id/on_boarding"

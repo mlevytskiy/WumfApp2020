@@ -104,6 +104,19 @@ class UserInfoRepository(context: Context) {
         }
     }
 
+    fun setCountryMCC(value: Int) {
+        cachedUserInfo?.countryMCC = value
+        save()
+    }
+
+    fun getCountryMCC(): Int {
+        cachedUserInfo?.let {
+            return it.countryMCC
+        } ?: run {
+            return  currentUser()?.countryMCC ?: 0
+        }
+    }
+
     private fun startBgJob(block: suspend CoroutineScope.() -> Unit): Job {
         return scope.launch(block = {
             try {

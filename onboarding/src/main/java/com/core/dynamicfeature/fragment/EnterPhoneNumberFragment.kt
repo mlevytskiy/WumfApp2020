@@ -8,7 +8,7 @@ import com.core.dynamicfeature.databinding.FrgEnterPhoneNumberBinding
 import com.core.dynamicfeature.di.featureInjector
 import com.core.dynamicfeature.viewmodel.EnterPhoneNumberViewModel
 import com.core.wumfapp2020.base.AppBaseFragment
-import com.library.core.di.lazyViewModel
+import com.library.core.lazyViewModel
 
 class EnterPhoneNumberFragment: AppBaseFragment<FrgEnterPhoneNumberBinding, EnterPhoneNumberViewModel>(
     R.layout.frg_enter_phone_number) {
@@ -33,6 +33,8 @@ class EnterPhoneNumberFragment: AppBaseFragment<FrgEnterPhoneNumberBinding, Ente
             binding.nextButton.progress = 0
         }
         observeEvent(viewModel.showSuccess) {
+            val mcc = binding.phoneNumberFlipWrapper.getCountryMCC()
+            viewModel.saveCountryMCC(mcc)
             binding.nextButton.progress = 100
         }
     }

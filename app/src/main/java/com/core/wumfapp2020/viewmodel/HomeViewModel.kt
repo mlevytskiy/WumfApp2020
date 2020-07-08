@@ -2,31 +2,37 @@ package com.core.wumfapp2020.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import com.app.api.api.*
 import com.core.wumfapp2020.InternetConnectionChecker
 import com.core.wumfapp2020.base.ColorRes
 import com.core.wumfapp2020.base.StringRes
 import com.core.wumfapp2020.base.countriesdialog.CountriesHolder
-import com.core.wumfapp2020.base.countriesdialog.Country
+import com.core.wumfapp2020.fragment.HomeFragmentDirections
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.viewmodel.home.HomeTitle
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.library.core.BaseViewModel
 import com.library.core.SingleLiveEvent
+import com.library.core.delegate
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import retrofit2.Call
-import javax.inject.Inject
+import wumf.com.detectphone.AppCountryDetector
+import wumf.com.detectphone.Country
 
-private const val IN_THE_WORLD = 0
+const val IN_THE_WORLD = 0
 const val IN_MY_COUNTRY = 1
 const val IN_ANOTHER_COUNTRY = 2
-private const val AMONG_FRIENDS = 3
+const val AMONG_FRIENDS = 3
 
-class HomeViewModel @Inject constructor(private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager,
-                                        val sharedViewModel: SharedViewModel, userInfoRepository: UserInfoRepository,
-                                        stringRes: StringRes, colorRes: ColorRes, private val countryHolder: CountriesHolder,
-                                        private val wumfApi: WumfApi): BaseViewModel() {
+class HomeViewModel @AssistedInject constructor(@Assisted handle: SavedStateHandle, private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager,
+                                                val sharedViewModel: SharedViewModel, val memory: UserInfoRepository,
+                                                stringRes: StringRes, colorRes: ColorRes, private val countryHolder: CountriesHolder,
+                                                private val wumfApi: WumfApi
+): BaseViewModel() {
 
-    //    private val directions = PreOnBoardingFragmentDirections.Companion
+    private val directions = HomeFragmentDirections.Companion
 
     private val showPickAppCategoryDialogMutable = SingleLiveEvent<HomeTitle.Type>()
     val showPickAppCategoryDialog: LiveData<HomeTitle.Type> = showPickAppCategoryDialogMutable
@@ -38,7 +44,13 @@ class HomeViewModel @Inject constructor(private val connectionChecker: InternetC
     private val showCountriesDialogMutable = SingleLiveEvent<CountriesHolder>()
     val showCountriesDialog: LiveData<CountriesHolder> = showCountriesDialogMutable
 
-    val span = HomeTitle(stringRes, colorRes)
+    private var type by handle.delegate<HomeTitle.Type>()
+    val span = HomeTitle(stringRes, colorRes, type ?: HomeTitle.Type.IN_THE_WORLD)
+
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(handle: SavedStateHandle): HomeViewModel
+    }
 
     override fun handleException(e: Throwable) {
 
@@ -55,14 +67,13 @@ class HomeViewModel @Inject constructor(private val connectionChecker: InternetC
                 getAllWorldApps()
             }
             IN_MY_COUNTRY -> {
-                val code = countryHolder.getDeviceCountryCode()
-                span.countryName = getDefaultCountryName(code)
-                getCountryApps(code)
-                if (span.type == HomeTitle.Type.IN_COUNTRY) {
-                    span.forciblyTextUpdate()
-                } else {
-                    span.type = HomeTitle.Type.IN_COUNTRY
+                val defaultCountry = getDefaultCountry()
+                span.countryName = defaultCountry?.name?:""
+                defaultCountry?.let {
+                    getCountryApps(it.code)
                 }
+                span.type = HomeTitle.Type.IN_MY_COUNTRY
+                span.forciblyTextUpdate()
             }
             IN_ANOTHER_COUNTRY -> {
                 if (country == null) {
@@ -71,15 +82,25 @@ class HomeViewModel @Inject constructor(private val connectionChecker: InternetC
                 }
                 span.countryName = country.name
                 getCountryApps(country.code)
-                if (span.type == HomeTitle.Type.IN_COUNTRY) {
-                    span.forciblyTextUpdate()
-                } else {
-                    span.type = HomeTitle.Type.IN_COUNTRY
-                }
+                span.type = HomeTitle.Type.IN_ANOTHER_COUNTRY
+                span.forciblyTextUpdate()
             }
             AMONG_FRIENDS -> {
                 span.type = HomeTitle.Type.AMONG_FRIENDS
             }
+        }
+    }
+
+    fun loadData() {
+        when(span.type) {
+            HomeTitle.Type.AMONG_FRIENDS,
+            HomeTitle.Type.IN_ANOTHER_COUNTRY,
+            HomeTitle.Type.IN_MY_COUNTRY -> {
+                getDefaultCountry()?.let {
+                    getCountryApps(it.code)
+                }
+            }
+            HomeTitle.Type.IN_THE_WORLD -> getAllWorldApps()
         }
     }
 
@@ -96,26 +117,13 @@ class HomeViewModel @Inject constructor(private val connectionChecker: InternetC
         }
     }
 
-    fun getDefaultCountryName(): String {
-        val code = countryHolder.getDeviceCountryCode()
-        return getDefaultCountryName(code)
+    fun navigateToPeopleWhoLikes() {
+        navigate(directions.actionHomeToPeopleWhoLikes())
     }
 
     fun getDefaultCountry(): Country? {
-        val code = countryHolder.getDeviceCountryCode()
-        return getDefaultCountry(code)
-    }
-
-    private fun getDefaultCountryName(code: String): String {
-        val country = getDefaultCountry(code)
-        return country?.name ?: ""
-    }
-
-    private fun getDefaultCountry(code: String): Country? {
-        val country = countryHolder.countries.find {
-            it.code == code
-        }
-        return country
+        val mcc = memory.getCountryMCC()
+        return AppCountryDetector.detectCountryByPhoneCode(mcc)
     }
 
     private fun <T> callRetrofit(call: Call<T>, result: (T?)->(String)) {

@@ -6,6 +6,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.core.wumfapp2020.R
+import wumf.com.detectphone.Country
 
 class CountriesAdapter(private val countries: ArrayList<Country>, private val bgColor1: Int, private val bgColor2: Int): BaseAdapter() {
 
@@ -38,17 +39,14 @@ class CountriesAdapter(private val countries: ArrayList<Country>, private val bg
 
     class ViewHolder(private val view: View) {
 
-        private val flag: ImageView?
-        private val name: TextView?
-
-        init {
-            flag = view.findViewById(R.id.flag)
-            name = view.findViewById(R.id.country_name)
-        }
+        private val flag: ImageView? = view.findViewById(R.id.flag)
+        private val name: TextView? = view.findViewById(R.id.country_name)
 
         fun fill(country: Country, bgColor: Int) {
-            flag?.setImageResource(country.flagId)
-            name?.setText(country.name)
+            country.getFlagId()?.let {
+                flag?.setImageResource(it)
+            }
+            name?.text = country.name
             view.setBackgroundColor(bgColor)
         }
 

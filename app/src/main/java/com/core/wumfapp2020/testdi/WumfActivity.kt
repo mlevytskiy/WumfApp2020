@@ -1,23 +1,10 @@
 package com.core.wumfapp2020.testdi
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.core.wumfapp2020.R
-import com.core.wumfapp2020.di.injector
-import com.core.wumfapp2020.viewmodel.PreOnBoardingViewModel
-import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.google.android.play.core.splitinstall.SplitInstallRequest
-import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
-import com.library.core.di.lazyViewModel
-import java.io.PrintWriter
-import java.io.StringWriter
-import javax.inject.Inject
 
 class WumfActivity : AppCompatActivity() {
 

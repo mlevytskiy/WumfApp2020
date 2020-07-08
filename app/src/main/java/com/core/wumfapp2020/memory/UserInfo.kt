@@ -13,17 +13,20 @@ class UserInfo {
     var language: Byte = 0
     var phoneNumberFromSystem: String? = null
     var registrationToken: String? = null
+    var countryMCC: Int = 0
 
     constructor()
 
     constructor(statusBarHeight: Int = 0,
                 language: Byte = 0,
                 phoneNumberFromSystem: String? = null,
-                registrationToken: String? = null) {
+                registrationToken: String? = null,
+                countryMCC: Int = 0) {
         this.statusBarHeight = statusBarHeight
         this.language = language
         this.phoneNumberFromSystem = phoneNumberFromSystem
         this.registrationToken = registrationToken
+        this.countryMCC = countryMCC
     }
 
     @Convert(converter = RegistrationInfoConverter::class, dbType = String::class)

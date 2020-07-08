@@ -1,5 +1,6 @@
-package com.library.core.di
+package com.library.core
 
+import android.os.Bundle
 import android.os.Looper
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
@@ -13,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 inline val <T> T.exhaustive get() = this
 
@@ -53,7 +56,7 @@ inline fun <reified T : ViewModel> Fragment.lazyViewModel(
 inline fun <reified T : ViewModel> Fragment.lazySavedStateViewModel(
   crossinline viewModelProducer: (handle: SavedStateHandle) -> T
 ) = viewModels<T> {
-  object : AbstractSavedStateViewModelFactory(this, requireArguments()) {
+  object : AbstractSavedStateViewModelFactory(this, arguments ?: Bundle.EMPTY) {
     override fun <T : ViewModel> create(key: String, modelClass: Class<T>, handle: SavedStateHandle) =
       viewModelProducer(handle) as T
   }
@@ -77,3 +80,15 @@ inline fun <reified T : ViewModel> Fragment.lazySavedStateActivityViewModel(
 }
 
 inline fun isMainThread(): Boolean = Looper.getMainLooper().thread == Thread.currentThread()
+
+inline fun <reified T> SavedStateHandle.delegate(key: String? = null): ReadWriteProperty<Any, T?> = object : ReadWriteProperty<Any, T?> {
+  override fun getValue(thisRef: Any, property: KProperty<*>): T? {
+    val stateKey = key ?: property.name
+    return this@delegate[stateKey]
+  }
+
+  override fun setValue(thisRef: Any, property: KProperty<*>, value: T?) {
+    val stateKey = key ?: property.name
+    this@delegate[stateKey] = value
+  }
+}

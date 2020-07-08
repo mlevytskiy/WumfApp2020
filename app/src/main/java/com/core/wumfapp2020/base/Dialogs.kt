@@ -13,8 +13,8 @@ import androidx.core.content.ContextCompat
 import com.appinfo.appmonsta.AppInfoView
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.base.countriesdialog.CountriesAdapter
-import com.core.wumfapp2020.base.countriesdialog.Country
 import wumf.com.appsprovider2.AppContainer
+import wumf.com.detectphone.Country
 
 fun showCountriesDialog(context: Context, countries: ArrayList<Country>, checkedItem: Int, select: (Country)->Unit, cancel: (DialogInterface)->Unit): DialogInterface {
     val dialog = AlertDialog.Builder(context)
