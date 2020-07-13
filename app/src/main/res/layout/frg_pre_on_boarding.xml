@@ -14,127 +14,150 @@
             type="com.core.wumfapp2020.viewmodel.PreOnBoardingViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/btn_telegram_sign_in"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp">
 
-            <TextView
-                android:id="@+id/btn_anonymously_log_in"
-                android:layout_width="278dp"
-                android:layout_height="76dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/anonymouslyBg"
-                android:drawableStart="@drawable/ic_anonimous3"
-                android:drawablePadding="16dp"
-                android:gravity="center_vertical"
-                android:onClick="@{() -> viewModel.signInAsAnonymous()}"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/log_in_anonymously"
-                android:textColor="@android:color/white"
-                android:textSize="20dp" />
-
-            <TextView
-                android:layout_width="278dp"
-                android:layout_height="76dp"
-                android:background="@color/telegramBg"
-                android:drawableStart="@drawable/telegram"
-                android:drawablePadding="16dp"
-                android:gravity="center_vertical"
-                android:onClick="@{() -> viewModel.signInWithTelegram()}"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/log_in_with_telegram"
-                android:textColor="@android:color/white"
-                android:textSize="20dp"
+            <LinearLayout
+                android:id="@+id/btn_telegram_sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/btn_anonymously_log_in"
+                    android:layout_width="278dp"
+                    android:layout_height="76dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/anonymouslyBg"
+                    android:drawableStart="@drawable/ic_anonimous3"
+                    android:drawablePadding="16dp"
+                    android:gravity="center_vertical"
+                    android:onClick="@{() -> viewModel.signInAsAnonymous()}"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/log_in_anonymously"
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp" />
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="76dp"
-            android:paddingEnd="8dp"
-            tools:text="@string/no_internet_connection"
-            app:layout_constraintEnd_toEndOf="@id/btn_telegram_sign_in"
-            app:layout_constraintStart_toStartOf="@id/btn_telegram_sign_in"
-            app:layout_constraintBottom_toBottomOf="@id/btn_telegram_sign_in"
-            app:layout_constraintVertical_bias="0"
-            android:layout_marginTop="16dp"
-            android:background="@color/telegramBg"
-            android:visibility="@{viewModel.inProgress}"
-            tools:visibility="gone">
+                <TextView
+                    android:layout_width="278dp"
+                    android:layout_height="76dp"
+                    android:background="@color/telegramBg"
+                    android:drawableStart="@drawable/telegram"
+                    android:drawablePadding="16dp"
+                    android:gravity="center_vertical"
+                    android:onClick="@{() -> viewModel.signInWithTelegram()}"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/log_in_with_telegram"
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:theme="@style/ProgressBar.YellowAccent"
-                android:layout_centerInParent="true"
-                tools:visibility="invisible" />
+            </LinearLayout>
 
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:visibility="@{viewModel.internetConnectionState != ConnectionCheckingState.CONNECTED}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/btn_telegram_sign_in"
-            app:layout_constraintStart_toStartOf="@id/btn_telegram_sign_in"
-            app:layout_constraintTop_toBottomOf="@id/btn_telegram_sign_in"
-            app:layout_constraintVertical_bias="0"
-            android:onClick="@{()->viewModel.onClickRefresh()}" >
-
-            <View
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:lines="2"
+                android:layout_height="76dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/telegramBg"
                 android:paddingEnd="8dp"
-                android:text="@{ (viewModel.internetConnectionState == ConnectionCheckingState.NO_INTERNET) ? @string/no_internet_connection : (viewModel.internetConnectionState == ConnectionCheckingState.CHECKING) ? @string/checking : @string/connected }"
-                android:textColor="@{ (viewModel.internetConnectionState == ConnectionCheckingState.SHOW_MESSAGE_CONNECTED) ? @android:color/holo_green_dark : @android:color/holo_red_dark}"
-                android:textSize="20dp"
-                tools:text="@string/no_internet_connection" />
+                android:visibility="@{viewModel.inProgress}"
+                app:layout_constraintBottom_toBottomOf="@id/btn_telegram_sign_in"
+                app:layout_constraintEnd_toEndOf="@id/btn_telegram_sign_in"
+                app:layout_constraintStart_toStartOf="@id/btn_telegram_sign_in"
+                app:layout_constraintVertical_bias="0"
+                tools:text="@string/no_internet_connection"
+                tools:visibility="gone">
 
-            <View
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:theme="@style/ProgressBar.YellowAccent"
+                    tools:visibility="invisible" />
+
+            </RelativeLayout>
+
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_height="wrap_content"
+                android:onClick="@{()->viewModel.onClickRefresh()}"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="@{viewModel.internetConnectionState != ConnectionCheckingState.CONNECTED}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/btn_telegram_sign_in"
+                app:layout_constraintStart_toStartOf="@id/btn_telegram_sign_in"
+                app:layout_constraintTop_toBottomOf="@id/btn_telegram_sign_in"
+                app:layout_constraintVertical_bias="0">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:lines="2"
+                    android:paddingEnd="8dp"
+                    android:text="@{ (viewModel.internetConnectionState == ConnectionCheckingState.NO_INTERNET) ? @string/no_internet_connection : (viewModel.internetConnectionState == ConnectionCheckingState.CHECKING) ? @string/checking : @string/connected }"
+                    android:textColor="@{ (viewModel.internetConnectionState == ConnectionCheckingState.SHOW_MESSAGE_CONNECTED) ? @android:color/holo_green_dark : @android:color/holo_red_dark}"
+                    android:textSize="20dp"
+                    tools:text="@string/no_internet_connection" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="@{viewModel.internetConnectionState != ConnectionCheckingState.SHOW_MESSAGE_CONNECTED}"
+                    app:animatedDrawable="@{viewModel.internetConnectionState == ConnectionCheckingState.CHECKING}"
+                    app:srcCompat="@drawable/ic_refresh_animated" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray2"
+            android:visibility="@{viewModel.prepareNavigateToHome}"
+            tools:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="@{viewModel.internetConnectionState != ConnectionCheckingState.SHOW_MESSAGE_CONNECTED}"
-                app:animatedDrawable="@{viewModel.internetConnectionState == ConnectionCheckingState.CHECKING}"
-                app:srcCompat="@drawable/ic_refresh_animated" />
+                android:src="@drawable/ic_refresh_animated"
+                app:srcCompat="@drawable/ic_refresh_animated"
+                app:animatedDrawable="@{viewModel.prepareNavigateToHome}" />
 
-        </LinearLayout>
+        </FrameLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 
 </layout>

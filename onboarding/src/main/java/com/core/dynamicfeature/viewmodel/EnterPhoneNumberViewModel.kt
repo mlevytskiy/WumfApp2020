@@ -1,6 +1,7 @@
 package com.core.dynamicfeature.viewmodel
 
 import android.util.Log
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.api.api.CheckRegistrationRequest
@@ -25,7 +26,7 @@ import org.drinkless.td.libcore.telegram.TdApi
 import retrofit2.await
 
 class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel: SharedViewModel, private val userInfoRepository: UserInfoRepository,
-                                                            client: Client, private var wumfApi: WumfApi, @Assisted var phoneNumber: String?): BaseViewModel() {
+                                                            client: Client, private var wumfApi: WumfApi): BaseViewModel() {
 
     private val showNextButtonInProgressStateMutable = MutableLiveData<Unit>()
     val showNextButtonInProgressState: LiveData<Unit> = showNextButtonInProgressStateMutable
@@ -36,15 +37,19 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
     private val showSuccessMutable = MutableLiveData<Unit>()
     val showSuccess: LiveData<Unit> = showSuccessMutable
 
+    val phoneNumber = ObservableField<String>("")
+
     private val directions = EnterPhoneNumberFragmentDirections.Companion
 
-    init {
-        Log.i("testr", "init viewmodel phone=" + phoneNumber)
+    fun setPhoneNumberFromMemory() {
+        userInfoRepository.getPhoneNumberFromSystem()?.let {
+            phoneNumber.set(it)
+        }
     }
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(phoneNumber: String?): EnterPhoneNumberViewModel
+        fun create(): EnterPhoneNumberViewModel
     }
 
     override fun handleException(e: Throwable) {
@@ -63,13 +68,19 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
     fun onClickNextButton() {
         when(state) {
             State.ENTER_PHONE_NUMBER -> {
-                phoneNumber?.let {
+                phoneNumber.get()?.let {
                     sendPhoneToTelegram(it)
                 }
             }
             State.ENTER_CODE -> {
                 sendCodeToTelegram(code)
             }
+        }
+    }
+
+    fun moveToDetectPhoneNumberIfNeed() {
+        if (userInfoRepository.getPhoneNumberFromSystem() == null) {
+            navigate(directions.actionEnterPhoneNumberToDetectPhoneNumber())
         }
     }
 
@@ -196,7 +207,8 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
 
     fun navigateToHome() {
         sharedViewModel.status = ResultStatus.SUCCESS
-        navigate(directions.actionEnterPhoneNumberToPreOnBoarding())
+        popBack()
+        //navigate(directions.actionEnterPhoneNumberToPreOnBoarding())
     }
 
     enum class State {

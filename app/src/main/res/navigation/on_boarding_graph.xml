@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/on_boarding_graph"
+    app:startDestination="@id/enter_phone_number"
+    app:moduleName="onboarding">
+
+    <fragment
+        android:id="@+id/detecting_phone_number"
+        android:name="com.core.dynamicfeature.fragment.DetectingYourPhoneNumberFragment"
+        android:label=" ">
+
+        <action
+            android:id="@+id/action_detect_phone_number_to_enter_phone_number"
+            app:popUpTo="@id/enter_phone_number" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/enter_phone_number"
+        android:name="com.core.dynamicfeature.fragment.EnterPhoneNumberFragment"
+        android:label=" ">
+
+        <action
+            android:id="@+id/action_enter_phone_number_to_pre_on_boarding"
+            app:popUpTo="@id/enter_phone_number"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_enter_phone_number_to_detect_phone_number"
+            app:destination="@id/detecting_phone_number" />
+
+    </fragment>
+
+</navigation>

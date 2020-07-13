@@ -1,6 +1,7 @@
 package com.library.core
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,14 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 
 abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val uiRes: Int) : Fragment() {
 
     protected abstract val viewModel: VM
     protected lateinit var binding: B
-    private val navController by unsyncLazy { findNavController() }
+    protected val navController by unsyncLazy { findNavController() }
 
     protected abstract fun setViewModelInBinding(binding: B, viewModel: VM)
 
@@ -33,6 +35,7 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val
         binding.lifecycleOwner = this
         setViewModelInBinding(binding, viewModel)
 
+        Log.i("testr", "onCreateView ${this.javaClass}")
         return binding.root
     }
 
@@ -42,10 +45,24 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val
             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         }
         observeEvent(viewModel.fragmentNavDirection) { direction ->
-            navController.currentDestination?.getAction(direction.actionId)?.let {
-                navController.navigate(direction)
+            navController.currentDestination?.let {
+              it.getAction(direction.actionId)?.let {
+                  navController.navigate(direction, getNavOptions(it.navOptions))
+              }
             }
         }
+        observeEvent(viewModel.popBackTo) {
+            if (it.id == POP_BACK) {
+                navController.popBackStack()
+            }
+        }
+        onVisible()
+    }
+
+    open fun onVisible() { }
+
+    open fun getNavOptions(navOptionsByDirection: NavOptions?): NavOptions? {
+        return navOptionsByDirection
     }
 
     override fun onDestroyView() {

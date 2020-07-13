@@ -4,15 +4,11 @@ import android.os.CountDownTimer
 import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import com.core.dynamicfeature.fragment.DetectingYourPhoneNumberFragmentDirections
-import com.core.wumfapp2020.fragment.PreOnBoardingFragmentDirections
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.library.core.BaseViewModel
 import com.library.core.SingleLiveEvent
 import com.squareup.inject.assisted.AssistedInject
-import kotlinx.coroutines.delay
 
 private val CHANGE_FAKE_PHONE_NUMBER_INTERVAL = 450L
 private val PHONE_NUMBER_DETECTING_SECONDS = 4
@@ -73,26 +69,19 @@ class DetectingYourPhoneNumberViewModel @AssistedInject constructor(private val 
     }
 
     fun cantDetectPhoneNumber() {
+        Log.i("testr", "cantDetectPhoneNumber()")
         repository.setPhoneNumberFromSystem("")
-        nextScreenWithDelay()
+        nextScreen()
     }
 
     fun detectPhoneNumber(phoneNumber: String) {
+        Log.i("testr", "detectPhoneNumber() phoneNumber=$phoneNumber")
         repository.setPhoneNumberFromSystem(phoneNumber)
-        nextScreenWithDelay(phoneNumber)
-    }
-
-    private fun nextScreenWithDelay(phoneNumber: String? = null) {
-//        startBgJob {
-//            delay(100)//Todo fixme (onActivityResult called when activity paused)
-        Log.i("testr", "phoneNumber=" + phoneNumber)
-            navigate(directions.actionDetectingYourPhoneNumberToEnterPhoneNumber(detectedPhone = phoneNumber))
-//        }
+        nextScreen()
     }
 
     fun nextScreen() {
-        nextScreenWithDelay(repository.getPhoneNumberFromSystem())
-//        navigate(directions.actionDetectingYourPhoneNumberToEnterPhoneNumber())
+        navigate(directions.actionDetectPhoneNumberToEnterPhoneNumber())
     }
 
     fun isPhoneNumberDetectingStarted(): Boolean {

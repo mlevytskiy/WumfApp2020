@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import java.lang.ref.WeakReference
 
 abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(private val uiRes: Int, private val navRes: Int) : AppCompatActivity() {
@@ -14,7 +15,10 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(private val
 
     private lateinit var binding: B
 
-    protected val navController by unsyncLazy { Navigation.findNavController(this, navRes) }
+    val navController by unsyncLazy {
+        val controller = Navigation.findNavController(this, navRes)
+        controller
+    }
 
     var onActivityResultHandler: WeakReference<OnActivityResultHandler>? = null
 

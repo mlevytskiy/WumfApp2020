@@ -9,6 +9,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import kotlinx.coroutines.*
 
+
+const val POP_BACK = -1
+
 abstract class BaseViewModel: ViewModel(), Observable {
 
     private val fragmentNavDirectionMutable = SingleLiveEvent<NavDirections>()
@@ -89,6 +92,10 @@ abstract class BaseViewModel: ViewModel(), Observable {
 
     open fun popTo(id: Int, inclusive: Boolean = false) {
         popBackToMutable.postValue(PopBackTo(id, inclusive))
+    }
+
+    fun popBack() {
+        popBackToMutable.postValue(PopBackTo(POP_BACK, false))
     }
 
 }

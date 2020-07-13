@@ -16,6 +16,15 @@ import com.core.wumfapp2020.base.countriesdialog.CountriesAdapter
 import wumf.com.appsprovider2.AppContainer
 import wumf.com.detectphone.Country
 
+fun showCheckAppIfExistOnGooglePlayDialog() {
+    //@TODO
+}
+
+//private fun createCheckAppIfExistOnGooglePlayDialogView(): View {
+////    @TODO
+//}
+
+
 fun showCountriesDialog(context: Context, countries: ArrayList<Country>, checkedItem: Int, select: (Country)->Unit, cancel: (DialogInterface)->Unit): DialogInterface {
     val dialog = AlertDialog.Builder(context)
         .setTitle("")

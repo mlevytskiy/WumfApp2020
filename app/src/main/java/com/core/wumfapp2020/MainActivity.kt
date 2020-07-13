@@ -30,7 +30,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainActivityViewModel>(R.
     }
 
     fun makeHomeStart() {
-        navController.graph.startDestination = R.id.home
-        navController.graph = navController.graph
+        navController.setGraph(R.navigation.main_graph)
     }
 }

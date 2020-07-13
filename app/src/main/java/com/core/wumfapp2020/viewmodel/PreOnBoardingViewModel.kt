@@ -17,6 +17,7 @@ class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: 
     private val directions = PreOnBoardingFragmentDirections.Companion
 
     val inProgress = ObservableBoolean(false)
+    val prepareNavigateToHome = ObservableBoolean(false)
 
     enum class ConnectionCheckingState {
         NO_INTERNET,
@@ -35,16 +36,16 @@ class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: 
     }
 
     fun signInAsAnonymous() {
-        if (!repository.isPhoneNumberHintShowed()) {
-            navigate(directions.actionPreOnBoardingToDetectingYourPhoneNumber())
-        } else {
-            navigate(directions.actionPreOnBoardingToEnterPhoneNumber(detectedPhone = repository.getPhoneNumberFromSystem()))
-        }
+        navigate(directions.actionPreOnBoardingToOnBoarding())
     }
 
     fun handleOnBoardingResult(isOnboardingPassed: Boolean) {
         if (isOnboardingPassed) {
-            navigate(directions.actionPreOnBoardingToHome())
+            prepareNavigateToHome.set(true)
+            startBgJob {
+                delay(500)
+                navigate(directions.actionPreOnBoardingToMain())
+            }
         }
     }
 

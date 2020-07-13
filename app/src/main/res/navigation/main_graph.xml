@@ -3,67 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/pre_on_boarding">
-
-<!--    <fragment android:id="@+id/sample1"-->
-<!--        android:name="com.core.wumfapp2020.fragment.SampleFragment1"-->
-<!--        tools:layout="@layout/frg_sample_1">-->
-
-<!--        <action-->
-<!--            android:id="@+id/action_sample1_to_sample2"-->
-<!--            app:destination="@+id/sample2"-->
-<!--            app:enterAnim="@anim/push_left_in"-->
-<!--            app:exitAnim="@anim/push_left_out"-->
-<!--            app:popEnterAnim="@anim/push_right_in"-->
-<!--            app:popExitAnim="@anim/push_right_out" />-->
-
-<!--    </fragment>-->
-
-<!--    <fragment-->
-<!--        android:id="@+id/sample2"-->
-<!--        android:name="com.core.wumfapp2020.fragment.SampleFragment2"-->
-<!--        tools:layout="@layout/frg_sample_2">-->
-
-<!--        <action-->
-<!--            android:id="@+id/action_sample2_to_sample1"-->
-<!--            app:destination="@+id/sample1"-->
-<!--            app:enterAnim="@anim/push_left_in"-->
-<!--            app:exitAnim="@anim/push_left_out"-->
-<!--            app:popEnterAnim="@anim/push_right_in"-->
-<!--            app:popExitAnim="@anim/push_right_out" />-->
-
-<!--    </fragment>-->
-
-    <fragment
-        android:id="@+id/pre_on_boarding"
-        android:name="com.core.wumfapp2020.fragment.PreOnBoardingFragment"
-        tools:layout="@layout/frg_pre_on_boarding" >
-
-        <action
-            android:id="@+id/action_pre_on_boarding_to_enter_phone_number"
-            app:popUpTo="@id/pre_on_boarding"
-            app:destination="@id/enter_phone_number"
-            app:enterAnim="@anim/push_left_in"
-            app:exitAnim="@anim/push_left_out"
-            app:popEnterAnim="@anim/push_right_in"
-            app:popExitAnim="@anim/push_right_out" />
-
-        <action
-            android:id="@+id/action_pre_on_boarding_to_detecting_your_phone_number"
-            app:popUpTo="@id/pre_on_boarding"
-            app:destination="@id/detecting_phone_number"
-            app:enterAnim="@anim/push_left_in"
-            app:exitAnim="@anim/push_left_out"
-            app:popEnterAnim="@anim/push_right_in"
-            app:popExitAnim="@anim/push_right_out" />
-
-        <action
-            android:id="@+id/action_pre_on_boarding_to_home"
-            app:popUpTo="@id/pre_on_boarding"
-            app:popUpToInclusive="true"
-            app:destination="@id/home" />
-
-    </fragment>
+    app:startDestination="@id/home">
 
     <fragment
         android:id="@+id/home"
@@ -72,17 +12,19 @@
 
         <action
             android:id="@+id/action_home_to_people_who_likes"
-            app:destination="@id/people_who_likes"
-            app:enterAnim="@anim/push_left_in"
-            app:exitAnim="@anim/push_left_out"
-            app:popEnterAnim="@anim/push_right_in"
-            app:popExitAnim="@anim/push_right_out" />
+            app:destination="@id/people_who_likes" />
 
     </fragment>
 
     <fragment android:id="@+id/apps"
         android:name="com.core.wumfapp2020.fragment.AppsFragment"
-        tools:layout="@layout/frg_apps" />
+        tools:layout="@layout/frg_apps">
+
+        <action
+            android:id="@+id/action_apps_to_add_app_in_my_collection"
+            app:destination="@id/add_app_in_my_collection" />
+
+    </fragment>
 
     <fragment android:id="@+id/friends"
         android:name="com.core.wumfapp2020.fragment.FriendsFragment"
@@ -100,48 +42,8 @@
         android:name="com.core.wumfapp2020.fragment.PeopleWhoLikesFragment"
         tools:layout="@layout/frg_people_who_likes" />
 
-    <fragment
-        android:id="@+id/on_boarding"
-        android:name="com.core.dynamicfeature.fragment.OnBoardingFragment"
-        app:moduleName="onboarding"
-        android:label=" ">
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/detecting_phone_number"
-        android:name="com.core.dynamicfeature.fragment.DetectingYourPhoneNumberFragment"
-        app:moduleName="onboarding"
-        android:label=" ">
-
-        <action
-            android:id="@+id/action_detecting_your_phone_number_to_enter_phone_number"
-            app:destination="@id/enter_phone_number"
-            app:enterAnim="@anim/push_left_in"
-            app:exitAnim="@anim/push_left_out"
-            app:popEnterAnim="@anim/push_right_in"
-            app:popExitAnim="@anim/push_right_out"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/detecting_phone_number" />
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/enter_phone_number"
-        android:name="com.core.dynamicfeature.fragment.EnterPhoneNumberFragment"
-        app:moduleName="onboarding"
-        android:label=" ">
-
-        <argument
-            android:name="detectedPhone"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-
-        <action
-            android:id="@+id/action_enter_phone_number_to_pre_on_boarding"
-            app:popUpTo="@id/pre_on_boarding" />
-
-    </fragment>
+    <fragment android:id="@+id/add_app_in_my_collection"
+        android:name="com.core.wumfapp2020.fragment.AddAppInMyCollectionFragment"
+        tools:layout="@layout/frg_add_app_in_my_collection" />
 
 </navigation>
