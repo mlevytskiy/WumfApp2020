@@ -17,7 +17,7 @@ class AppsRecycleView(context: Context, attr: AttributeSet?) : RecyclerView(cont
     private var itemListener: ((AppContainer, List<Int>)->Unit)? = null
 
     init {
-        layoutManager = GridLayoutManager(getContext(), 3) as LayoutManager?
+        layoutManager = GridLayoutManager(getContext(), 3)
 
         var appsStr : String?
 

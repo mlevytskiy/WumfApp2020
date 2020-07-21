@@ -49,9 +49,28 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:7779371241246431488",
+      "lastPropertyId": "2:6111960840998104262",
+      "name": "MyAppsCollection",
+      "properties": [
+        {
+          "id": "1:6298306167150318478",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:6111960840998104262",
+          "name": "apps",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:4359232735731778144",
+  "lastEntityId": "2:7779371241246431488",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

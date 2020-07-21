@@ -25,5 +25,19 @@
         <item>among friends</item>
     </string-array>
 
+    <string name="app_exist_on_google_play">"app exist on google play :)"</string>
+    <string name="app_isnt_on_google_play">"app isn't exist on google play :("</string>
+    <string name="bad_internet_connection">bad internet connection</string>
+
+    <string name="title_app_added_to_your_collection">Congratulation!</string>
+    <string name="message_app_added_to_your_collection">%s added to your collection :)</string>
+
+    <string name="title_we_cant_adding_app_to_your_collection">Unfortunately</string>
+    <string name="message_we_cant_adding_app_to_your_collection">"We can't adding %s to your collection.\nWe coudn't find it on google play"</string>
+
+    <string name="message_bad_internet_connection">Bad internet connection</string>
+    <string name="your_own_app_collection">Your own app collection</string>
+    <string name="remove_from_my_collection">Remove from\nmy collection</string>
+
 
 </resources>

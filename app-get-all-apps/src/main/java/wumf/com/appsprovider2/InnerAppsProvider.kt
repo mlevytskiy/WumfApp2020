@@ -112,10 +112,6 @@ class InnerAppsProvider(context: Context) {
         return pm.queryIntentActivities(mainIntent, PackageManager.GET_META_DATA)
     }
 
-    fun sortResolveInfos(resolveInfos: List<ResolveInfo>) {
-
-    }
-
     private fun resolveInfoToApp(resolveInfo: ResolveInfo): App {
         val pack = getPackageName(resolveInfo)
         val mainAct = getMainActivityName(resolveInfo)

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="viewModel"
+            type="com.core.wumfapp2020.base.dialogViewModels.AppInMyCollectionViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <include layout="@layout/dialog_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:viewModel="@{viewModel}" />
+
+        <TextView
+            android:text="@string/remove_from_my_collection"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_size_18"
+            android:onClick="@{()->viewModel.onClickRemoveFromMyCollection()}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="@dimen/spacing_16" />
+
+    </LinearLayout>
+
+</layout>

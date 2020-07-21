@@ -15,6 +15,7 @@ import com.core.wumfapp2020.base.showCountriesDialog
 import com.core.wumfapp2020.base.showSimpleDialog
 import com.core.wumfapp2020.databinding.FrgHomeBinding
 import com.core.wumfapp2020.di.injector
+import com.core.wumfapp2020.util.showInGooglePlay
 import com.core.wumfapp2020.viewmodel.*
 import com.core.wumfapp2020.viewmodel.home.HomeTitle
 import com.library.core.lazySavedStateViewModel
@@ -53,24 +54,11 @@ class HomeFragment : AppBaseFragment<FrgHomeBinding, HomeViewModel>(R.layout.frg
             dialog = showAppDialog(app, context,
                 {
                     dialog?.dismiss()
-                    showInGooglePlay(app.packageName, context)
+                    context.showInGooglePlay(app.packageName)
                 }, {
                     dialog?.dismiss()
                     viewModel.navigateToPeopleWhoLikes()
                 }, likes
-            )
-        }
-    }
-
-    fun showInGooglePlay(pkg: String, context: Context) {
-        try {
-            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$pkg")))
-        } catch (anfe: android.content.ActivityNotFoundException) {
-            context.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=$pkg")
-                )
             )
         }
     }
@@ -111,10 +99,10 @@ class HomeFragment : AppBaseFragment<FrgHomeBinding, HomeViewModel>(R.layout.frg
         if (countriesHolder.countries.isEmpty()) {
             countriesHolder.syncLoad()
         }
-        dialog = showCountriesDialog(requireContext(), countriesHolder.countries, -1, { country ->
+        dialog = showCountriesDialog(context = requireContext(), countries = countriesHolder.countries, checkedItem = -1, select = { country ->
             dialog?.dismiss()
             viewModel.pickedTypeOfApps(IN_ANOTHER_COUNTRY, country)
-        }, {})
+        })
     }
 
 }

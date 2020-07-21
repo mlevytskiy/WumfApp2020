@@ -1,26 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.appinfo.appmonsta.AppInfoView
-        android:id="@+id/app_info"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp" />
+    <data>
 
-    <TextView
-        android:layout_width="wrap_content"
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils"/>
+
+        <variable
+            name="viewModel"
+            type="com.core.wumfapp2020.base.dialogViewModels.CheckAppInGooglePlayViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Check is selected app\nexist on google play"
-        android:textSize="20dp"
-        android:gravity="center"
-        android:layout_marginTop="32dp"
-        android:textColor="@android:color/black" />
+        android:orientation="vertical" >
 
-<!--    @Todo: create view which will show status of app package: exist on google play; not exist; no internet connection-->
+        <com.appinfo.appmonsta.AppInfoView
+            android:id="@+id/app_info"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            app:model="@{viewModel.app}"
+            android:layout_gravity="center" />
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:paddingTop="16dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:minLines="1"
+            android:text="@{viewModel.title}"
+            android:textColor="@{viewModel.textColor}"
+            android:visibility="@{!TextUtils.isEmpty(viewModel.title)}"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:minLines="2"
+            android:text="@{viewModel.message}"
+            android:textColor="@{viewModel.textColor}"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_refresh_animated"
+            app:srcCompat="@drawable/ic_refresh_animated"
+            app:animatedDrawable="@{viewModel.progress}"
+            android:onClick="@{()->viewModel.recheck()}"
+            android:visibility="@{viewModel.showRecheckButton}"/>
+
+    </LinearLayout>
+
+</layout>

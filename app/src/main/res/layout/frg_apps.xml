@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -24,57 +25,68 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/header_height"
                 android:src="@drawable/home_top_bg"
                 android:scaleType="centerCrop"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/header_height"
                 android:background="@color/black_alpha_50" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your own app collection"
-                android:textSize="40dp"
+                android:text="@string/your_own_app_collection"
+                android:textSize="@dimen/text_size_40"
                 android:textColor="@android:color/white"
-                android:layout_marginStart="35dp"
-                android:layout_marginEnd="35dp"
-                android:padding="8dp"
+                android:layout_marginStart="@dimen/spacing_32"
+                android:layout_marginEnd="@dimen/spacing_32"
+                android:padding="@dimen/spacing_8"
                 android:gravity="center|start"
                 android:layout_centerInParent="true" />
 
         </RelativeLayout>
 
-<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/btnFloatingAction"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_margin="16dp"-->
-<!--            android:src="@drawable/ic_plus"-->
-<!--            app:backgroundTint="@color/cpb_red_dark"-->
-<!--            app:borderWidth="0dp"-->
-<!--            app:fabSize="normal" />-->
+        <com.core.core_adapters.AppsRecycleView
+            android:id="@+id/apps_recycle_view"
+            android:layout_below="@id/header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:items=""
+            app:getAllAppsFromPhone="false"
+            android:visibility="@{!viewModel.isMyCollectionEmpty}" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/spacing_16"
+            android:src="@drawable/ic_plus"
+            android:onClick="@{()->viewModel.onClickAddApp()}"
+            app:backgroundTint="@color/cpb_red_dark"
+            app:borderWidth="@dimen/spacing_none"
+            app:fabSize="mini"
+            android:visibility="@{!viewModel.isMyCollectionEmpty}"
+            tools:visibility="gone" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/header"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:visibility="@{viewModel.isMyCollectionEmpty}" >
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnFloatingAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_margin="16dp"
+                android:layout_margin="@dimen/spacing_16"
                 android:src="@drawable/ic_plus"
                 android:onClick="@{()->viewModel.onClickAddApp()}"
                 app:backgroundTint="@color/cpb_red_dark"
-                app:borderWidth="0dp"
+                app:borderWidth="@dimen/spacing_none"
                 app:fabSize="normal" />
 
         </RelativeLayout>

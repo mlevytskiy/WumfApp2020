@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:4359232735731778144",
-      "lastPropertyId": "6:3935107874185473110",
+      "lastPropertyId": "7:6904478928583484255",
       "name": "UserInfo",
       "properties": [
         {
@@ -40,6 +40,12 @@
           "id": "6:3935107874185473110",
           "name": "telegramUser",
           "type": 9
+        },
+        {
+          "id": "7:6904478928583484255",
+          "name": "countryMCC",
+          "type": 5,
+          "flags": 4
         }
       ],
       "relations": []

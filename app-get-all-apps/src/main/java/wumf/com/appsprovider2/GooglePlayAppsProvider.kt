@@ -12,16 +12,61 @@ import java.io.FileOutputStream
 import java.lang.Exception
 
 class GooglePlayAppsProvider(context: Context) {
+    companion object {
 
-    private val resources: Resources
-    private var filesDir: File
-    private val appSerializer = GPAppSerializer()
-    private val kryo = Kryo()
+        private val appSerializer = GPAppSerializer()
+        private val kryo = Kryo()
 
-    init {
-        filesDir = context.filesDir
-        resources = context.resources
+        fun fillAppFromGooglePlay(pkgName: String): GooglePlayApp {
+            val app = GooglePlayApp(pkgName)
+            fillApp(app, null)
+            return app
+        }
+
+        private fun fillApp(app: GooglePlayApp, filesDir: File?) {
+            val file = filesDir?.let { Util.getFile(app.packageName, filesDir) } ?: run { null }
+            if (file?.exists() == true) {
+                val input = Input(FileInputStream(file))
+                val appFromFile = kryo.readObject(input, GooglePlayApp::class.java, appSerializer)
+                app.name = appFromFile.name
+                app.iconUrl = appFromFile.iconUrl
+                input.close()
+            } else {
+                val url = "https://play.google.com/store/apps/details?id=" + app.packageName
+                try {
+                    val doc = Jsoup.connect(url).get()
+                    val metaElements = doc.select("meta[property=og:title]")
+                    var title = ""
+                    metaElements.singleOrNull()?.let {
+                        title = it.attr("content")
+                    }
+
+                    val images = doc.select("img[src]")
+                    val appIcon = images.filter {
+                        val url = it.absUrl("src")
+                        url.startsWith("https://lh3.googleusercontent.com/")
+                    }.find {
+                        (it.attr("alt").contentEquals("Cover art"))
+                    }?.absUrl("src")
+                    appIcon?.let {
+                        app.iconUrl = it
+                        app.name = title
+                    } ?:run {
+                        app.iconUrl = ""
+                        app.name = title
+                    }
+                    val out = Output(FileOutputStream(file))
+                    kryo.writeObject(out, app, appSerializer)
+                    out.close()
+                } catch (e: Exception) {
+                    //does nothing
+                }
+            }
+        }
     }
+
+    private val resources: Resources = context.resources
+    private var filesDir: File = context.filesDir
 
     fun filterOnlyGPApps(allApps: ArrayList<AppContainer>): ArrayList<AppContainer> {
         val result = ArrayList<AppContainer>()
@@ -57,56 +102,12 @@ class GooglePlayAppsProvider(context: Context) {
 
     private fun fillApp(appContainer: AppContainer) {
         appContainer.gpApp?.let {
-            fillApp(it)
+            fillApp(it, filesDir)
         } ?:run {
             val gpApp =  GooglePlayApp((appContainer.packageName))
             appContainer.gpApp = gpApp
-            fillApp(gpApp)
+            fillApp(gpApp, filesDir)
         }
     }
-
-    private fun fillApp(app: GooglePlayApp) {
-        val file = Util.getFile(app.packageName, filesDir)
-        if (file.exists()) {
-            val input = Input(FileInputStream(file))
-            val appFromFile = kryo.readObject(input, GooglePlayApp::class.java, appSerializer)
-            app.name = appFromFile.name
-            app.iconUrl = appFromFile.iconUrl
-            input.close()
-        } else {
-            val url = "https://play.google.com/store/apps/details?id=" + app.packageName
-            try {
-                val doc = Jsoup.connect(url).get()
-                val metaElements = doc.select("meta[property=og:title]")
-                var title = ""
-                metaElements.singleOrNull()?.let {
-                    title = it.attr("content")
-                }
-
-                val images = doc.select("img[src]")
-                val appIcon = images.filter {
-                    val url = it.absUrl("src")
-                    url.startsWith("https://lh3.googleusercontent.com/")
-                }.find {
-                    (it.attr("alt").contentEquals("Cover art"))
-                }?.absUrl("src")
-                appIcon?.let {
-                    app.iconUrl = it
-                    app.name = title
-                } ?:run {
-                    app.iconUrl = ""
-                    app.name = title
-                }
-                val out = Output(FileOutputStream(file))
-                kryo.writeObject(out, app, appSerializer)
-                out.close()
-            } catch (e: Exception) {
-                //does nothing
-            }
-        }
-
-    }
-
-
 
 }

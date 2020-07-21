@@ -16,22 +16,23 @@
     <!--isDefault spacings-->
     <dimen name="spacing_none">0dp</dimen>
     <dimen name="spacing_divider">1dp</dimen>
-    <dimen name="spacing_quarter">2dp</dimen>
-    <dimen name="spacing_semi">4dp</dimen>
-    <dimen name="spacing_normal">8dp</dimen>
-    <dimen name="spacing_normal_semi">12dp</dimen>
-    <dimen name="spacing_double">16dp</dimen>
-    <dimen name="spacing_double_semi">20dp</dimen>
-    <dimen name="spacing_triple">24dp</dimen>
-    <dimen name="spacing_quadruple">32dp</dimen>
-    <dimen name="spacing_quintuple">40dp</dimen>
-    <dimen name="spacing_sextuple">48dp</dimen>
-    <dimen name="spacing_septuple">56dp</dimen>
-    <dimen name="spacing_large">64dp</dimen>
-    <dimen name="spacing_xl">72dp</dimen>
+    <dimen name="spacing_2">2dp</dimen>
+    <dimen name="spacing_4">4dp</dimen>
+    <dimen name="spacing_8">8dp</dimen>
+    <dimen name="spacing_12">12dp</dimen>
+    <dimen name="spacing_16">16dp</dimen>
+    <dimen name="spacing_20">20dp</dimen>
+    <dimen name="spacing_24">24dp</dimen>
+    <dimen name="spacing_32">32dp</dimen>
+    <dimen name="spacing_40">40dp</dimen>
+    <dimen name="spacing_48">48dp</dimen>
+    <dimen name="spacing_56">56dp</dimen>
+    <dimen name="spacing_64">64dp</dimen>
+    <dimen name="spacing_72">72dp</dimen>
     <dimen name="common_margin">16dp</dimen>
 
     <dimen name="toolbar_delimiter">6dp</dimen>
+    <dimen name="header_height">200dp</dimen>
 
     <!-- shadow -->
     <dimen name="shadow_top">1dp</dimen>

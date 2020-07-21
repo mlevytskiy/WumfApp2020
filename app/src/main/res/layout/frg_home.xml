@@ -45,8 +45,8 @@
                     android:onClick="@{()->viewModel.loadData()}"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:paddingBottom="@dimen/spacing_double"
-                    android:paddingEnd="@dimen/spacing_normal_semi" />
+                    android:paddingBottom="@dimen/spacing_16"
+                    android:paddingEnd="@dimen/spacing_12" />
 
             </RelativeLayout>
 

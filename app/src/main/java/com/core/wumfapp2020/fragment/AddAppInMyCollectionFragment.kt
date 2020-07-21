@@ -5,6 +5,7 @@ import android.view.View
 import androidx.navigation.ui.setupWithNavController
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.base.AppBaseFragment
+import com.core.wumfapp2020.base.showCheckAppIfExistOnGooglePlayDialog
 import com.core.wumfapp2020.databinding.FrgAddAppInMyCollectionBinding
 import com.core.wumfapp2020.di.injector
 import com.core.wumfapp2020.viewmodel.AddAppInMyCollectionViewModel
@@ -23,8 +24,9 @@ class AddAppInMyCollectionFragment : AppBaseFragment<FrgAddAppInMyCollectionBind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.appsRecycleView.setItemClick { appContainer, list ->
-
+        binding.appsRecycleView.setItemClick { appContainer, _ ->
+            showCheckAppIfExistOnGooglePlayDialog(requireContext(), appContainer, { viewModel.addAppToMyCollection(appContainer.packageName) },
+                { viewModel.moveToMyCollectionScreen() } )
         }
     }
 

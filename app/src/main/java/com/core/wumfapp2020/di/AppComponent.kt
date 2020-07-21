@@ -6,17 +6,19 @@ import android.provider.Settings
 import com.app.api.api.HeaderInterceptor
 import com.app.api.api.WumfApi
 import com.core.wumfapp2020.BuildConfig
-import com.core.wumfapp2020.FastActivity
 import com.core.wumfapp2020.InternetConnectionChecker
 import com.core.wumfapp2020.base.ColorRes
 import com.core.wumfapp2020.base.StringRes
 import com.core.wumfapp2020.base.countriesdialog.CountriesHolder
+import com.core.wumfapp2020.memory.MyAppsCollectionRepository
+import com.core.wumfapp2020.memory.MyObjectBox
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.testdi.WumfActivity
 import javax.inject.Singleton
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import dagger.*
+import io.objectbox.BoxStore
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -72,10 +74,26 @@ object AppModule {
     @JvmStatic
     @Singleton
     @Provides
-    fun provideUserInfoRepository(context: Context): UserInfoRepository {
-        val repository = UserInfoRepository(context)
+    fun provideUserInfoRepository(boxStore: BoxStore): UserInfoRepository {
+        val repository = UserInfoRepository(boxStore)
         repository.initCache()
         return repository
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideMyAppsCollectionRepository(boxStore: BoxStore): MyAppsCollectionRepository {
+        val repository = MyAppsCollectionRepository(boxStore)
+        repository.initCache()
+        return repository
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideBoxStore(context: Context): BoxStore {
+        return MyObjectBox.builder().androidContext(context).buildDefault()
     }
 
     @JvmStatic
