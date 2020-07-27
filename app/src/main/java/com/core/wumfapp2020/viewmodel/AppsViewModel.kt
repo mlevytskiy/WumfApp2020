@@ -3,7 +3,6 @@ package com.core.wumfapp2020.viewmodel
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
-import com.app.api.api.App
 import com.core.wumfapp2020.InternetConnectionChecker
 import com.core.wumfapp2020.fragment.AppsFragmentDirections
 import com.core.wumfapp2020.memory.MyAppsCollectionRepository
@@ -40,6 +39,7 @@ class AppsViewModel @Inject constructor(private val connectionChecker: InternetC
             val appsStr = prepareAppsForAdapter(appsRepository.getMyApps())
             showPickedAppsMutable.postEvent(PickedApps(appsStr, emptyMap()))
         }
+        syncMyAppsMutable.postEvent(Unit)
     }
 
     fun removeAppFromMemory(pkg: String) {

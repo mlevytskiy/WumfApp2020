@@ -1,4 +1,4 @@
-package com.core.wumfapp2020.memory
+package com.core.wumfapp2020.memory.impl
 
 import io.objectbox.Box
 import io.objectbox.BoxStore

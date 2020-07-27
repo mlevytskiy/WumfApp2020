@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import java.lang.ref.WeakReference
@@ -13,7 +15,7 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(private val
 
     protected abstract val viewModel: VM
 
-    private lateinit var binding: B
+    protected lateinit var binding: B
 
     val navController by unsyncLazy {
         val controller = Navigation.findNavController(this, navRes)
@@ -41,6 +43,12 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(private val
         } ?: run {
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    fun <T> observeEvent(liveData: LiveData<T>, onUnhandledEvent: (T) -> Unit) {
+        liveData.observe(this, Observer {
+            onUnhandledEvent(it)
+        })
     }
 
 }

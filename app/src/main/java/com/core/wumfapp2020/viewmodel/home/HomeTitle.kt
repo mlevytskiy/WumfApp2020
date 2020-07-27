@@ -5,10 +5,12 @@ import androidx.databinding.ObservableField
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.base.ColorRes
 import com.core.wumfapp2020.base.StringRes
+import wumf.com.detectphone.Country
 
-class HomeTitle(private val strRes: StringRes, colorRes: ColorRes, type: Type = Type.IN_THE_WORLD): ObservableField<Spannable>() {
+class HomeTitle(private val strRes: StringRes, colorRes: ColorRes, type: Type = Type.IN_THE_WORLD,
+                var country: Country? = null): ObservableField<Spannable>() {
 
-    var countryName: String = "Ukraine"
+    private val defaultCountry = Country(name = "Ukraine", code= "", mcc=0)
 
     var type: Type = type
         set(value) {
@@ -31,7 +33,7 @@ class HomeTitle(private val strRes: StringRes, colorRes: ColorRes, type: Type = 
     private fun getTagStr(strRes: StringRes, type: Type) = when (type) {
         Type.IN_THE_WORLD -> strRes.getStrFromArray(R.array.type_of_apps, 0)
         Type.IN_ANOTHER_COUNTRY,
-        Type.IN_MY_COUNTRY -> String.format(strRes.getStrFromArray(R.array.type_of_apps, 1), countryName)
+        Type.IN_MY_COUNTRY -> String.format(strRes.getStrFromArray(R.array.type_of_apps, 1), country?.name)
         Type.AMONG_FRIENDS -> strRes.getStrFromArray(R.array.type_of_apps, 3)
     }
 

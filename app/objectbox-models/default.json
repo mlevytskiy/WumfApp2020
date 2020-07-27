@@ -52,7 +52,7 @@
     },
     {
       "id": "2:7779371241246431488",
-      "lastPropertyId": "2:6111960840998104262",
+      "lastPropertyId": "4:6138671705803097172",
       "name": "MyAppsCollection",
       "properties": [
         {
@@ -65,12 +65,46 @@
           "id": "2:6111960840998104262",
           "name": "apps",
           "type": 9
+        },
+        {
+          "id": "3:985082656612223583",
+          "name": "deferredTaskAddApps",
+          "type": 9
+        },
+        {
+          "id": "4:6138671705803097172",
+          "name": "deferredTaskRemoveApps",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:7618270660564823287",
+      "lastPropertyId": "3:4174055873439965243",
+      "name": "HomeState",
+      "properties": [
+        {
+          "id": "1:6270374538293072528",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:7440057563899956247",
+          "name": "apps",
+          "type": 9
+        },
+        {
+          "id": "3:4174055873439965243",
+          "name": "appsSource",
+          "type": 9
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "2:7779371241246431488",
+  "lastEntityId": "3:7618270660564823287",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

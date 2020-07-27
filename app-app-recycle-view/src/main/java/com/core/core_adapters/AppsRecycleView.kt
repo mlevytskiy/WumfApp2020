@@ -1,12 +1,15 @@
 package com.core.core_adapters
 
 import android.content.Context
+import android.os.Parcelable
 import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import wumf.com.appsprovider2.AppContainer
 import wumf.com.appsprovider2.AppProvider
+
 
 class AppsRecycleView(context: Context, attr: AttributeSet?) : RecyclerView(context, attr) {
 
@@ -50,6 +53,10 @@ class AppsRecycleView(context: Context, attr: AttributeSet?) : RecyclerView(cont
         } else {
             emptyList()
         }
+        setPackages(packages, likes)
+    }
+
+    fun setPackages(packages: List<String>, likes: Map<String, List<Int>>) {
         if (!getAllAppsFromPhone && packages.isEmpty()) {
             val adapter = getAdapter() as AppsAdapter?
             adapter?.apps?.clear()
@@ -62,6 +69,7 @@ class AppsRecycleView(context: Context, attr: AttributeSet?) : RecyclerView(cont
                 updateBlock = { apps ->
                     adapter?.notifyDataSetChanged() ?: run {
                         adapter = AppsAdapter(apps, likes, itemListener)
+                        adapter?.stateRestorationPolicy = Adapter.StateRestorationPolicy.ALLOW
                         setAdapter(adapter)
                     }
                 },

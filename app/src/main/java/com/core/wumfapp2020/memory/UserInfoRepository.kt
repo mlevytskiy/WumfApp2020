@@ -1,5 +1,7 @@
 package com.core.wumfapp2020.memory
 
+import com.core.wumfapp2020.memory.impl.BaseRepository
+import com.core.wumfapp2020.memory.impl.RegistrationInfo
 import io.objectbox.BoxStore
 import io.objectbox.kotlin.query
 

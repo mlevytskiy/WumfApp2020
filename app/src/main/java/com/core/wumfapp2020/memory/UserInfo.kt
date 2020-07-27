@@ -1,5 +1,7 @@
 package com.core.wumfapp2020.memory
 
+import com.core.wumfapp2020.memory.impl.RegistrationInfo
+import com.core.wumfapp2020.memory.impl.RegistrationInfoConverter
 import io.objectbox.annotation.Convert
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id

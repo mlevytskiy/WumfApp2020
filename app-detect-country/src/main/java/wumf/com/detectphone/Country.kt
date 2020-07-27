@@ -1,3 +1,3 @@
 package wumf.com.detectphone
 
-class Country(val name: String = "", val code: String = "", val mcc: Int)
+class Country(var name: String = "", val code: String = "", val mcc: Int)

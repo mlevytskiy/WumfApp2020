@@ -1,4 +1,4 @@
-package com.core.wumfapp2020.memory
+package com.core.wumfapp2020.memory.impl
 
 class RegistrationInfo {
 

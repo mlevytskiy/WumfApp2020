@@ -10,6 +10,7 @@ import com.core.wumfapp2020.InternetConnectionChecker
 import com.core.wumfapp2020.base.ColorRes
 import com.core.wumfapp2020.base.StringRes
 import com.core.wumfapp2020.base.countriesdialog.CountriesHolder
+import com.core.wumfapp2020.memory.HomeStateRepository
 import com.core.wumfapp2020.memory.MyAppsCollectionRepository
 import com.core.wumfapp2020.memory.MyObjectBox
 import com.core.wumfapp2020.memory.UserInfoRepository
@@ -76,6 +77,15 @@ object AppModule {
     @Provides
     fun provideUserInfoRepository(boxStore: BoxStore): UserInfoRepository {
         val repository = UserInfoRepository(boxStore)
+        repository.initCache()
+        return repository
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideHomeStateRepository(boxStore: BoxStore): HomeStateRepository {
+        val repository = HomeStateRepository(boxStore)
         repository.initCache()
         return repository
     }

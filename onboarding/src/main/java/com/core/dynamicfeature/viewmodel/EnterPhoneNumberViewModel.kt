@@ -9,14 +9,15 @@ import com.app.api.api.LoginRequest
 import com.app.api.api.RegistrationRequest
 import com.app.api.api.WumfApi
 import com.core.dynamicfeature.fragment.EnterPhoneNumberFragmentDirections
-import com.core.wumfapp2020.memory.RegistrationInfo
+import com.core.wumfapp2020.memory.impl.RegistrationInfo
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.viewmodel.ResultStatus
 import com.core.wumfapp2020.viewmodel.SharedViewModel
 import com.library.core.BaseViewModel
+import com.library.telegramkotlinapi.FakeTelegramApi
+import com.library.telegramkotlinapi.FakeTelegramApi.AuthWithPhoneResult
 import com.library.telegramkotlinapi.SimpleTelegramApi
 import com.library.telegramkotlinapi.TelegramUser
-import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -59,7 +60,7 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
     var code: String = ""
     var state: State = State.ENTER_PHONE_NUMBER
 
-    private val telegramApi = SimpleTelegramApi().client(client)
+    private val telegramApi = FakeTelegramApi().client(client)
 
     fun getSystemPhoneNumber() = userInfoRepository.getPhoneNumberFromSystem()
 
@@ -176,7 +177,7 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
         showNextButtonInProgressStateMutable.postEvent(Unit)
         state = State.PROGRESS
         startBgJob {
-            var sendPhoneNumberResult: SimpleTelegramApi.AuthWithPhoneResult? = null
+            var sendPhoneNumberResult: AuthWithPhoneResult? = null
             val sendPhoneNumberOperation = scope.async {
                 sendPhoneNumberResult = telegramApi.authWithPhone(phoneNumber)
             }
@@ -185,13 +186,13 @@ class EnterPhoneNumberViewModel @AssistedInject constructor(val sharedViewModel:
             sendPhoneNumberOperation.await()
 
             when (sendPhoneNumberResult) {
-                SimpleTelegramApi.AuthWithPhoneResult.SUCCESS -> {
+                AuthWithPhoneResult.SUCCESS -> {
                     toast("onClickSendPhone success")
                 }
-                SimpleTelegramApi.AuthWithPhoneResult.ERROR -> {
+                AuthWithPhoneResult.ERROR -> {
                     toast("onClickSendPhone error")
                 }
-                SimpleTelegramApi.AuthWithPhoneResult.ERROR_TOO_MANY_REQUESTS -> {
+                AuthWithPhoneResult.ERROR_TOO_MANY_REQUESTS -> {
                     toast("Too many requests")
                 }
             }

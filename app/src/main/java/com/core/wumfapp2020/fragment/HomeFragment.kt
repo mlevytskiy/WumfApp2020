@@ -1,9 +1,6 @@
 package com.core.wumfapp2020.fragment
 
-import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import com.core.wumfapp2020.R
@@ -24,15 +21,15 @@ import wumf.com.detectphone.Country
 
 class HomeFragment : AppBaseFragment<FrgHomeBinding, HomeViewModel>(R.layout.frg_home) {
 
-    override val viewModel by lazySavedStateViewModel {
-        injector.homeViewModelFactory.create(it)
+    override val viewModel by lazySavedStateViewModel { state->
+        injector.homeViewModelFactory.create()
     }
 
     override val bottomTabs = VisibleBottomTabsState(0)
 
     override fun setViewModelInBinding(binding: FrgHomeBinding, viewModel: HomeViewModel) {
         binding.viewModel = viewModel
-        viewModel.loadData()
+        viewModel.loadDataIfMemoryEmpty()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

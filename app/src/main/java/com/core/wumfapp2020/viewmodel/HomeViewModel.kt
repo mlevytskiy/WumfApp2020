@@ -2,20 +2,21 @@ package com.core.wumfapp2020.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.MutableLiveData
 import com.app.api.api.*
 import com.core.wumfapp2020.InternetConnectionChecker
 import com.core.wumfapp2020.base.ColorRes
 import com.core.wumfapp2020.base.StringRes
 import com.core.wumfapp2020.base.countriesdialog.CountriesHolder
 import com.core.wumfapp2020.fragment.HomeFragmentDirections
+import com.core.wumfapp2020.memory.HomeState
+import com.core.wumfapp2020.memory.HomeStateRepository
 import com.core.wumfapp2020.memory.UserInfoRepository
+import com.core.wumfapp2020.memory.impl.*
 import com.core.wumfapp2020.viewmodel.home.HomeTitle
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.library.core.BaseViewModel
 import com.library.core.SingleLiveEvent
-import com.library.core.delegate
-import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import retrofit2.Call
 import wumf.com.detectphone.AppCountryDetector
@@ -26,7 +27,7 @@ const val IN_MY_COUNTRY = 1
 const val IN_ANOTHER_COUNTRY = 2
 const val AMONG_FRIENDS = 3
 
-class HomeViewModel @AssistedInject constructor(@Assisted handle: SavedStateHandle, private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager,
+class HomeViewModel @AssistedInject constructor(private val homeStateRepository: HomeStateRepository, private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager,
                                                 val sharedViewModel: SharedViewModel, val memory: UserInfoRepository,
                                                 stringRes: StringRes, colorRes: ColorRes, private val countryHolder: CountriesHolder,
                                                 private val wumfApi: WumfApi
@@ -37,19 +38,43 @@ class HomeViewModel @AssistedInject constructor(@Assisted handle: SavedStateHand
     private val showPickAppCategoryDialogMutable = SingleLiveEvent<HomeTitle.Type>()
     val showPickAppCategoryDialog: LiveData<HomeTitle.Type> = showPickAppCategoryDialogMutable
 
-    class PickedApps(val appPackages: String, val likes: Map<String, List<Int>>)
-    private val showPickedAppsMutable = SingleLiveEvent<PickedApps>()
+    class PickedApps(val appPackages: List<String>, val likes: Map<String, List<Int>>)
+    private val showPickedAppsMutable = MutableLiveData<PickedApps>().apply {
+        if (!homeStateRepository.isEmpty()) {
+            homeStateRepository.currentT()?.let {
+                this.value = PickedApps(it.apps.map { app->app.packageName }, it.apps.associate { app-> app.packageName to app.whoLikes })
+            }
+        }
+    }
     val showPickedApps: LiveData<PickedApps> = showPickedAppsMutable
 
     private val showCountriesDialogMutable = SingleLiveEvent<CountriesHolder>()
     val showCountriesDialog: LiveData<CountriesHolder> = showCountriesDialogMutable
 
-    private var type by handle.delegate<HomeTitle.Type>()
-    val span = HomeTitle(stringRes, colorRes, type ?: HomeTitle.Type.IN_THE_WORLD)
+    val span = HomeTitle(stringRes, colorRes, getHomeTitleType(homeStateRepository.currentT()), getCountry(homeStateRepository.currentT()))
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(handle: SavedStateHandle): HomeViewModel
+        fun create(): HomeViewModel
+    }
+
+    private fun getHomeTitleType(state: com.core.wumfapp2020.memory.HomeState?): HomeTitle.Type {
+        if (state == null) {
+            return HomeTitle.Type.IN_THE_WORLD
+        }
+        return when(state.appsSource.type) {
+            TYPE_IN_THE_WORLD -> HomeTitle.Type.IN_THE_WORLD
+            TYPE_IN_ANOTHER_COUNTRY -> HomeTitle.Type.IN_ANOTHER_COUNTRY
+            TYPE_IN_MY_COUNTRY -> HomeTitle.Type.IN_MY_COUNTRY
+            TYPE_AMONG_FRIENDS -> HomeTitle.Type.AMONG_FRIENDS
+            else -> HomeTitle.Type.IN_THE_WORLD
+        }
+    }
+
+    private fun getCountry(state: HomeState?): Country? {
+        val country =  AppCountryDetector.detectCountryByPhoneCode(state?.appsSource?.countryMCC)
+        country?.name = state?.appsSource?.countryName ?: ""
+        return country
     }
 
     override fun handleException(e: Throwable) {
@@ -68,8 +93,8 @@ class HomeViewModel @AssistedInject constructor(@Assisted handle: SavedStateHand
             }
             IN_MY_COUNTRY -> {
                 val defaultCountry = getDefaultCountry()
-                span.countryName = defaultCountry?.name?:""
                 defaultCountry?.let {
+                    span.country = it
                     getCountryApps(it.code)
                 }
                 span.type = HomeTitle.Type.IN_MY_COUNTRY
@@ -80,7 +105,7 @@ class HomeViewModel @AssistedInject constructor(@Assisted handle: SavedStateHand
                     showCountriesDialogMutable.postEvent(countryHolder)
                     return
                 }
-                span.countryName = country.name
+                span.country = country
                 getCountryApps(country.code)
                 span.type = HomeTitle.Type.IN_ANOTHER_COUNTRY
                 span.forciblyTextUpdate()
@@ -88,6 +113,12 @@ class HomeViewModel @AssistedInject constructor(@Assisted handle: SavedStateHand
             AMONG_FRIENDS -> {
                 span.type = HomeTitle.Type.AMONG_FRIENDS
             }
+        }
+    }
+
+    fun loadDataIfMemoryEmpty() {
+        if (homeStateRepository.isEmpty()) {
+            loadData()
         }
     }
 
@@ -106,7 +137,6 @@ class HomeViewModel @AssistedInject constructor(@Assisted handle: SavedStateHand
 
     fun getAllWorldApps() {
         startBgJob {
-            Log.i("testr", "thread=" + Thread.currentThread())
             callRetrofit(
                 call = wumfApi.getNotMyApps(GetNotMyAppsRequest(allWorld = true, friends= emptyList())),
                 result = { response ->
@@ -157,20 +187,25 @@ class HomeViewModel @AssistedInject constructor(@Assisted handle: SavedStateHand
 
     private fun fillApps(response: GetNotMyAppsResponse?) {
         response?.let {
-            val appsStr = prepareAppsForAdapter(it.apps)
             val likes = prepareLikesForAdapter(it.apps)
-            showPickedAppsMutable.postEvent(PickedApps(appsStr, likes))
+            homeStateRepository.update(createHomeState(it.apps, span.type, span.country?.mcc?:0, span.country?.name?:""))
+            showPickedAppsMutable.postEvent(PickedApps(it.apps.map {app->app.packageName }, likes))
         } ?: kotlin.run {
             toast("response is null")
         }
     }
 
-    private fun prepareAppsForAdapter(apps: List<App>): String {
-        if (apps.isEmpty()) {
-            return ""
-        } else {
-            return apps.map { it.packageName }.joinToString(",")
+    private fun createHomeState(apps: List<App>, type: HomeTitle.Type, countryMMI: Int, countryName: String): HomeState {
+        val state = HomeState()
+        state.apps = apps.map { app-> com.core.wumfapp2020.memory.App(app.packageName, app.whoLikes) }.toMutableList()
+        val typeInt = when(type) {
+            HomeTitle.Type.IN_MY_COUNTRY-> TYPE_IN_MY_COUNTRY
+            HomeTitle.Type.IN_ANOTHER_COUNTRY-> TYPE_IN_ANOTHER_COUNTRY
+            HomeTitle.Type.IN_THE_WORLD-> TYPE_IN_THE_WORLD
+            else -> TYPE_AMONG_FRIENDS
         }
+        state.appsSource = HomeAppsSource(typeInt, countryMMI, countryName)
+        return state
     }
 
     private fun prepareLikesForAdapter(apps: List<App>): Map<String, List<Int>> {

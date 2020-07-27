@@ -68,6 +68,14 @@ abstract class BaseViewModel: ViewModel(), Observable {
         })
     }
 
+    fun startLongBgJob(block: suspend CoroutineScope.() -> Unit): Job {
+        progress.set(true)
+        return scope.launch(context = Dispatchers.IO, block = {
+            block.invoke(this)
+            progress.set(false)
+        })
+    }
+
     suspend fun <T> runMain(block: suspend CoroutineScope.() -> T): T =
         withContext(Dispatchers.Main, block)
 
@@ -96,6 +104,11 @@ abstract class BaseViewModel: ViewModel(), Observable {
 
     fun popBack() {
         popBackToMutable.postValue(PopBackTo(POP_BACK, false))
+    }
+
+    companion object {
+        val syncMyAppsMutable = SingleLiveEvent<Unit>()
+        val syncMyApps: LiveData<Unit> = syncMyAppsMutable
     }
 
 }
