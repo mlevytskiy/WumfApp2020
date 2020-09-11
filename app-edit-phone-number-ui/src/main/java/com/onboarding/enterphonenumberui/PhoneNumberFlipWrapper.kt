@@ -38,6 +38,10 @@ class PhoneNumberFlipWrapper(context: Context, attrs: AttributeSet) : FrameLayou
             codeEditText?.codeChangeListener = value
         }
 
+    fun setCode(code: String) {
+        codeEditText?.setCode(code)
+    }
+
     init {
         val view = View.inflate(getContext(), R.layout.view_phone_number_flip_wrapper, this)
         rightOut = AnimatorInflater.loadAnimator(context, R.animator.out_animation) as AnimatorSet
@@ -127,7 +131,7 @@ class PhoneNumberFlipWrapper(context: Context, attrs: AttributeSet) : FrameLayou
         }
     }
 
-    fun getCode() = codeEditText?.getCode()
+    fun getCode() = codeEditText!!.getCode()
 
     fun isBackCardShowed() = isBackVisible
 

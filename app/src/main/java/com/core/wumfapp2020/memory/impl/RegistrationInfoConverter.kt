@@ -28,7 +28,11 @@ class RegistrationInfoConverter : PropertyConverter<RegistrationInfo, String> {
         val arr = databaseValue.split(DIMEN)
         result.photo = arr[0]
         result.name = arr[1]
-        result.telegramId = arr[2].toInt()
+        try {
+            result.telegramId = arr[2].toInt()
+        } catch (e: Exception) {
+            result.telegramId = 0
+        }
         result.hasRegistration = arr[3].toBoolean()
         result.isRegWumfChecked = arr[4].toBoolean()
         return result

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils"/>
+
+        <variable
+            name="viewModel"
+            type="com.core.wumfapp2020.base.dialogViewModels.SuccessLoginViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            app:filePath="@{viewModel.photoFilePath}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:paddingTop="16dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:minLines="1"
+            android:text="@{@string/thank_you(viewModel.name)}"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:paddingTop="16dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:minLines="1"
+            android:text="@{@plurals/who_from_your_contacts_use_the_app(viewModel.contactsAmount, viewModel.contactsAmount)}"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_refresh_animated"
+            app:srcCompat="@drawable/ic_refresh_animated"
+            app:animatedDrawable="@{viewModel.progress}" />
+
+    </LinearLayout>
+
+</layout>

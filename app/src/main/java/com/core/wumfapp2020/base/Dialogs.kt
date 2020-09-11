@@ -8,21 +8,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ListView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.appinfo.appmonsta.AppInfoView
 import com.core.wumfapp2020.DynamicApp
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.base.countriesdialog.CountriesAdapter
 import com.core.wumfapp2020.databinding.DialogAppBinding
 import com.core.wumfapp2020.databinding.DialogAppInMyCollectionBinding
 import com.core.wumfapp2020.databinding.DialogCheckAppInGooglePlayBinding
+import com.core.wumfapp2020.databinding.DialogSuccessLoginBinding
 import com.core.wumfapp2020.di.AppComponent
+import org.drinkless.td.libcore.telegram.TdApi
 import wumf.com.appsprovider2.AppContainer
 import wumf.com.detectphone.Country
 
 
 var dialog : AlertDialog? = null //last dialog
+
 fun showCheckAppIfExistOnGooglePlayDialog(context: Context, appContainer: AppContainer, addPkgInMemory: ()->Unit,
                                           moveToAddToMyCollectionScreen: ()->Unit): DialogInterface {
     val dialog = createDialogBuilder(context)
@@ -32,6 +33,27 @@ fun showCheckAppIfExistOnGooglePlayDialog(context: Context, appContainer: AppCon
     dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context, R.color.blue))
     com.core.wumfapp2020.base.dialog = dialog
     return dialog
+}
+
+fun showSuccessLoginDialog(context: Context, image: TdApi.File?, name: String, contactsAmount: Int) {
+    dialog = createDialogBuilder(context)
+        .setView(createSuccessLoginDialogView(context, image, name, contactsAmount) { dialog?.dismiss() })
+        .show()
+}
+
+fun createSuccessLoginDialogView(context: Context, image: TdApi.File?, name: String, contactsAmount: Int, dismissDialog: ()->Unit): View {
+    val binding = DialogSuccessLoginBinding.inflate(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as @org.jetbrains.annotations.NotNull LayoutInflater)
+    val viewModel = getAppComponent().successLoginViewModelFactory.create(image, name, contactsAmount, dismissDialog)
+    binding.viewModel = viewModel
+    return binding.root
+}
+
+fun showErrorDialog(context: Context, message: String): DialogInterface {
+    return createDialogBuilder(context).setMessage(message).show()
+}
+
+private fun createSuccessLogin(context: Context) {
+
 }
 
 private fun createCheckAppIfExistOnGooglePlayDialogView(context: Context, appContainer: AppContainer, addPkgInMemory: ()->Unit,

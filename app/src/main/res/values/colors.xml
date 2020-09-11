@@ -9,6 +9,8 @@
     <color name="gray3">#7fAFB0AB</color>
     <color name="orange">#F65C1F</color>
 
+    <color name="cpb_red_dark">#ffcd3a3a</color>
+
     <color name="red">#ffAF0B10</color>
     <color name="green">#ff0B6A4E</color>
     <color name="black">#ff000000</color>
@@ -16,6 +18,7 @@
     <color name="gray1">#7f54B6CB</color>
     <color name="gray2">#ffffffff</color>
     <color name="white">#7fffffff</color>
+    <color name="very_light_gray">#ffefefef</color>
     <color name="telegramBg">#ff34A2DF</color>
     <color name="anonymouslyBg">#ff232427</color>
     <color name="yellow">#FECD50</color>

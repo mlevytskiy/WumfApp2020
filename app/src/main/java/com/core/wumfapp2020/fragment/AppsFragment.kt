@@ -1,9 +1,6 @@
 package com.core.wumfapp2020.fragment
 
-import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import com.core.wumfapp2020.R
@@ -30,7 +27,7 @@ class AppsFragment : AppBaseFragment<FrgAppsBinding, AppsViewModel>(R.layout.frg
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeEvent(viewModel.showPickedApps) {
+        observeState(viewModel.showPickedApps) {
             binding.appsRecycleView.setPackages(it.appPackages, it.likes)
         }
         var dialog : DialogInterface? = null

@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.text.Html
 import android.text.Spannable
@@ -27,8 +28,18 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import java.io.File
 
 object DataBindingAdapters {
+
+    @JvmStatic
+    @BindingAdapter("filePath")
+    fun setImage(view: ImageView, filePath: String) {
+        val imgFile = File(filePath)
+        if(imgFile.exists()) {
+            view.setImageURI(Uri.fromFile(imgFile))
+        }
+    }
 
     @JvmStatic
     @BindingAdapter("animatedDrawable")

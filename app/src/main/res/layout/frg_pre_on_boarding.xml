@@ -146,17 +146,7 @@
             android:layout_height="match_parent"
             android:background="@color/gray2"
             android:visibility="@{viewModel.prepareNavigateToHome}"
-            tools:visibility="gone">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_refresh_animated"
-                app:srcCompat="@drawable/ic_refresh_animated"
-                app:animatedDrawable="@{viewModel.prepareNavigateToHome}" />
-
-        </FrameLayout>
+            tools:visibility="gone" />
 
     </FrameLayout>
 

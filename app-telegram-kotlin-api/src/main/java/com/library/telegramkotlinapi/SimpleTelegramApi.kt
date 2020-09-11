@@ -1,5 +1,6 @@
 package com.library.telegramkotlinapi
 
+import com.library.telegramkotlinapi.TelegramApi.*
 import com.library.telegramkotlinapi.handler.AuthorizationResponseHandler
 import com.library.telegramkotlinapi.handler.CheckCodeResponseHandler
 import com.library.telegramkotlinapi.handler.GetContactsResponseHandler
@@ -9,41 +10,55 @@ import org.drinkless.td.libcore.telegram.TdApi
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class SimpleTelegramApi {
+class SimpleTelegramApi(private val client: Client): TelegramApi {
 
-    private var client: Client? = null
-
-    fun client(client: Client): SimpleTelegramApi {
-        this.client = client
-        return this
-    }
-
-    suspend fun authWithPhone(phone: String): AuthWithPhoneResult = suspendCoroutine { cont ->
+    override suspend fun authWithPhone(phone: String): AuthWithPhoneResult = suspendCoroutine { cont ->
         val phoneNumber = phone.replace(" ", "")
-        client?.send(
+        client.send(
             TdApi.SetAuthenticationPhoneNumber(phoneNumber, TdApi.PhoneNumberAuthenticationSettings(true, true, false)),
             AuthorizationResponseHandler(
-                { cont.resume(AuthWithPhoneResult.SUCCESS) },
-                { cont.resume(AuthWithPhoneResult.ERROR) },
-                { cont.resume(AuthWithPhoneResult.ERROR_TOO_MANY_REQUESTS) }))
+                successHandle = { cont.resume(AuthWithPhoneResult.SUCCESS) },
+                errorHandle = { code, msg ->
+                    run {
+                        AuthWithPhoneResult.ERROR.errorMsg = msg
+                        AuthWithPhoneResult.ERROR.errorCode = code
+                        cont.resume(AuthWithPhoneResult.ERROR)
+                    }
+                },
+                tooManyRequestsErrorHandler = { code, msg ->
+                    run {
+                        AuthWithPhoneResult.ERROR.errorMsg = msg
+                        AuthWithPhoneResult.ERROR.errorCode = code
+                        cont.resume(AuthWithPhoneResult.ERROR_TOO_MANY_REQUESTS)
+                    }
+                })
+        )
     }
 
-    suspend fun checkVerificationCode(code: String): Boolean = suspendCoroutine { cont ->
-        client?.send(TdApi.CheckAuthenticationCode(code), CheckCodeResponseHandler({ cont.resume(true) }, { cont.resume(false) }))
+    override suspend fun checkVerificationCode(code: String): TrueOrError = suspendCoroutine { cont ->
+        client.send(TdApi.CheckAuthenticationCode(code), CheckCodeResponseHandler(
+            successHandle = { cont.resume(TrueOrError(value = true)) },
+            errorHandle = { errorCode, message -> cont.resume(TrueOrError(value = false, errorCode = errorCode, errorMessage = message)) }))
     }
 
-    suspend fun getUserInfo(): TelegramUser? = suspendCoroutine { cont ->
-        client?.send(TdApi.GetMe(), GetCurrentUserResponseHandler( { telegramUser -> cont.resume(telegramUser) }, { cont.resume(null) } ))
+    override suspend fun getUserInfo(): TelegramUser? = suspendCoroutine { cont ->
+        client.send(TdApi.GetMe(), GetCurrentUserResponseHandler(
+            successHandle = { telegramUser -> cont.resume(telegramUser) },
+            errorHandle = { cont.resume(null) }))
     }
 
-    suspend fun getContacts(): TdApi.Users? = suspendCoroutine { cont ->
-        client?.send(TdApi.GetContacts(), GetContactsResponseHandler({ users -> cont.resume(users) }, { cont.resume(null) }))
-    }
-
-    enum class AuthWithPhoneResult {
-        SUCCESS,
-        ERROR,
-        ERROR_TOO_MANY_REQUESTS
+    override suspend fun getContacts(): TelegramUsers = suspendCoroutine { cont ->
+        try {
+            client.send(
+                TdApi.GetContacts(), GetContactsResponseHandler(
+                    successHandle = { users -> cont.resume(TelegramUsers(users)) },
+                    errorHandle = {code,msg-> run {
+                        cont.resume(TelegramUsers(users = null, errorCode = code, errorMessage = msg))
+                    } })
+            )
+        } catch (e: Exception) {
+            cont.resume(TelegramUsers(users = null, exc = e))
+        }
     }
 
 }

@@ -68,10 +68,6 @@ class CheckAppInGooglePlayViewModel @AssistedInject constructor(@Assisted val ap
 
     }
 
-    override fun handleException(e: Throwable) {
-        TODO("Not yet implemented")
-    }
-
     @AssistedInject.Factory
     interface Factory {
         fun create(app: AppContainer, addPkgInMemory: (()->Unit),

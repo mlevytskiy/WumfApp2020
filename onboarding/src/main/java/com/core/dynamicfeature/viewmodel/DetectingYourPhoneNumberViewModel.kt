@@ -6,7 +6,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import com.core.dynamicfeature.fragment.DetectingYourPhoneNumberFragmentDirections
 import com.core.wumfapp2020.memory.UserInfoRepository
-import com.library.core.BaseViewModel
+import com.core.wumfapp2020.viewmodel.AnyFragmentBaseViewModel
 import com.library.core.SingleLiveEvent
 import com.squareup.inject.assisted.AssistedInject
 
@@ -15,7 +15,7 @@ private val PHONE_NUMBER_DETECTING_SECONDS = 4
 private val COUNT_DOWN_TIMER_STEP = CHANGE_FAKE_PHONE_NUMBER_INTERVAL * 2
 private val COUNT_DOWN_TIMER_DURATION = COUNT_DOWN_TIMER_STEP * PHONE_NUMBER_DETECTING_SECONDS
 
-class DetectingYourPhoneNumberViewModel @AssistedInject constructor(private val repository: UserInfoRepository): BaseViewModel() {
+class DetectingYourPhoneNumberViewModel @AssistedInject constructor(private val repository: UserInfoRepository): AnyFragmentBaseViewModel() {
 
     private val directions = DetectingYourPhoneNumberFragmentDirections.Companion
 
@@ -57,10 +57,6 @@ class DetectingYourPhoneNumberViewModel @AssistedInject constructor(private val 
     @AssistedInject.Factory
     interface Factory {
         fun create(): DetectingYourPhoneNumberViewModel
-    }
-
-    override fun handleException(e: Throwable) {
-        TODO("Not yet implemented")
     }
 
     fun isNeedDetectPhoneNumber(): Boolean {

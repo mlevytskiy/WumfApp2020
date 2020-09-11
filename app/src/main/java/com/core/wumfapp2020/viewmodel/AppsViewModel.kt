@@ -3,18 +3,17 @@ package com.core.wumfapp2020.viewmodel
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
-import com.core.wumfapp2020.InternetConnectionChecker
 import com.core.wumfapp2020.fragment.AppsFragmentDirections
 import com.core.wumfapp2020.memory.MyAppsCollectionRepository
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.library.core.BaseViewModel
+import com.library.Event
 import com.library.core.SingleLiveEvent
 import javax.inject.Inject
 
-class AppsViewModel @Inject constructor(private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager,
+class AppsViewModel @Inject constructor(private val manager: SplitInstallManager,
                                         val sharedViewModel: SharedViewModel, userInfoRepository: UserInfoRepository,
-                                        private val appsRepository: MyAppsCollectionRepository): BaseViewModel() {
+                                        private val appsRepository: MyAppsCollectionRepository): AnyFragmentBaseViewModel() {
 
     private val directions = AppsFragmentDirections.Companion
 
@@ -28,9 +27,7 @@ class AppsViewModel @Inject constructor(private val connectionChecker: InternetC
     init {
     }
 
-    override fun handleException(e: Throwable) {
 
-    }
 
     fun updateData() {
         val isEmpty = appsRepository.isEmpty()
@@ -39,7 +36,7 @@ class AppsViewModel @Inject constructor(private val connectionChecker: InternetC
             val appsStr = prepareAppsForAdapter(appsRepository.getMyApps())
             showPickedAppsMutable.postEvent(PickedApps(appsStr, emptyMap()))
         }
-        syncMyAppsMutable.postEvent(Unit)
+        syncMyAppsMutable.postEvent(Event(Unit))
     }
 
     fun removeAppFromMemory(pkg: String) {

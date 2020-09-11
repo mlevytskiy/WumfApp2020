@@ -51,6 +51,10 @@ class CodeEditText(context: Context, attrs: AttributeSet) : FrameLayout(context,
         }
     }
 
+    fun setCode(str: String) {
+        editText?.setText(str)
+    }
+
     fun getCode() = editText?.text.toString()
 
     private fun bindKeyboard(parentView: View) {

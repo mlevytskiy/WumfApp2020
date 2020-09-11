@@ -5,37 +5,100 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.core.wumfapp2020.viewmodel.MainActivityViewModel" />
     </data>
 
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <fragment
-            android:id="@+id/main_nav_host"
-            android:name="androidx.navigation.dynamicfeatures.fragment.DynamicNavHostFragment"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/pre_on_boarding_graph" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/home_bottom_nav"
+            <fragment
+                android:id="@+id/main_nav_host"
+                android:name="androidx.navigation.dynamicfeatures.fragment.DynamicNavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/pre_on_boarding_graph" />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/home_bottom_nav"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line_bg"
+                android:paddingTop="1dp"
+                android:visibility="@{viewModel.showBottomTabs}"
+                app:elevation="0dp"
+                app:itemIconTint="@drawable/nav_item_color_state"
+                app:itemTextColor="@drawable/nav_item_color_state"
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/home_menu_navigation" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/home_menu_navigation"
-            app:itemIconTint="@drawable/nav_item_color_state"
-            app:itemTextColor="@drawable/nav_item_color_state"
-            android:background="@drawable/line_bg"
-            android:paddingTop="1dp"
-            android:visibility="@{viewModel.showBottomTabs}" />
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="32dp"
+            android:background="@color/red"
+            android:visibility="@{!viewModel.hasInternetConnection ? View.VISIBLE: View.GONE}" >
 
-    </LinearLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:animatedDrawable="@{viewModel.progress}"
+                android:onClick="@{()->viewModel.onClickCheckInternet()}"
+                app:srcCompat="@drawable/ic_refresh_animated_white" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="No internet connection"
+                android:textColor="@color/gray2"
+                android:textSize="@dimen/text_size_20" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_close_white2"
+                android:onClick="@{()->viewModel.onClickHideNoInternetConnectionMessage()}" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </FrameLayout>
 </layout>

@@ -47,7 +47,7 @@ class DetectingYourPhoneNumberFragment: AppBaseFragment<FrgDetectingPhoneNumberB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeEvent(viewModel.showDetectPhoneNumber) {
+        observeState(viewModel.showDetectPhoneNumber) {
             showDetectPhoneNumberHint()
         }
     }

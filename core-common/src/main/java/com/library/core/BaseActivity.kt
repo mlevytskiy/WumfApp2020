@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import com.library.Event
 import java.lang.ref.WeakReference
 
 abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(private val uiRes: Int, private val navRes: Int) : AppCompatActivity() {
@@ -45,9 +46,11 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(private val
         }
     }
 
-    fun <T> observeEvent(liveData: LiveData<T>, onUnhandledEvent: (T) -> Unit) {
-        liveData.observe(this, Observer {
-            onUnhandledEvent(it)
+    fun <T> observeEvent(liveData: LiveData<Event<T>>, onUnhandledEvent: (T) -> Unit) {
+        liveData.observe(this, Observer {event->
+            if (event?.handled == false) {
+                event.getContent()?.let(onUnhandledEvent)
+            }
         })
     }
 

@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.library.Event
 
 abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val uiRes: Int) : Fragment() {
 
@@ -41,17 +42,17 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeEvent(viewModel.showToast) {
+        observeState(viewModel.showToast) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         }
-        observeEvent(viewModel.fragmentNavDirection) { direction ->
+        observeState(viewModel.fragmentNavDirection) { direction ->
             navController.currentDestination?.let {
               it.getAction(direction.actionId)?.let {
                   navController.navigate(direction, getNavOptions(it.navOptions))
               }
             }
         }
-        observeEvent(viewModel.popBackTo) {
+        observeState(viewModel.popBackTo) {
             if (it.id == POP_BACK) {
                 navController.popBackStack()
             }
@@ -70,9 +71,18 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val
         viewLifecycleOwnerLiveData.removeObservers(viewLifecycleOwner)
     }
 
-    fun <T> observeEvent(liveData: LiveData<T>, onUnhandledEvent: (T) -> Unit) {
+    fun <T> observeState(liveData: LiveData<T>, onUnhandledState: (T) -> Unit) {
         liveData.observe(viewLifecycleOwner, Observer {
-            onUnhandledEvent(it)
+            onUnhandledState(it)
         })
     }
+
+    fun <T> observeEvent(liveData: LiveData<Event<T>>, onUnhandledEvent: (T) -> Unit) {
+        liveData.observe(viewLifecycleOwner, Observer {event->
+            if (event?.handled == false) {
+                event.getContent()?.let(onUnhandledEvent)
+            }
+        })
+    }
+
 }

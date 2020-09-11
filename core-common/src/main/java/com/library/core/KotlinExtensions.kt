@@ -1,7 +1,12 @@
 package com.library.core
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -92,3 +97,45 @@ inline fun <reified T> SavedStateHandle.delegate(key: String? = null): ReadWrite
     this@delegate[stateKey] = value
   }
 }
+
+fun String.log() {
+  Log.i("testr", this)
+}
+
+inline fun View?.showKeyboard() = this?.run {
+  val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+  if (this.hasFocus()) {
+    imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+  } else {
+    this.rootView.findFocus()?.let { imm.showSoftInput(it, InputMethodManager.SHOW_IMPLICIT) }
+  }
+}
+
+inline fun View?.focusAndShowKeyboard() = this?.run {
+  requestFocusFromTouch()
+  val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+}
+
+inline fun View?.hideKeyboard() = this?.run {
+  val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+  imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+inline fun Activity?.showKeyboard() = this?.run {
+  val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+  if (!imm.isAcceptingText) {
+    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+  }
+}
+
+inline fun Activity?.hideKeyboard() = this?.currentFocus?.hideKeyboard()
+
+inline fun Fragment?.showKeyboard() = this?.run {
+  val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+  if (!imm.isAcceptingText) {
+    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+  }
+}
+
+inline fun Fragment?.hideKeyboard() = this?.activity?.currentFocus?.hideKeyboard()

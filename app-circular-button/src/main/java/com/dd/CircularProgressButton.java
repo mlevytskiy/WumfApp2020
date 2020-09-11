@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.StateSet;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -50,7 +51,7 @@ public class CircularProgressButton extends AppCompatButton {
     private int mStrokeWidth;
     private int mPaddingProgress;
     private float mCornerRadius;
-    private boolean mIndeterminateProgressMode;
+    private boolean mIndeterminateProgressMode = false;
     private boolean mConfigurationChanged;
 
     private int mMaxProgress;
@@ -312,11 +313,11 @@ public class CircularProgressButton extends AppCompatButton {
         animation.setFromWidth(fromWidth);
         animation.setToWidth(toWidth);
 
-        if (mConfigurationChanged) {
-            animation.setDuration(MorphingAnimation.DURATION_INSTANT);
-        } else {
+//        if (mConfigurationChanged) {
+//            animation.setDuration(MorphingAnimation.DURATION_INSTANT);
+//        } else {
             animation.setDuration(MorphingAnimation.DURATION_NORMAL);
-        }
+//        }
 
         mConfigurationChanged = false;
 
@@ -412,6 +413,7 @@ public class CircularProgressButton extends AppCompatButton {
     }
 
     private void morphErrorToIdle() {
+        Log.i("testrr", "morphErrorToIdle()");
         MorphingAnimation animation = createMorphing();
 
         animation.setFromColor(getNormalColor(mErrorColorState));

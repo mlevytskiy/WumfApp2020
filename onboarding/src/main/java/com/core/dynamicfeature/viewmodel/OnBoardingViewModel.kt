@@ -5,13 +5,13 @@ import com.core.dynamicfeature.Obj2T
 //import com.core.dynamicfeature.fragment.DetectingYourPhoneNumberFragmentDirections
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.testdi.Obj1T
+import com.core.wumfapp2020.viewmodel.AnyFragmentBaseViewModel
 import com.core.wumfapp2020.viewmodel.ResultStatus
 import com.core.wumfapp2020.viewmodel.SharedViewModel
-import com.library.core.BaseViewModel
 import com.squareup.inject.assisted.AssistedInject
 
 
-class OnBoardingViewModel @AssistedInject constructor(obj2T: Obj2T, obj1T: Obj1T, var sharedViewModel: SharedViewModel, userInfoRepository: UserInfoRepository): BaseViewModel()  {
+class OnBoardingViewModel @AssistedInject constructor(obj2T: Obj2T, obj1T: Obj1T, var sharedViewModel: SharedViewModel, userInfoRepository: UserInfoRepository): AnyFragmentBaseViewModel()  {
 
 //    private val directions = OnBoardingViewModelFragmentDirections.Companion
 
@@ -26,10 +26,6 @@ class OnBoardingViewModel @AssistedInject constructor(obj2T: Obj2T, obj1T: Obj1T
 
     fun onClick() {
         sharedViewModel.status = ResultStatus.SUCCESS
-    }
-
-    override fun handleException(e: Throwable) {
-        TODO("Not yet implemented")
     }
 
 }

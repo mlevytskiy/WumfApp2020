@@ -13,10 +13,6 @@ open class AppViewModel @AssistedInject constructor(@Assisted val app: AppContai
                                                private val stringRes: StringRes, private val colorRes: ColorRes,
                                                private val internetConnection: InternetConnectionChecker): BaseViewModel() {
 
-    override fun handleException(e: Throwable) {
-        TODO("Not yet implemented")
-    }
-
     fun onClickShowInGooglePlay() {
         showInGooglePlay()
     }

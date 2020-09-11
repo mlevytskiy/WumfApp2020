@@ -1,13 +1,16 @@
 package com.library.core
 
-import android.util.Log
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
+import com.library.Event
 import kotlinx.coroutines.*
+import java.io.IOException
 
 
 const val POP_BACK = -1
@@ -31,15 +34,6 @@ abstract class BaseViewModel: ViewModel(), Observable {
     @Transient
     private var callbacks: PropertyChangeRegistry? = null
 
-    @Transient
-    private val handler = CoroutineExceptionHandler { _, exception ->
-        Log.d("XXX_error", Log.getStackTraceString(exception))
-        handleException(exception)
-    }
-
-    @Transient
-    val scope = viewModelScope.plus(handler)
-
     override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
         synchronized(this) {
             if (callbacks == null) {
@@ -58,17 +52,8 @@ abstract class BaseViewModel: ViewModel(), Observable {
         callbacks?.add(callback)
     }
 
-    abstract fun handleException(e: Throwable)
-
-    fun startBgJob(block: suspend CoroutineScope.() -> Unit): Job {
-        progress.set(true)
-        return scope.launch(context = Dispatchers.IO, block = {
-                block.invoke(this)
-            progress.set(false)
-        })
-    }
-
-    fun startLongBgJob(block: suspend CoroutineScope.() -> Unit): Job {
+    fun startBgJob(scope: CoroutineScope = viewModelScope,
+                   block: suspend CoroutineScope.() -> Unit): Job {
         progress.set(true)
         return scope.launch(context = Dispatchers.IO, block = {
             block.invoke(this)
@@ -92,7 +77,7 @@ abstract class BaseViewModel: ViewModel(), Observable {
         if (isMainThread()) {
             this?.value = value
         } else {
-            scope.launch(Dispatchers.Main) {
+            viewModelScope.launch(Dispatchers.Main) {
                 this@postEvent?.value = value
             }
         }
@@ -107,8 +92,32 @@ abstract class BaseViewModel: ViewModel(), Observable {
     }
 
     companion object {
-        val syncMyAppsMutable = SingleLiveEvent<Unit>()
-        val syncMyApps: LiveData<Unit> = syncMyAppsMutable
+        val syncMyAppsMutable = SingleLiveEvent<Event<Unit>>()
+        val syncMyApps: LiveData<Event<Unit>> = syncMyAppsMutable
+    }
+
+    infix fun CoroutineScope.onError(function: (Throwable) -> Unit): CoroutineScope =
+        this + CoroutineExceptionHandler { _, e -> function(e) }
+
+    suspend fun <T> retryIO(
+        times: Int = Int.MAX_VALUE,
+        initialDelay: Long = 100, // 0.1 second
+        maxDelay: Long = 30000,    // 30 second
+        factor: Double = 2.0,
+        block: suspend () -> T): T
+    {
+        var currentDelay = initialDelay
+        repeat(times - 1) {
+            try {
+                return block()
+            } catch (e: IOException) {
+                // you can log an error here and/or make a more finer-grained
+                // analysis of the cause to see if retry is needed
+            }
+            delay(currentDelay)
+            currentDelay = (currentDelay * factor).toLong().coerceAtMost(maxDelay)
+        }
+        return block() // last attempt
     }
 
 }

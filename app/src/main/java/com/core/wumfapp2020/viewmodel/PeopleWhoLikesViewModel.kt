@@ -1,14 +1,12 @@
 package com.core.wumfapp2020.viewmodel
 
 import androidx.databinding.ObservableBoolean
-import com.core.wumfapp2020.InternetConnectionChecker
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.library.core.BaseViewModel
 import javax.inject.Inject
 
-class PeopleWhoLikesViewModel @Inject constructor(private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager,
-                                                  val sharedViewModel: SharedViewModel, userInfoRepository: UserInfoRepository, private val repository: UserInfoRepository): BaseViewModel() {
+class PeopleWhoLikesViewModel @Inject constructor(private val manager: SplitInstallManager,
+                                                  val sharedViewModel: SharedViewModel, userInfoRepository: UserInfoRepository, private val repository: UserInfoRepository): AnyFragmentBaseViewModel() {
 
 //    private val directions = PreOnBoardingFragmentDirections.Companion
 
@@ -16,10 +14,5 @@ class PeopleWhoLikesViewModel @Inject constructor(private val connectionChecker:
 
     init {
     }
-
-    override fun handleException(e: Throwable) {
-
-    }
-
 
 }

@@ -35,14 +35,14 @@ class HomeFragment : AppBaseFragment<FrgHomeBinding, HomeViewModel>(R.layout.frg
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.appsRecycleView.showLoadedState()
-        observeEvent(viewModel.showPickAppCategoryDialog) {
+        observeState(viewModel.showPickAppCategoryDialog) {
             val selected = detectChekedItemInPickAppCategoryDialog(it)
             showPickAppCategoryDialog(selected)
         }
-        observeEvent(viewModel.showCountriesDialog) {
+        observeState(viewModel.showCountriesDialog) {
             showCountryDialog(it)
         }
-        observeEvent(viewModel.showPickedApps) {
+        observeState(viewModel.showPickedApps) {
             binding.appsRecycleView.setPackages(it.appPackages, it.likes)
         }
         var dialog : DialogInterface? = null

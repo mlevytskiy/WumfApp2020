@@ -2,4 +2,4 @@ rootProject.name='WumfApp2020'
 //include ':app', ':core-common', 'onboarding', 'telegramCoreModule'
 include ':app', ':core-common', ':onboarding', ':app-edit-phone-number-ui', ':app-circular-button',
 ':app-telegram-kotlin-api', ':app-libtd', 'app-get-all-apps', 'app-app-info-view', 'app-app-recycle-view',
-':app-detect-country'
+':app-detect-country', "app-tg", "libtd-ktx"

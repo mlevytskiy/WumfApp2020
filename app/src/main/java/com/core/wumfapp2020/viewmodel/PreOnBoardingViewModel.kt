@@ -3,16 +3,14 @@ package com.core.wumfapp2020.viewmodel
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import com.core.wumfapp2020.InternetConnectionChecker
 import com.core.wumfapp2020.fragment.PreOnBoardingFragmentDirections
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.library.core.BaseViewModel
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
-class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager,
-                                                 val sharedViewModel: SharedViewModel, userInfoRepository: UserInfoRepository, private val repository: UserInfoRepository): BaseViewModel() {
+class PreOnBoardingViewModel @Inject constructor(private val manager: SplitInstallManager,
+                                                 val sharedViewModel: SharedViewModel, userInfoRepository: UserInfoRepository, private val repository: UserInfoRepository): AnyFragmentBaseViewModel() {
 
     private val directions = PreOnBoardingFragmentDirections.Companion
 
@@ -29,10 +27,6 @@ class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: 
 
     init {
         Log.i("testr", "token=" + userInfoRepository.getToken())
-    }
-
-    override fun handleException(e: Throwable) {
-
     }
 
     fun signInAsAnonymous() {
@@ -84,8 +78,8 @@ class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: 
 //    }
 
     fun checkInternetConnection(): Boolean {
-        val result = connectionChecker.hasInternetConnection()
-        internetConnectionState.set(if (connectionChecker.hasInternetConnection()) ConnectionCheckingState.CONNECTED else ConnectionCheckingState.NO_INTERNET)
+        val result = connectionChecker?.hasInternetConnection() == true
+        internetConnectionState.set(if (result) ConnectionCheckingState.CONNECTED else ConnectionCheckingState.NO_INTERNET)
         return result
     }
 
@@ -94,7 +88,7 @@ class PreOnBoardingViewModel @Inject constructor(private val connectionChecker: 
             internetConnectionState.set(ConnectionCheckingState.CHECKING)
             startBgJob {
                 delay(1500)
-                if (connectionChecker.hasInternetConnection()) {
+                if (connectionChecker?.hasInternetConnection() == true) {
                     internetConnectionState.set(ConnectionCheckingState.SHOW_MESSAGE_CONNECTED)
                     delay(1000)
                     internetConnectionState.set(ConnectionCheckingState.CONNECTED)

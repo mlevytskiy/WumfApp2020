@@ -1,6 +1,7 @@
 package com.core.wumfapp2020
 
 import android.os.Bundle
+import com.core.wumfapp2020.base.showErrorDialog
 import com.core.wumfapp2020.databinding.ActivityMainBinding
 import com.core.wumfapp2020.di.injector
 import com.core.wumfapp2020.util.setupWithNavControllerWithoutAnimation
@@ -25,6 +26,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainActivityViewModel>(R.
         observeEvent(BaseViewModel.syncMyApps) {
             viewModel.syncMyCollection()
         }
+        observeEvent(viewModel.showErrorMessage) {
+            showErrorDialog(this, it)
+        }
     }
 
     fun setBottomTabsState(bottomTabs: BottomTabsState) {
@@ -36,8 +40,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainActivityViewModel>(R.
         binding.homeBottomNav.setupWithNavControllerWithoutAnimation(navController)
     }
 
+    fun setInternetStaus(enable: Boolean) {
+        viewModel.hasInternetConnection.set(enable)
+    }
+
     fun makeHomeStart() {
-        navController.navigatorProvider
         navController.setGraph(R.navigation.main_graph)
     }
 

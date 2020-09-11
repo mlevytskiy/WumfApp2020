@@ -5,6 +5,7 @@ import com.app.api.api.WumfApi
 import com.core.wumfapp2020.base.dialogViewModels.AppInMyCollectionViewModel
 import com.core.wumfapp2020.base.dialogViewModels.AppViewModel
 import com.core.wumfapp2020.base.dialogViewModels.CheckAppInGooglePlayViewModel
+import com.core.wumfapp2020.base.dialogViewModels.SuccessLoginViewModel
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.testdi.Obj1T
 import com.core.wumfapp2020.viewmodel.*
@@ -22,6 +23,7 @@ interface ViewModelProvision {
     var sharedViewModel: SharedViewModel
     var addAppInMyCollectionViewModel : AddAppInMyCollectionViewModel
     var checkAppInGooglePlayFactory: CheckAppInGooglePlayViewModel.Factory
+    var successLoginViewModelFactory: SuccessLoginViewModel.Factory
 
     //Dialogs
     var appViewModelFactory: AppViewModel.Factory

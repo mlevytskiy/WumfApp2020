@@ -39,5 +39,13 @@
     <string name="your_own_app_collection">Your own app collection</string>
     <string name="remove_from_my_collection">Remove from\nmy collection</string>
 
+    <string name="thank_you">%s!\nThanks for downloading this app!</string>
+
+    <plurals name="who_from_your_contacts_use_the_app">
+        <item quantity="zero">No people from your contacts use the app</item>
+        <item quantity="one">1 person from your contacts use the app</item>
+        <item quantity="other">%d people from your contacts use the app</item>
+    </plurals>
+
 
 </resources>

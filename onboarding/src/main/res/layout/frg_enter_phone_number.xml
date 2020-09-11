@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.core.dynamicfeature.viewmodel.EnterPhoneNumberViewModel" />
+            type="com.core.dynamicfeature.viewmodel.EnterPhoneNumberViewModel2" />
     </data>
 
     <LinearLayout
@@ -68,7 +68,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:customKeyboard="@id/in_app_keyboard"
-            app:phoneNumber="@{viewModel.phoneNumber}" />
+            app:phoneNumber="@={viewModel.phoneNumber}"
+            app:code="@={viewModel.code}" />
 
         <View
             android:layout_width="match_parent"
@@ -85,6 +86,7 @@
             android:background="@color/signal_primary"
             android:textColor="@color/white"
             android:onClick="@{()->viewModel.onClickNextButton()}"
+            android:visibility="@{!viewModel.waitResultFromTelegramPasswordScreen}"
             app:cpb_colorIndicator="@color/white"
             app:cpb_colorProgress="@color/textsecure_primary"
             app:cpb_cornerRadius="4dp"
@@ -92,6 +94,18 @@
             app:cpb_textComplete="@string/code_sent"
             app:cpb_textError="Error!"
             app:cpb_textIdle="@string/next" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@color/signal_primary"
+            android:text="Enter telegram password"
+            android:paddingStart="@dimen/spacing_8"
+            android:paddingEnd="@dimen/spacing_8"
+            android:textColor="@color/gray2"
+            android:onClick="@{() -> viewModel.navigateToTelegramPassword()}"
+            android:visibility="@{viewModel.waitResultFromTelegramPasswordScreen}"
+            tools:visibility="gone" />
 
 
         <View

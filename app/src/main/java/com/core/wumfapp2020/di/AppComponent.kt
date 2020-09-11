@@ -15,6 +15,7 @@ import com.core.wumfapp2020.memory.MyAppsCollectionRepository
 import com.core.wumfapp2020.memory.MyObjectBox
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.testdi.WumfActivity
+import com.core.wumfapp2020.viewmodel.AnyFragmentBaseViewModel
 import javax.inject.Singleton
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
@@ -39,6 +40,8 @@ private const val TRACE_ID_HEADER_KEY = "trace-id"
 interface AppComponent: ViewModelProvision, ForDeliveryFeaturesProvision {
 
     fun inject(activity: WumfActivity)
+
+    fun inject(appBaseViewModel: AnyFragmentBaseViewModel)
 
     @Component.Factory
     interface Factory {

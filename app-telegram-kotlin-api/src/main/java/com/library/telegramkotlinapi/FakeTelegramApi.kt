@@ -1,48 +1,29 @@
 package com.library.telegramkotlinapi
 
-import com.library.telegramkotlinapi.handler.AuthorizationResponseHandler
-import com.library.telegramkotlinapi.handler.CheckCodeResponseHandler
-import com.library.telegramkotlinapi.handler.GetContactsResponseHandler
-import com.library.telegramkotlinapi.handler.GetCurrentUserResponseHandler
+import com.library.telegramkotlinapi.TelegramApi.*
 import org.drinkless.td.libcore.telegram.Client
 import org.drinkless.td.libcore.telegram.TdApi
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class FakeTelegramApi {
+class FakeTelegramApi(private val client: Client): TelegramApi {
 
-    private var client: Client? = null
-
-    fun client(client: Client): FakeTelegramApi {
-        this.client = client
-        return this
-    }
-
-    suspend fun authWithPhone(phone: String): AuthWithPhoneResult = suspendCoroutine { cont ->
+    override suspend fun authWithPhone(phone: String): AuthWithPhoneResult = suspendCoroutine { cont ->
         cont.resume(AuthWithPhoneResult.SUCCESS)
     }
 
-    suspend fun checkVerificationCode(code: String): Boolean = suspendCoroutine { cont ->
-//        client?.send(TdApi.CheckAuthenticationCode(code), CheckCodeResponseHandler({ cont.resume(true) }, { cont.resume(false) }))
-        cont.resume(true)
+    override suspend fun checkVerificationCode(code: String): TrueOrError = suspendCoroutine { cont ->
+        cont.resume(TrueOrError(true))
     }
 
-    suspend fun getUserInfo(): TelegramUser? = suspendCoroutine { cont ->
-//        client?.send(TdApi.GetMe(), GetCurrentUserResponseHandler( { telegramUser -> cont.resume(telegramUser) }, { cont.resume(null) } ))
+    override suspend fun getUserInfo(): TelegramUser? = suspendCoroutine { cont ->
         val telegramUser = TelegramUser(33333, "Vova", null)
         cont.resume(telegramUser)
     }
 
-    suspend fun getContacts(): TdApi.Users? = suspendCoroutine { cont ->
-//        client?.send(TdApi.GetContacts(), GetContactsResponseHandler({ users -> cont.resume(users) }, { cont.resume(null) }))
+    override suspend fun getContacts(): TelegramUsers = suspendCoroutine { cont ->
         val users = TdApi.Users(3, intArrayOf(11111, 22222, 444444))
-        cont.resume(users)
-    }
-
-    enum class AuthWithPhoneResult {
-        SUCCESS,
-        ERROR,
-        ERROR_TOO_MANY_REQUESTS
+        cont.resume(TelegramUsers(users))
     }
 
 }

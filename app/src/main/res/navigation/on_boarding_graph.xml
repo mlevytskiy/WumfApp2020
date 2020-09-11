@@ -30,6 +30,23 @@
             android:id="@+id/action_enter_phone_number_to_detect_phone_number"
             app:destination="@id/detecting_phone_number" />
 
+        <action
+            android:id="@+id/action_enter_phone_number_to_enter_telegram_password"
+            app:destination="@id/enter_telegram_password" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/enter_telegram_password"
+        android:name="com.core.dynamicfeature.fragment.EnterTelegramPasswordFragment"
+        android:label=" ">
+
+        <argument
+            android:name="passwordHint"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="false" />
+
     </fragment>
 
 </navigation>

@@ -4,8 +4,8 @@ import android.util.Log
 import org.drinkless.td.libcore.telegram.Client
 import org.drinkless.td.libcore.telegram.TdApi
 
-class AuthorizationResponseHandler(private val successHandle: ()->Unit, private val errorHandle: (Int)->Unit,
-                                   private val tooManyRequestsErrorHandler: ()->Unit): Client.ResultHandler {
+class AuthorizationResponseHandler(private val successHandle: ()->Unit, private val errorHandle: (Int, String)->Unit,
+                                   private val tooManyRequestsErrorHandler: (Int, String)->Unit): Client.ResultHandler {
 
     private val IGNORED_ERROR_CODE = 406
     private val TOO_MANY_REQUESTS = 429
@@ -17,10 +17,10 @@ class AuthorizationResponseHandler(private val successHandle: ()->Unit, private 
                 when(errorObj.code) {
                     IGNORED_ERROR_CODE -> { }
                     TOO_MANY_REQUESTS -> {
-                        tooManyRequestsErrorHandler()
+                        tooManyRequestsErrorHandler(obj.code, obj.message)
                     }
                     else -> {
-                        errorHandle(obj.code)
+                        errorHandle(obj.code, obj.message)
                     }
 
                 }

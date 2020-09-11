@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.api.api.*
-import com.core.wumfapp2020.InternetConnectionChecker
 import com.core.wumfapp2020.base.ColorRes
 import com.core.wumfapp2020.base.StringRes
 import com.core.wumfapp2020.base.countriesdialog.CountriesHolder
@@ -15,7 +14,6 @@ import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.memory.impl.*
 import com.core.wumfapp2020.viewmodel.home.HomeTitle
 import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.library.core.BaseViewModel
 import com.library.core.SingleLiveEvent
 import com.squareup.inject.assisted.AssistedInject
 import retrofit2.Call
@@ -27,11 +25,11 @@ const val IN_MY_COUNTRY = 1
 const val IN_ANOTHER_COUNTRY = 2
 const val AMONG_FRIENDS = 3
 
-class HomeViewModel @AssistedInject constructor(private val homeStateRepository: HomeStateRepository, private val connectionChecker: InternetConnectionChecker, private val manager: SplitInstallManager,
+class HomeViewModel @AssistedInject constructor(private val homeStateRepository: HomeStateRepository, private val manager: SplitInstallManager,
                                                 val sharedViewModel: SharedViewModel, val memory: UserInfoRepository,
                                                 stringRes: StringRes, colorRes: ColorRes, private val countryHolder: CountriesHolder,
                                                 private val wumfApi: WumfApi
-): BaseViewModel() {
+): AnyFragmentBaseViewModel() {
 
     private val directions = HomeFragmentDirections.Companion
 
@@ -77,9 +75,7 @@ class HomeViewModel @AssistedInject constructor(private val homeStateRepository:
         return country
     }
 
-    override fun handleException(e: Throwable) {
 
-    }
 
     fun showPickTypeOfAppsDialog() {
         showPickAppCategoryDialogMutable.postEvent(span.type)
