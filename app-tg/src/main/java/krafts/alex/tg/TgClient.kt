@@ -117,6 +117,14 @@ class TgClient(private val context: Context) : TelegramFlow(),
         TdApi.DownloadFile()
     }
 
+    suspend fun logOut(): TdApi.Object {
+        return TdApi.LogOut().async()
+    }
+
+    suspend fun destroy(): TdApi.Object {
+        return TdApi.Destroy().async()
+    }
+
     suspend fun getContacts(): TdApi.Users {
         return TdApi.GetContacts().async()
     }

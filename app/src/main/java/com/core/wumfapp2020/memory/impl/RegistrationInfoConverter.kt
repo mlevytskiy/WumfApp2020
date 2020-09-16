@@ -16,7 +16,8 @@ class RegistrationInfoConverter : PropertyConverter<RegistrationInfo, String> {
         strBuilder.append(entityProperty.name).append(DIMEN)
         strBuilder.append(entityProperty.telegramId).append(DIMEN)
         strBuilder.append(entityProperty.hasRegistration).append(DIMEN)
-        strBuilder.append(entityProperty.isRegWumfChecked)
+        strBuilder.append(entityProperty.isRegWumfChecked).append(DIMEN)
+        strBuilder.append(entityProperty.phoneNumber)
         return strBuilder.toString()
     }
 
@@ -35,6 +36,7 @@ class RegistrationInfoConverter : PropertyConverter<RegistrationInfo, String> {
         }
         result.hasRegistration = arr[3].toBoolean()
         result.isRegWumfChecked = arr[4].toBoolean()
+        result.phoneNumber = arr[5]
         return result
     }
 

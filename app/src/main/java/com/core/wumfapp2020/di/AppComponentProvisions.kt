@@ -2,14 +2,12 @@ package com.core.wumfapp2020.di
 
 import android.content.Context
 import com.app.api.api.WumfApi
-import com.core.wumfapp2020.base.dialogViewModels.AppInMyCollectionViewModel
-import com.core.wumfapp2020.base.dialogViewModels.AppViewModel
-import com.core.wumfapp2020.base.dialogViewModels.CheckAppInGooglePlayViewModel
-import com.core.wumfapp2020.base.dialogViewModels.SuccessLoginViewModel
+import com.core.wumfapp2020.base.dialogViewModels.*
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.testdi.Obj1T
 import com.core.wumfapp2020.viewmodel.*
 import com.google.android.play.core.splitinstall.SplitInstallManager
+import krafts.alex.tg.TgClient
 
 interface ViewModelProvision {
     var preOnBoardingViewModel: PreOnBoardingViewModel
@@ -24,6 +22,7 @@ interface ViewModelProvision {
     var addAppInMyCollectionViewModel : AddAppInMyCollectionViewModel
     var checkAppInGooglePlayFactory: CheckAppInGooglePlayViewModel.Factory
     var successLoginViewModelFactory: SuccessLoginViewModel.Factory
+    var logoutViewModelFactory: LogOutViewModel.Factory
 
     //Dialogs
     var appViewModelFactory: AppViewModel.Factory
@@ -36,4 +35,5 @@ interface ForDeliveryFeaturesProvision {
     fun provideSplitInstallManager(): SplitInstallManager
     fun provideUserInfoRepository(): UserInfoRepository
     fun provideWumfApi(): WumfApi
+    fun provideTelegramClient(): TgClient
 }

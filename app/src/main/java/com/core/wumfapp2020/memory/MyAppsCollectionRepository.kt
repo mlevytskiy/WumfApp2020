@@ -44,6 +44,16 @@ class MyAppsCollectionRepository(boxStore: BoxStore): BaseRepository<MyAppsColle
         save()
     }
 
+    fun replaceAppsInMemory(apps: List<String>) {
+        cached?.apps?.let {
+            if (it.isEmpty()) {
+                it.clear()
+                it.addAll(apps)
+                save()
+            }
+        }
+    }
+
     fun addToMyApps(pkgName: String): Boolean {
         var isAdded = false
         if (cached?.apps?.contains(pkgName) == false) {

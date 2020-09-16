@@ -6,5 +6,9 @@
     <string name="you_will_receive_a_verification_code">You will receive a verification code\nin Telegram app</string>
     <string name="next">Next</string>
     <string name="code_sent">Success!</string>
+    <string name="enter_your_telegram_password">Enter your telegram password</string>
+    <string name="two_step_verification">Two-Step Verification</string>
+    <string name="continuee">Continue</string>
+    <string name="enter_telegram_password">Enter telegram password</string>
 
 </resources>

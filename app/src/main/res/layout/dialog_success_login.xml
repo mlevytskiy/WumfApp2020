@@ -46,7 +46,7 @@
             android:textStyle="bold"
             android:layout_gravity="center"
             android:minLines="1"
-            android:text="@{@plurals/who_from_your_contacts_use_the_app(viewModel.contactsAmount, viewModel.contactsAmount)}"
+            android:text="@{(viewModel.contactsAmount > 0) ? @plurals/who_from_your_contacts_use_the_app(viewModel.contactsAmount, viewModel.contactsAmount) : @string/who_from_your_contacts_use_the_app_no_contacts }"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp" />
 
@@ -56,7 +56,8 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_refresh_animated"
             app:srcCompat="@drawable/ic_refresh_animated"
-            app:animatedDrawable="@{viewModel.progress}" />
+            app:animatedDrawable="@{viewModel.progress}"
+            android:visibility="@{!viewModel.progress}" />
 
     </LinearLayout>
 

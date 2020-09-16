@@ -1,5 +1,6 @@
 package com.core.wumfapp2020.base
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -12,14 +13,13 @@ import androidx.core.content.ContextCompat
 import com.core.wumfapp2020.DynamicApp
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.base.countriesdialog.CountriesAdapter
-import com.core.wumfapp2020.databinding.DialogAppBinding
-import com.core.wumfapp2020.databinding.DialogAppInMyCollectionBinding
-import com.core.wumfapp2020.databinding.DialogCheckAppInGooglePlayBinding
-import com.core.wumfapp2020.databinding.DialogSuccessLoginBinding
+import com.core.wumfapp2020.base.dialogViewModels.LogOutViewModel
+import com.core.wumfapp2020.databinding.*
 import com.core.wumfapp2020.di.AppComponent
 import org.drinkless.td.libcore.telegram.TdApi
 import wumf.com.appsprovider2.AppContainer
 import wumf.com.detectphone.Country
+import kotlin.system.exitProcess
 
 
 var dialog : AlertDialog? = null //last dialog
@@ -35,25 +35,50 @@ fun showCheckAppIfExistOnGooglePlayDialog(context: Context, appContainer: AppCon
     return dialog
 }
 
-fun showSuccessLoginDialog(context: Context, image: TdApi.File?, name: String, contactsAmount: Int) {
+fun showSuccessLoginDialog(context: Context, image: TdApi.File?, name: String, contactsAmount: Int, telegramId: Int?, phoneNumber: String?) {
     dialog = createDialogBuilder(context)
-        .setView(createSuccessLoginDialogView(context, image, name, contactsAmount) { dialog?.dismiss() })
+        .setView(createSuccessLoginDialogView(context, image, name, contactsAmount, telegramId, phoneNumber) { dialog?.dismiss() })
         .show()
 }
 
-fun createSuccessLoginDialogView(context: Context, image: TdApi.File?, name: String, contactsAmount: Int, dismissDialog: ()->Unit): View {
-    val binding = DialogSuccessLoginBinding.inflate(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as @org.jetbrains.annotations.NotNull LayoutInflater)
-    val viewModel = getAppComponent().successLoginViewModelFactory.create(image, name, contactsAmount, dismissDialog)
+fun createSuccessLoginDialogView(context: Context, image: TdApi.File?, name: String, contactsAmount: Int, telegramId: Int?, phoneNumber: String?, dismissDialog: ()->Unit): View {
+    val binding = DialogSuccessLoginBinding.inflate(getLayoutInflater(context))
+    val viewModel = getAppComponent().successLoginViewModelFactory.create(image, name, contactsAmount, telegramId, phoneNumber, dismissDialog)
     binding.viewModel = viewModel
+    viewModel.doWork()
     return binding.root
+}
+
+private fun getLayoutInflater(context: Context): LayoutInflater {
+    return context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as @org.jetbrains.annotations.NotNull LayoutInflater
 }
 
 fun showErrorDialog(context: Context, message: String): DialogInterface {
     return createDialogBuilder(context).setMessage(message).show()
 }
 
-private fun createSuccessLogin(context: Context) {
+fun showLogOutDialog(context: Context, resultListener: (Boolean)->Unit) {
+    val viewModel = getAppComponent().logoutViewModelFactory.create()
+    dialog = createDialogBuilder(context)
+        .setOnCancelListener {
+            resultListener(false)
+        }
+        .setPositiveButton("Log out") { dialog, _ ->
+            resultListener(true)
+        }
+        .setView(createLogoutDialogView(context, viewModel))
+        .create()
+    dialog?.setOnShowListener {
+        dialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(Color.RED)
+        dialog?.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(Color.BLACK)
+    }
+    dialog?.show()
+}
 
+fun createLogoutDialogView(context: Context, viewModel: LogOutViewModel): View {
+    val binding = DialogLogoutBinding.inflate(getLayoutInflater(context))
+    binding.viewModel = viewModel
+    return binding.root
 }
 
 private fun createCheckAppIfExistOnGooglePlayDialogView(context: Context, appContainer: AppContainer, addPkgInMemory: ()->Unit,
@@ -133,10 +158,6 @@ fun showSimpleDialog(context: Context, arrayId: Int, checkedItem: Int, select: (
                 select(array, position)
             }
         })
-        .setNegativeButton(R.string.close, object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, which: Int) {
-                cancel(dialog)
-            }
-        })
+        .setNegativeButton(R.string.close) { dialog, _ -> cancel(dialog) }
         .show()
 }

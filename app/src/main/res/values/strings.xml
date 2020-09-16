@@ -41,6 +41,7 @@
 
     <string name="thank_you">%s!\nThanks for downloading this app!</string>
 
+    <string name="who_from_your_contacts_use_the_app_no_contacts">No people from your contacts use the app</string>
     <plurals name="who_from_your_contacts_use_the_app">
         <item quantity="zero">No people from your contacts use the app</item>
         <item quantity="one">1 person from your contacts use the app</item>

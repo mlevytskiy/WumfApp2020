@@ -8,5 +8,6 @@ class RegistrationInfo {
 
     var isRegWumfChecked: Boolean? = false
     var hasRegistration: Boolean? = false
+    var phoneNumber: String? = null
 
 }

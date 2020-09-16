@@ -145,6 +145,8 @@ dependencies {
 
     api 'com.google.android.play:core:1.8.0'
 
+    api project(':app-tg')
+
 //    //temporary solution:
 //    api project(':app-telegram-kotlin-api')
 //    api project(':app-libtd')

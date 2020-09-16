@@ -21,6 +21,8 @@ import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import dagger.*
 import io.objectbox.BoxStore
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import krafts.alex.tg.TgClient
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -34,7 +36,7 @@ private const val TRACE_ID_HEADER_KEY = "trace-id"
 @Singleton
 @Component(
     modules = [
-        AppModule::class, AssistedModule::class, RetrofitModule::class
+        AppModule::class, AssistedModule::class, RetrofitModule::class, TelegramModule::class
     ]
 )
 interface AppComponent: ViewModelProvision, ForDeliveryFeaturesProvision {
@@ -125,6 +127,19 @@ object AppModule {
     @Reusable
     @Provides
     fun provideColorRes(context: Context) = ColorRes(context)
+
+}
+
+@Module
+class TelegramModule {
+
+    @ExperimentalCoroutinesApi
+    @Reusable
+    @Provides
+    fun getTelegramClient(context: Context): TgClient {
+        val client =  TgClient(context)
+        return client
+    }
 
 }
 

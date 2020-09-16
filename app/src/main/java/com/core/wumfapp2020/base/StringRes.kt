@@ -10,4 +10,8 @@ class StringRes(private val res: Resources) {
 
     fun getStrFromArray(arrayStrId: Int, position: Int) = res.getStringArray(arrayStrId)[position]
 
+    fun getPlurals(id: Int, value: Int): String {
+        return res.getQuantityString(id, value, value)
+    }
+
 }

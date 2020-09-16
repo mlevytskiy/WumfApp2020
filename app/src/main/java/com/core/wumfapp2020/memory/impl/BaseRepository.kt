@@ -38,6 +38,11 @@ abstract class BaseRepository<T>(boxStore: BoxStore, classT: Class<T>) {
         }
     }
 
+    fun clear() {
+        box.removeAll()
+        cached = null
+    }
+
     abstract fun currentT(): T?
 
     abstract fun initCache()

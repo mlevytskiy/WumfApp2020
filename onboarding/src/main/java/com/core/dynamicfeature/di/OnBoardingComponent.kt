@@ -19,7 +19,7 @@ import javax.inject.Singleton
 @OnBoardingScope
 @Component(
     dependencies = [AppComponent::class],
-    modules = [OnBoardingAssistedModule::class, TelegramModule::class]
+    modules = [OnBoardingAssistedModule::class]
 )
 interface OnBoardingComponent : ViewModelProvision
 
@@ -29,42 +29,6 @@ annotation class  OnBoardingScope
 @AssistedModule
 @Module(includes = [AssistedInject_OnBoardingAssistedModule::class])
 abstract class OnBoardingAssistedModule
-
-@Module
-class TelegramModule {
-//    @Reusable
-//    @Provides
-//    fun getTelegramClient(context: Context): Client {
-//        val handler = CommonHandler(context)
-//        val client = Client.create(handler,
-//            Client.ExceptionHandler { e -> Log.i("testr", "onException " + e) },
-//            Client.ExceptionHandler { e -> Log.i("testr", "onException " + e) })
-//        handler.client = client
-//        return client
-//    }
-//
-//    @Reusable
-//    @Provides
-//    fun getTelegramApi(client: Client): TelegramApi {
-////        return FakeTelegramApi(client)
-//        return SimpleTelegramApi(client)
-//    }
-
-//    @Reusable
-//    @Provides
-//    fun provideInternetConnectionChecker(context: Context): InternetConnectionChecker {
-//        return InternetConnectionChecker(context)
-//    }
-
-    @ExperimentalCoroutinesApi
-    @Reusable
-    @Provides
-    fun getTelegramClient(context: Context): TgClient {
-        val client =  TgClient(context)
-        return client
-    }
-
-}
 
 
 

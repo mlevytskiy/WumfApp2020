@@ -17,7 +17,8 @@
 
     <color name="gray1">#7f54B6CB</color>
     <color name="gray2">#ffffffff</color>
-    <color name="white">#7fffffff</color>
+    <color name="white_with_transparance">#7fffffff</color>
+    <color name="white_text">#fffefefe</color>
     <color name="very_light_gray">#ffefefef</color>
     <color name="telegramBg">#ff34A2DF</color>
     <color name="anonymouslyBg">#ff232427</color>

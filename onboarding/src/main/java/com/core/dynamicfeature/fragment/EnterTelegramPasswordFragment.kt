@@ -32,7 +32,7 @@ class EnterTelegramPasswordFragment : AppBaseFragment<FrgEnterTelegramPasswordBi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.title = "Two-Step Verification"
+        binding.toolbar.title = getString(R.string.two_step_verification)
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setupWithNavController(navController, null)

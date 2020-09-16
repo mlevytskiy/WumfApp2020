@@ -23,6 +23,7 @@ import krafts.alex.tg.EnterPassword
 import krafts.alex.tg.EnterPhone
 import org.drinkless.td.libcore.telegram.TdApi
 import retrofit2.await
+import wumf.com.detectphone.AppCountryDetector
 
 class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedViewModel: SharedViewModel, private val client: TgClient,
                                                              private val userInfoRepository: UserInfoRepository,
@@ -228,7 +229,7 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
             }
         }
         val name = me.firstName
-        return MyInfo(image = file, name = name, contactsAmount = contactsAmount)
+        return MyInfo(image = file, name = name, contactsAmount = contactsAmount, telegramId = me.id, phoneNumber = phoneNumber.get())
     }
 
     fun navigateToHome() {
@@ -246,12 +247,14 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
         val userId = me.id.toString()
         val userName = me.firstName
         val friendsList = contacts.userIds.joinToString(",")
+        val lastDetectedCountry = AppCountryDetector.getLastDetectedCountryByPhoneCode()
+        val lastDetectedCountryShortStr = lastDetectedCountry?.code ?: "ua"
         return RegistrationRequest(userId = userId, friendsList = friendsList, createdPasswordHash = "test", displayName = userName,
-            country = "ua"
+            country = lastDetectedCountryShortStr
         )
     }
 
-    class MyInfo(val image: TdApi.File?, val name: String, val contactsAmount: Int)
+    class MyInfo(val image: TdApi.File?, val name: String, val contactsAmount: Int, val telegramId: Int, val phoneNumber: String?)
 
     enum class LoginToTelegram {
         ENTER_NUMBER,

@@ -13,13 +13,21 @@ object AppCountryDetector {
     private val countryCodes: HashMap<Int, String> = HashMap()
     private val countryNames: HashMap<Int, String> = HashMap()
 
+    private var lastDetectedCountry: Country? = null
+
     fun detectCountryByPhoneCode(mcc: Int?): Country? {
         val codeIso = countryCodes[mcc]?.toLowerCase(Locale.ROOT) ?: ""
         val name = countryNames[mcc] ?: ""
         mcc?.let {
-            return Country(name=name, code = codeIso, mcc = mcc)
+            lastDetectedCountry = Country(name=name, code = codeIso, mcc = mcc)
+        } ?: kotlin.run {
+            lastDetectedCountry = null
         }
-        return null
+        return lastDetectedCountry
+    }
+
+    fun getLastDetectedCountryByPhoneCode(): Country? {
+        return lastDetectedCountry
     }
 
     fun isMapsEmpty(): Boolean {
