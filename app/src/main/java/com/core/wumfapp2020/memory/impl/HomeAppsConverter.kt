@@ -37,7 +37,7 @@ class HomeAppsConverter : PropertyConverter<MutableList<App>, String> {
             return App(str, emptyList())
         }
         val strProperties = str.split(DIMEN_3)
-        return App(strProperties[0], strProperties[1].split(DIMEN_2).map { it.toInt() })
+        return App(packageName = strProperties[0], whoLikes = strProperties[1].split(DIMEN_2).map { it.toInt() })
     }
 
 }

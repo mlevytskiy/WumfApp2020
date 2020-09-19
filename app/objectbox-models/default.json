@@ -102,9 +102,28 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:7649760512961353881",
+      "lastPropertyId": "2:4192497517105542423",
+      "name": "FriendsCollection",
+      "properties": [
+        {
+          "id": "1:2863313792649618124",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:4192497517105542423",
+          "name": "friends",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "3:7618270660564823287",
+  "lastEntityId": "4:7649760512961353881",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

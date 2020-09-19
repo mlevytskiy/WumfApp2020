@@ -1,5 +1,6 @@
 package com.core.wumfapp2020.viewmodel
 
+import android.util.Log
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -33,13 +34,15 @@ class ProfileViewModel @Inject constructor(private val manager: SplitInstallMana
     val logOut: LiveData<Event<Unit>> = logOutMutable
 
     val inProgress = ObservableBoolean(false)
-    val photo = ObservableField<String>()
+    val hasPhoto: Boolean
+    val photo: String?
     val name = ObservableField<String>()
     val phoneNumber = ObservableField<String>()
     val hasProfile = true
 
     init {
-        photo.set(userInfoRepository.getTelegramUser()?.photo)
+        photo = userInfoRepository.getTelegramUser()?.photo
+        hasPhoto = !photo.isNullOrEmpty()
         name.set(userInfoRepository.getTelegramUser()?.name)
         phoneNumber.set(userInfoRepository.getTelegramUser()?.phoneNumber)
     }

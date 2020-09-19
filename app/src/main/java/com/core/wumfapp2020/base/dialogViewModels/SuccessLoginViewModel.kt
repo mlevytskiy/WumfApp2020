@@ -27,7 +27,7 @@ class SuccessLoginViewModel @AssistedInject constructor(@Assisted val image: TdA
                                                         private val headerInterceptor: HeaderInterceptor,
                                                         private val userInfoRepository: UserInfoRepository): BaseViewModel() {
 
-    val photoFilePath: ObservableField<String> = ObservableField("")
+    val photoFilePath: ObservableField<String?> = ObservableField("")
 
     init {
         progress.set(true)
@@ -37,21 +37,24 @@ class SuccessLoginViewModel @AssistedInject constructor(@Assisted val image: TdA
         startBgJob {
             val deferredList = listOf(
                 async {
-                    for (i in 1..30) {
-                        delay(100)
-                        if (photoFilePath.get().isNullOrEmpty() && (image?.local?.isDownloadingCompleted == true)) {
-                            photoFilePath.set(image.local.path)
-                            val registrationInfo = RegistrationInfo()
-                            registrationInfo.hasRegistration = true
-                            registrationInfo.isRegWumfChecked = true
-                            registrationInfo.name = name
-                            registrationInfo.photo = image.local.path
-                            registrationInfo.telegramId = telegramId
-                            registrationInfo.phoneNumber = phoneNumber
-                            userInfoRepository.setTelegramUser(registrationInfo)
-                            break
+                    var hasPhoto = image?.local?.isDownloadingActive == true || image?.local?.isDownloadingCompleted == true
+                    val registrationInfo = RegistrationInfo()
+                    if (hasPhoto) {
+                        for (i in 1..30) {
+                            delay(100)
+                            if (photoFilePath.get().isNullOrEmpty() && (image?.local?.isDownloadingCompleted == true)) {
+                                photoFilePath.set(image.local.path)
+                                registrationInfo.photo = image.local.path
+                                break
+                            }
                         }
                     }
+                    registrationInfo.hasRegistration = true
+                    registrationInfo.isRegWumfChecked = true
+                    registrationInfo.name = name
+                    registrationInfo.telegramId = telegramId
+                    registrationInfo.phoneNumber = phoneNumber
+                    userInfoRepository.setTelegramUser(registrationInfo)
                 },
                 async {
                     updateToken()

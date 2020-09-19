@@ -5,8 +5,7 @@
     <data>
 
         <import type="android.view.View" />
-
-        <import type="android.text.TextUtils"/>
+        <import type="android.text.TextUtils" />
 
         <variable
             name="viewModel"
@@ -24,7 +23,8 @@
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
             android:layout_gravity="center"
-            app:filePath="@{viewModel.photoFilePath}" />
+            app:filePath="@{viewModel.photoFilePath}"
+            android:visibility="@{!TextUtils.isEmpty(viewModel.photoFilePath)}" />
 
         <TextView
             android:layout_width="wrap_content"

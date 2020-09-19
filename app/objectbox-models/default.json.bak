@@ -52,7 +52,7 @@
     },
     {
       "id": "2:7779371241246431488",
-      "lastPropertyId": "2:6111960840998104262",
+      "lastPropertyId": "4:6138671705803097172",
       "name": "MyAppsCollection",
       "properties": [
         {
@@ -64,6 +64,16 @@
         {
           "id": "2:6111960840998104262",
           "name": "apps",
+          "type": 9
+        },
+        {
+          "id": "3:985082656612223583",
+          "name": "deferredTaskAddApps",
+          "type": 9
+        },
+        {
+          "id": "4:6138671705803097172",
+          "name": "deferredTaskRemoveApps",
           "type": 9
         }
       ],

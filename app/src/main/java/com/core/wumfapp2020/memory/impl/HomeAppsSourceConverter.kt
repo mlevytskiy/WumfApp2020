@@ -21,7 +21,7 @@ class HomeAppsSourceConverter : PropertyConverter<HomeAppsSource, String> {
             HomeAppsSource(TYPE_IN_THE_WORLD, 0, "")
         } else {
             val result = databaseValue.split(DIMEN)
-            HomeAppsSource(result[0].toInt(), result[1].toInt(), result[2])
+            HomeAppsSource(type = result[0].toInt(), countryMCC = result[1].toInt(), countryName = result[2])
         }
     }
 
