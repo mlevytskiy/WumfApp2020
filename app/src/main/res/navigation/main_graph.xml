@@ -28,7 +28,13 @@
 
     <fragment android:id="@+id/friends"
         android:name="com.core.wumfapp2020.fragment.FriendsFragment"
-        tools:layout="@layout/frg_friends" />
+        tools:layout="@layout/frg_friends">
+
+        <action
+            android:id="@+id/action_friends_to_friend_detail"
+            app:destination="@id/friend_detail" />
+
+    </fragment>
 
     <fragment android:id="@+id/profile"
         android:name="com.core.wumfapp2020.fragment.ProfileFragment"
@@ -45,5 +51,16 @@
     <fragment android:id="@+id/add_app_in_my_collection"
         android:name="com.core.wumfapp2020.fragment.AddAppInMyCollectionFragment"
         tools:layout="@layout/frg_add_app_in_my_collection" />
+
+    <fragment android:id="@+id/friend_detail"
+        android:name="com.core.wumfapp2020.fragment.FriendDetailFragment"
+        tools:layout="@layout/frg_friend_detail">
+
+        <argument
+            android:name="friend"
+            app:argType="com.core.wumfapp2020.memory.impl.Friend"
+            app:nullable="false" />
+
+    </fragment>
 
 </navigation>

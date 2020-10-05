@@ -17,6 +17,17 @@ class AppProvider(context: Context) {
         gpAppProvider = GooglePlayAppsProvider(context)
     }
 
+    suspend fun getAppContainer(pkg: String): AppContainer {
+        var appContainer = innerAppsProvider.getAppContainer(pkg)
+        if (appContainer != null) {
+            return appContainer
+        } else {
+            appContainer = AppContainer(packageName = pkg)
+            gpAppProvider.fillApp(appContainer)
+            return appContainer
+        }
+    }
+
     suspend fun getNextApps(
         packages: List<String> = emptyList(), queryType: QueryType = ANY_APP,
         nextAppsAmount: Int = GET_APPS_AMOUNT, updateBlock: (MutableList<AppContainer>) -> Unit

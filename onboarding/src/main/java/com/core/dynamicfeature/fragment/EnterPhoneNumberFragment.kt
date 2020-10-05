@@ -44,7 +44,15 @@ class EnterPhoneNumberFragment: AppBaseFragment<FrgEnterPhoneNumberBinding, Ente
             val mcc = binding.phoneNumberFlipWrapper.getCountryMCC()
             viewModel.saveCountryMCC(mcc)
             binding.nextButton.progress = 100
-            showSuccessLoginDialog(requireContext(), it.image, it.name, it.contactsAmount, it.telegramId, it.phoneNumber)
+            showSuccessLoginDialog(
+                context = requireContext(),
+                image = it.image,
+                name = it.name,
+                telegramId = it.telegramId,
+                phoneNumber = it.phoneNumber,
+                allContacts = it.contacts,
+                contactsWithWumf = it.friends
+            )
         }
         observeState(viewModel.loginToTelegram) {
             when(it) {

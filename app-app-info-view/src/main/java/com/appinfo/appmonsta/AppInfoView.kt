@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.util.Log
 import android.util.SparseArray
 import android.view.Gravity.CENTER
@@ -23,12 +24,22 @@ import wumf.com.appsprovider2.AppContainer
 import wumf.com.appsprovider2.GooglePlayApp
 import java.io.File
 
+const val NORMAL_MODE = 0
+const val SMALL_MODE = 1
+
 class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     private val textView: TextView
     private val imageView: ImageView
     private val whoLikesContainer: View
     private val whoLikesTxt: TextView
+    var mode: Int = NORMAL_MODE
+        set(value) {
+            field = value
+            if (field == SMALL_MODE) {
+                setSmallMode(context)
+            }
+        }
 
     private var packagesLikes: Map<String, List<Int>>? = null
 
@@ -41,13 +52,27 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
         imageView = view.findViewById(R.id.image_view)
         whoLikesContainer = view.findViewById(R.id.who_likes_container)
         whoLikesTxt = view.findViewById(R.id.who_likes_txt)
+        if (mode == SMALL_MODE) {
+            setSmallMode(context)
+        }
     }
 
-    fun setModel(model: AppContainer) {
-        model.app?.let {
+    fun setSmallMode(context: Context) {
+        textView.visibility = GONE
+        whoLikesContainer.visibility = GONE
+        whoLikesTxt.visibility = GONE
+        imageView.layoutParams.height = context.toPixels(30)
+        imageView.layoutParams.width = context.toPixels(30)
+        imageView.layoutParams = imageView.layoutParams
+        imageView.setPadding(0,0,0,0)
+        imageView.invalidate()
+    }
+
+    fun setModel(model: AppContainer?) {
+        model?.app?.let {
             setModel(it)
         } ?:run {
-            model.gpApp?.let {
+            model?.gpApp?.let {
                 setModel(it)
             } ?:kotlin.run {
                 clearView()
@@ -120,6 +145,10 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
         } ?:run {
             whoLikesContainer.visibility = View.GONE
         }
+    }
+
+    fun Context.toPixels(dp: Int): Int {
+        return (dp * (this.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT))
     }
 
 }

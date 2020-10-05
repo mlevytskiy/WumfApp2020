@@ -10,6 +10,7 @@ import android.text.Html
 import android.text.Spannable
 import android.text.TextUtils
 import android.text.method.TransformationMethod
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -20,24 +21,25 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginTop
-import androidx.databinding.BindingAdapter
-import androidx.databinding.InverseBindingAdapter
-import androidx.databinding.InverseBindingListener
+import androidx.databinding.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import java.io.File
+import kotlin.reflect.KClass
+import kotlin.reflect.full.primaryConstructor
 
 object DataBindingAdapters {
 
     @JvmStatic
     @BindingAdapter("filePath")
-    fun setImage(view: ImageView, filePath: String) {
-        val imgFile = File(filePath)
-        if(imgFile.exists()) {
-            view.setImageURI(Uri.fromFile(imgFile))
+    fun setImage(view: ImageView, filePath: String?) {
+        filePath?.let {
+            val imgFile = File(filePath)
+            if(imgFile.exists()) {
+                view.setImageURI(Uri.fromFile(imgFile))
+            }
         }
     }
 
@@ -350,6 +352,47 @@ object DataBindingAdapters {
     }
 
     @JvmStatic
+    @BindingAdapter("items", "item_layout")
+    fun <T> setStuzoRecyclerViewAdapter(recyclerView: RecyclerView, items: List<T>?, itemLayoutResId: Int) = recyclerView.adapter?.let {
+        @Suppress("UNCHECKED_CAST")
+        (recyclerView.adapter as CommonRecyclerAdapter<T, CommonViewHolder>).setItems(items)
+    } ?: run {
+        recyclerView.adapter = CommonRecyclerAdapter(items ?: emptyList(), itemLayoutResId, CommonViewHolder::class)
+    }
+
+    class CommonRecyclerAdapter<T, VH : CommonAbstractViewHolder>(
+        items: List<T>,
+        private val mItemViewId: Int,
+        private val vhkClass: KClass<VH>
+    ) : RecyclerView.Adapter<VH>() {
+        private val myItems = ArrayList<T>().apply { addAll(items) }
+
+        fun setItems(items: List<T>?) {
+            myItems.clear()
+            items?.let { myItems.addAll(it) }
+            notifyDataSetChanged()
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, i: Int): VH {
+            val binding = DataBindingUtil.inflate<ViewDataBinding>(
+                LayoutInflater.from(parent.context),
+                mItemViewId,
+                parent,
+                false
+            )
+            return vhkClass.primaryConstructor?.call(binding) ?: error("Can't create ViewHolder")
+        }
+
+        override fun onBindViewHolder(holder: VH, position: Int) {
+            if (position < myItems.size) {
+                holder.bind(myItems[position])
+            }
+        }
+
+        override fun getItemCount(): Int = myItems.size
+    }
+
+    @JvmStatic
     @BindingAdapter("scrollToBottom")
     fun scrollToBottom(scroll: ScrollView, scrollToBottom: Boolean) {
         if (scrollToBottom) {
@@ -357,5 +400,20 @@ object DataBindingAdapters {
                 scroll.fullScroll(View.FOCUS_DOWN)
             }
         }
+    }
+
+
+    class CommonViewHolder constructor(private val binding: ViewDataBinding) : CommonAbstractViewHolder(binding) {
+
+        override fun bind(item: Any?) {
+            item?.let {
+                binding.setVariable(BR.viewModel, it)
+                binding.executePendingBindings()
+            }
+        }
+    }
+
+    abstract class CommonAbstractViewHolder(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+        abstract fun bind(item: Any?)
     }
 }

@@ -100,7 +100,7 @@ class GooglePlayAppsProvider(context: Context) {
         return nextIndex
     }
 
-    private fun fillApp(appContainer: AppContainer) {
+    fun fillApp(appContainer: AppContainer) {
         appContainer.gpApp?.let {
             fillApp(it, filesDir)
         } ?:run {

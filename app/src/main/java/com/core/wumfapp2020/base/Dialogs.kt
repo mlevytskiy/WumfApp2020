@@ -35,15 +35,20 @@ fun showCheckAppIfExistOnGooglePlayDialog(context: Context, appContainer: AppCon
     return dialog
 }
 
-fun showSuccessLoginDialog(context: Context, image: TdApi.File?, name: String, contactsAmount: Int, telegramId: Int?, phoneNumber: String?) {
+fun showSuccessLoginDialog(context: Context, image: TdApi.File?, name: String, telegramId: Int?, phoneNumber: String?,
+    allContacts: List<Int>, contactsWithWumf: List<TdApi.User>) {
+
     dialog = createDialogBuilder(context)
-        .setView(createSuccessLoginDialogView(context, image, name, contactsAmount, telegramId, phoneNumber) { dialog?.dismiss() })
+        .setView(createSuccessLoginDialogView(context, image, name, contactsWithWumf.size, telegramId, phoneNumber, allContacts, contactsWithWumf) { dialog?.dismiss() })
         .show()
 }
 
-fun createSuccessLoginDialogView(context: Context, image: TdApi.File?, name: String, contactsAmount: Int, telegramId: Int?, phoneNumber: String?, dismissDialog: ()->Unit): View {
+fun createSuccessLoginDialogView(context: Context, image: TdApi.File?, name: String, contactsAmount: Int, telegramId: Int?, phoneNumber: String?,
+                                 allContacts: List<Int>, contactsWithWumf: List<TdApi.User>, dismissDialog: ()->Unit): View {
     val binding = DialogSuccessLoginBinding.inflate(getLayoutInflater(context))
-    val viewModel = getAppComponent().successLoginViewModelFactory.create(image, name, contactsAmount, telegramId, phoneNumber, dismissDialog)
+    val viewModel = getAppComponent().successLoginViewModelFactory.create(
+        image = image, name = name, contactsAmount = contactsAmount, telegramId = telegramId, phoneNumber = phoneNumber,
+        allContacts = allContacts, contactsWithWumf = contactsWithWumf, dismissDialog = dismissDialog)
     binding.viewModel = viewModel
     viewModel.doWork()
     return binding.root

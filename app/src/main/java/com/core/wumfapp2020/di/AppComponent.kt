@@ -10,10 +10,7 @@ import com.core.wumfapp2020.InternetConnectionChecker
 import com.core.wumfapp2020.base.ColorRes
 import com.core.wumfapp2020.base.StringRes
 import com.core.wumfapp2020.base.countriesdialog.CountriesHolder
-import com.core.wumfapp2020.memory.HomeStateRepository
-import com.core.wumfapp2020.memory.MyAppsCollectionRepository
-import com.core.wumfapp2020.memory.MyObjectBox
-import com.core.wumfapp2020.memory.UserInfoRepository
+import com.core.wumfapp2020.memory.*
 import com.core.wumfapp2020.testdi.WumfActivity
 import com.core.wumfapp2020.viewmodel.AnyFragmentBaseViewModel
 import javax.inject.Singleton
@@ -27,6 +24,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import wumf.com.appsprovider2.AppProvider
 
 private const val API_KEY_HEADER_KEY = "x-api-key"
 private const val DEVICE_ID_HEADER_KEY = "device-id"
@@ -89,6 +87,15 @@ object AppModule {
     @JvmStatic
     @Singleton
     @Provides
+    fun provideFriendsRepository(boxStore: BoxStore): FriendsRepository {
+        val repository = FriendsRepository(boxStore)
+        repository.initCache()
+        return repository
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
     fun provideHomeStateRepository(boxStore: BoxStore): HomeStateRepository {
         val repository = HomeStateRepository(boxStore)
         repository.initCache()
@@ -127,6 +134,11 @@ object AppModule {
     @Reusable
     @Provides
     fun provideColorRes(context: Context) = ColorRes(context)
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideAppProvider(context: Context) = AppProvider(context)
 
 }
 

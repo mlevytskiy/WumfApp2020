@@ -40,14 +40,22 @@ class FriendsConverter : PropertyConverter<MutableList<Friend>, String> {
             return Friend()
         }
         val strProperties = str.split(DIMEN_2)
-        return Friend(name = strProperties[0], telegramId = strProperties[1].toLong(), phoneNumber = strProperties[2], photo = strProperties[3])
+        return Friend(
+            name = strProperties[0],
+            surname = strProperties[1],
+            telegramId = strProperties[2].toInt(),
+            phoneNumber = strProperties[3],
+            photo = strProperties[4],
+            apps = if (strProperties[5].isEmpty()) emptyList() else strProperties[5].split(DIMEN_3))
     }
 
     private fun friendToString(friend: Friend, strBuilder: StringBuilder) {
         strBuilder.append(friend.name).append(DIMEN_2)
+            .append(friend.surname).append(DIMEN_2)
             .append(friend.telegramId).append(DIMEN_2)
             .append(friend.phoneNumber).append(DIMEN_2)
-            .append(friend.photo)
+            .append(friend.photo).append(DIMEN_2)
+            .append(if (friend.apps.isEmpty()) "" else friend.apps.joinToString(separator = DIMEN_3))
     }
 
 }

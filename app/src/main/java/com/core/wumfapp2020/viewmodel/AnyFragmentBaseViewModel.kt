@@ -10,6 +10,7 @@ import com.core.wumfapp2020.viewmodel.home.HomeTitle
 import com.library.Event
 import com.library.core.BaseViewModel
 import com.library.core.SingleLiveEvent
+import com.library.core.log
 import kotlinx.coroutines.*
 import java.io.IOException
 import javax.inject.Inject
@@ -45,6 +46,7 @@ abstract class AnyFragmentBaseViewModel: BaseViewModel() {
     }
 
     fun handleError(e: Throwable) {
+        "${e.message}".log()
         showErrorMessageMutable.postEvent(Event(e.message.toString()))
     }
 

@@ -3,6 +3,7 @@ package com.core.wumfapp2020.di
 import android.content.Context
 import com.app.api.api.WumfApi
 import com.core.wumfapp2020.base.dialogViewModels.*
+import com.core.wumfapp2020.memory.FriendsRepository
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.testdi.Obj1T
 import com.core.wumfapp2020.viewmodel.*
@@ -14,6 +15,7 @@ interface ViewModelProvision {
     var homeViewModelFactory: HomeViewModel.Factory
     var appsViewModel: AppsViewModel
     var friendsViewModel: FriendsViewModel
+    var friendDetailViewModelFactory: FriendDetailViewModel.Factory
     var profileViewModel: ProfileViewModel
     var moreViewModel: MoreViewModel
     var peopleWhoLikesViewModel: PeopleWhoLikesViewModel

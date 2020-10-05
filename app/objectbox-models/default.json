@@ -105,7 +105,7 @@
     },
     {
       "id": "4:7649760512961353881",
-      "lastPropertyId": "2:4192497517105542423",
+      "lastPropertyId": "3:1905007806229990645",
       "name": "FriendsCollection",
       "properties": [
         {
@@ -117,6 +117,11 @@
         {
           "id": "2:4192497517105542423",
           "name": "friends",
+          "type": 9
+        },
+        {
+          "id": "3:1905007806229990645",
+          "name": "allContacts",
           "type": 9
         }
       ],

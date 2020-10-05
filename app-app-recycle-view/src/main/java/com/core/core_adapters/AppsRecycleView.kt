@@ -56,6 +56,10 @@ class AppsRecycleView(context: Context, attr: AttributeSet?) : RecyclerView(cont
         setPackages(packages, likes)
     }
 
+    fun setPackages(packages: List<String>) {
+        setPackages(packages, emptyMap())
+    }
+
     fun setPackages(packages: List<String>, likes: Map<String, List<Int>>) {
         if (!getAllAppsFromPhone && packages.isEmpty()) {
             val adapter = getAdapter() as AppsAdapter?
@@ -78,7 +82,7 @@ class AppsRecycleView(context: Context, attr: AttributeSet?) : RecyclerView(cont
         }
     }
 
-    fun setItemClick(block: (AppContainer, List<Int>)->Unit ) {
+    fun setItemClick(block: (AppContainer, List<Int>)->Unit) {
         val adapter = getAdapter() as AppsAdapter?
         itemListener = block
         adapter?.setItemClick(block)

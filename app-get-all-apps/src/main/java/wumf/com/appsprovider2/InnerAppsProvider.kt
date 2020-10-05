@@ -69,6 +69,19 @@ class InnerAppsProvider(context: Context) {
         return result
     }
 
+    fun getAppContainer(pkg: String): AppContainer? {
+        val resolveInfo = resolveInfos.singleOrNull {
+            getPackageName(it) == pkg
+        }
+        if (resolveInfo == null) {
+            return null
+        } else {
+            val result =  getAppContainer(resolveInfo)
+            fillApp(result)
+            return result
+        }
+    }
+
     private fun getAppContainer(resolveInfo: ResolveInfo): AppContainer {
         val app =  resolveInfoToApp(resolveInfo);
         return AppContainer(app.appPackage, app, null, resolveInfo)

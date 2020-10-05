@@ -8,6 +8,7 @@ import com.app.api.api.LoginRequest
 import com.app.api.api.RegistrationRequest
 import com.app.api.api.WumfApi
 import com.core.dynamicfeature.fragment.EnterPhoneNumberFragmentDirections
+import com.core.wumfapp2020.api.Friend
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.viewmodel.AnyFragmentBaseViewModel
 import com.core.wumfapp2020.viewmodel.ResultStatus
@@ -170,25 +171,36 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
             val contacts = client.getContacts()
             val hasAccount = retryIO(times = 3) { wumfApi.checkReg(CheckRegistrationRequest(me.id.toString())).await() }.hasInDb
 
-            var contactsAmount = 0
+            val wumfContactsIds: List<Friend>
             val token = if (hasAccount) {
-                val result = wumfApi.login(prepareLoginRequest(me, contacts)).await()
-                contactsAmount = when {
-                    result.friendsList.isNullOrEmpty() -> 0
-                    result.friendsList.contains(",") -> result.friendsList.split(",").size
-                    else -> 1
-                }
-                result.token
+                val loginRequest = prepareLoginRequest(me, contacts)
+                val loginResponse = wumfApi.login(loginRequest).await()
+                wumfContactsIds = loginResponse.friendsList
+                loginResponse.token
             } else {
-                val result = wumfApi.registration(prepareRegistrationRequest(me, contacts)).await()
-                contactsAmount = when {
-                    result.friendsList.isNullOrEmpty() -> 0
-                    result.friendsList.contains(",") -> result.friendsList.split(",").size
-                    else -> 1
-                }
-                result.token
+                val registrationResponse = wumfApi.registration(prepareRegistrationRequest(me, contacts)).await()
+                wumfContactsIds = registrationResponse.friendsList
+                registrationResponse.token
             }
-            val dataForDialog = prepareDataForSuccessDialog(me, contacts, contactsAmount)
+            val dataForDialog = prepareDataForSuccessDialog(me = me, contacts = contacts, wumfContacts = wumfContactsIds.map { it.id } )
+            val users = ArrayList<TdApi.User>()
+            wumfContactsIds.forEach {
+                try {
+                    val user = client.getUser(it.id)
+                    user.restrictionReason = it.apps
+                    users.add(user)
+                } catch (ex: Exception) {
+                    //ignore
+                }
+            }
+            try {
+                users[0].profilePhoto?.small?.id?.let {
+                    users[0].profilePhoto?.small?.local = client.downloadFile(it).local
+                }
+            } catch (e: Exception) {
+                //ignore
+            }
+            dataForDialog.friends.addAll(users)
             userInfoRepository.setToken(token)
             showSuccessMutable.postEvent(dataForDialog)
             delay(1000)
@@ -215,7 +227,7 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
         }
     }
 
-    suspend fun prepareDataForSuccessDialog(me: TdApi.User, contacts: TdApi.Users, contactsAmount: Int): MyInfo {
+    suspend fun prepareDataForSuccessDialog(me: TdApi.User, contacts: TdApi.Users, wumfContacts: List<Int>): MyInfo {
         var file: TdApi.File? = null
         me.profilePhoto?.big?.let {
             file = if (it.local.canBeDownloaded) {
@@ -229,7 +241,8 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
             }
         }
         val name = me.firstName
-        return MyInfo(image = file, name = name, contactsAmount = contactsAmount, telegramId = me.id, phoneNumber = phoneNumber.get())
+        val contactsIds = contacts.userIds.toList()
+        return MyInfo(image = file, name = name, friendIds = wumfContacts, contacts = contactsIds, telegramId = me.id, phoneNumber = phoneNumber.get())
     }
 
     fun navigateToHome() {
@@ -240,6 +253,7 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
     fun prepareLoginRequest(me: TdApi.User, contacts: TdApi.Users): LoginRequest {
         val userId = me.id.toString()
         val friendsList = contacts.userIds.joinToString(",")
+        "friendsList=$friendsList".log()
         return LoginRequest(userId = userId, friendsList = friendsList, passwordHash = "test")
     }
 
@@ -254,7 +268,8 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
         )
     }
 
-    class MyInfo(val image: TdApi.File?, val name: String, val contactsAmount: Int, val telegramId: Int, val phoneNumber: String?)
+    class MyInfo(val image: TdApi.File?, val name: String, val telegramId: Int, val phoneNumber: String?,
+                 val friends: ArrayList<TdApi.User> = ArrayList(), val contacts: List<Int>, val friendIds: List<Int>)
 
     enum class LoginToTelegram {
         ENTER_NUMBER,

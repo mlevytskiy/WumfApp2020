@@ -129,6 +129,11 @@ class TgClient(private val context: Context) : TelegramFlow(),
         return TdApi.GetContacts().async()
     }
 
+    suspend fun getUser(userId: Int): TdApi.User {
+        "get user userId=$userId".log()
+        return TdApi.GetUser(userId).async()
+    }
+
     fun getChatInfo(chatId: Long) {
         //        sendClient(TdApi.GetChat(chatId))
     }

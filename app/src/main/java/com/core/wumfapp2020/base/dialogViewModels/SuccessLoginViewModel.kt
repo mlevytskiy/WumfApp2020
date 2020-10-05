@@ -6,6 +6,7 @@ import com.app.api.api.WumfApi
 import com.app.api.api.executeRetrofit
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.base.StringRes
+import com.core.wumfapp2020.memory.FriendsRepository
 import com.core.wumfapp2020.memory.MyAppsCollectionRepository
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.memory.impl.RegistrationInfo
@@ -22,10 +23,13 @@ class SuccessLoginViewModel @AssistedInject constructor(@Assisted val image: TdA
                                                         @Assisted private val telegramId: Int?,
                                                         @Assisted private val phoneNumber: String?,
                                                         @Assisted val dismissDialog: ()->Unit,
+                                                        @Assisted private val allContacts: List<Int>,
+                                                        @Assisted private val contactsWithWumf: List<TdApi.User>,
                                                         private val wumfApi: WumfApi,
                                                         private val appsRepository: MyAppsCollectionRepository,
                                                         private val headerInterceptor: HeaderInterceptor,
-                                                        private val userInfoRepository: UserInfoRepository): BaseViewModel() {
+                                                        private val userInfoRepository: UserInfoRepository,
+                                                        private val friendsRepository: FriendsRepository): BaseViewModel() {
 
     val photoFilePath: ObservableField<String?> = ObservableField("")
 
@@ -55,6 +59,8 @@ class SuccessLoginViewModel @AssistedInject constructor(@Assisted val image: TdA
                     registrationInfo.telegramId = telegramId
                     registrationInfo.phoneNumber = phoneNumber
                     userInfoRepository.setTelegramUser(registrationInfo)
+                    friendsRepository.setAllContacts(allContacts)
+                    friendsRepository.setWumfContacts(contactsWithWumf)
                 },
                 async {
                     updateToken()
@@ -87,7 +93,8 @@ class SuccessLoginViewModel @AssistedInject constructor(@Assisted val image: TdA
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(image: TdApi.File?, name: String, contactsAmount: Int, telegramId: Int?, phoneNumber: String?, dismissDialog: ()->Unit): SuccessLoginViewModel
+        fun create(image: TdApi.File?, name: String, contactsAmount: Int, telegramId: Int?, phoneNumber: String?,
+                   allContacts: List<Int>, contactsWithWumf: List<TdApi.User>, dismissDialog: ()->Unit): SuccessLoginViewModel
     }
 
 }
