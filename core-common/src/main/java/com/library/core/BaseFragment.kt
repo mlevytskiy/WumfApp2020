@@ -32,13 +32,27 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val
         requireActivity().getWindow()
             .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN or WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
-        binding = DataBindingUtil.inflate(inflater, uiRes, container, false)
-        binding.lifecycleOwner = this
+        val view = getReusedView()
+        if (view == null) {
+            binding = DataBindingUtil.inflate(inflater, uiRes, container, false)
+            setReusedView(binding.root)
+            Log.i("testr", "onCreateView ${this.javaClass}")
+        } else {
+            view.parent?.let {
+                (it as ViewGroup).removeView(view)
+            }
+            binding = DataBindingUtil.findBinding<B?>(view) ?: DataBindingUtil.bind(view)!!
+        }
         setViewModelInBinding(binding, viewModel)
-
-        Log.i("testr", "onCreateView ${this.javaClass}")
+        binding.lifecycleOwner = this
         return binding.root
     }
+
+    open fun getReusedView(): View? {
+        return null
+    }
+
+    open fun setReusedView(view: View) { }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,7 +92,7 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val
     }
 
     fun <T> observeEvent(liveData: LiveData<Event<T>>, onUnhandledEvent: (T) -> Unit) {
-        liveData.observe(viewLifecycleOwner, Observer {event->
+        liveData.observe(viewLifecycleOwner, Observer { event ->
             if (event?.handled == false) {
                 event.getContent()?.let(onUnhandledEvent)
             }

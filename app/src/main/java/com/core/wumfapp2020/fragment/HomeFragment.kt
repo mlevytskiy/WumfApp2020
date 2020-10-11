@@ -2,14 +2,14 @@ package com.core.wumfapp2020.fragment
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.databinding.DataBindingUtil
+import com.core.wumfapp2020.MainActivity
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.VisibleBottomTabsState
-import com.core.wumfapp2020.base.AppBaseFragment
+import com.core.wumfapp2020.base.*
 import com.core.wumfapp2020.base.countriesdialog.CountriesHolder
-import com.core.wumfapp2020.base.showAppDialog
-import com.core.wumfapp2020.base.showCountriesDialog
-import com.core.wumfapp2020.base.showSimpleDialog
 import com.core.wumfapp2020.databinding.FrgHomeBinding
 import com.core.wumfapp2020.di.injector
 import com.core.wumfapp2020.util.showInGooglePlay
@@ -18,8 +18,9 @@ import com.core.wumfapp2020.viewmodel.home.HomeTitle
 import com.library.core.lazySavedStateViewModel
 import wumf.com.detectphone.AppCountryDetector
 import wumf.com.detectphone.Country
+import java.lang.ref.WeakReference
 
-class HomeFragment : AppBaseFragment<FrgHomeBinding, HomeViewModel>(R.layout.frg_home) {
+class HomeFragment : TabFragment<FrgHomeBinding, HomeViewModel>(R.layout.frg_home) {
 
     override val viewModel by lazySavedStateViewModel { state->
         injector.homeViewModelFactory.create()
@@ -34,7 +35,6 @@ class HomeFragment : AppBaseFragment<FrgHomeBinding, HomeViewModel>(R.layout.frg
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.appsRecycleView.showLoadedState()
         observeState(viewModel.showPickAppCategoryDialog) {
             val selected = detectChekedItemInPickAppCategoryDialog(it)
             showPickAppCategoryDialog(selected)

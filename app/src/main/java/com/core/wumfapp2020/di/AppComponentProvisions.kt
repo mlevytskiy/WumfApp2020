@@ -5,7 +5,6 @@ import com.app.api.api.WumfApi
 import com.core.wumfapp2020.base.dialogViewModels.*
 import com.core.wumfapp2020.memory.FriendsRepository
 import com.core.wumfapp2020.memory.UserInfoRepository
-import com.core.wumfapp2020.testdi.Obj1T
 import com.core.wumfapp2020.viewmodel.*
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import krafts.alex.tg.TgClient
@@ -33,7 +32,6 @@ interface ViewModelProvision {
 
 interface ForDeliveryFeaturesProvision {
     fun provideContext(): Context
-    fun provideCustomObject(): Obj1T
     fun provideSplitInstallManager(): SplitInstallManager
     fun provideUserInfoRepository(): UserInfoRepository
     fun provideWumfApi(): WumfApi

@@ -12,6 +12,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.library.core.log
 import java.lang.ref.WeakReference
 
 fun Context.showInGooglePlay(pkg: String) {
@@ -59,6 +60,9 @@ fun BottomNavigationView.setupWithNavControllerWithoutAnimation(navController: N
             builder.setPopUpTo(findStartDestination(navController.graph)!!.id, false)
         }
         val options = builder.build()
+        if (navController.currentDestination?.id == item.itemId) {
+            return false
+        }
         return try {
             navController.navigate(item.itemId, null, options)
             true

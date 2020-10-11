@@ -27,6 +27,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             app:filePath="@{viewModel.friend.photo}"
+            app:defaultImage="@{@drawable/ic_no_profile}"
             android:onClick="@{() -> viewModel.onClickPhoto()}" />
 
         <TextView
@@ -36,6 +37,7 @@
             android:text="@{viewModel.friend.name}" />
 
         <TextView
+            android:paddingStart="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.friend.surname}" />
@@ -48,7 +50,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_height="wrap_content"
-            android:layout_width="130dp"
+            android:layout_width="wrap_content"
             android:orientation="horizontal"
             app:spanCount="2"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

@@ -1,5 +1,6 @@
 package com.core.wumfapp2020.memory.impl
 
+import com.core.wumfapp2020.memory.FriendsCollection
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import kotlinx.coroutines.*
@@ -43,7 +44,14 @@ abstract class BaseRepository<T>(boxStore: BoxStore, classT: Class<T>) {
         cached = null
     }
 
-    abstract fun currentT(): T?
+    protected abstract fun currentT(): T?
+
+    fun current(): T? {
+        cached?.let {
+            return cached
+        }
+        return currentT()
+    }
 
     abstract fun initCache()
 

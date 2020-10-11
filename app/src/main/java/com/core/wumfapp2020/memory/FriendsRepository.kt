@@ -31,7 +31,10 @@ class FriendsRepository(boxStore: BoxStore): BaseRepository<FriendsCollection>(b
             photo = user.profilePhoto?.small?.local?.path,
             telegramId = user.id,
             phoneNumber = user.phoneNumber,
-            apps = if (user.restrictionReason.isEmpty()) emptyList() else user.restrictionReason.split(","))
+            apps = if (user.restrictionReason.isEmpty()) emptyList()
+                else if (user.restrictionReason.contains(","))
+                user.restrictionReason.split(",").filter { it.isNotEmpty() }
+                else listOf(user.restrictionReason))
     }
 
     override fun initCache() {

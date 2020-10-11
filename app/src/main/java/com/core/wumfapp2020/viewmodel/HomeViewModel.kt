@@ -3,6 +3,7 @@ package com.core.wumfapp2020.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.app.api.api.*
 import com.core.wumfapp2020.base.ColorRes
 import com.core.wumfapp2020.base.StringRes
@@ -15,7 +16,9 @@ import com.core.wumfapp2020.memory.impl.*
 import com.core.wumfapp2020.viewmodel.home.HomeTitle
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.library.core.SingleLiveEvent
+import com.library.core.log
 import com.squareup.inject.assisted.AssistedInject
+import krafts.alex.tg.TgClient
 import retrofit2.Call
 import wumf.com.detectphone.AppCountryDetector
 import wumf.com.detectphone.Country
@@ -28,7 +31,7 @@ const val AMONG_FRIENDS = 3
 class HomeViewModel @AssistedInject constructor(private val homeStateRepository: HomeStateRepository, private val manager: SplitInstallManager,
                                                 val sharedViewModel: SharedViewModel, val memory: UserInfoRepository,
                                                 stringRes: StringRes, colorRes: ColorRes, private val countryHolder: CountriesHolder,
-                                                private val wumfApi: WumfApi
+                                                private val wumfApi: WumfApi, private val tdClient: TgClient
 ): AnyFragmentBaseViewModel() {
 
     private val directions = HomeFragmentDirections.Companion
@@ -39,7 +42,7 @@ class HomeViewModel @AssistedInject constructor(private val homeStateRepository:
     class PickedApps(val appPackages: List<String>, val likes: Map<String, List<Int>>)
     private val showPickedAppsMutable = MutableLiveData<PickedApps>().apply {
         if (!homeStateRepository.isEmpty()) {
-            homeStateRepository.currentT()?.let {
+            homeStateRepository.current()?.let {
                 this.value = PickedApps(it.apps.map { app->app.packageName }, it.apps.associate { app-> app.packageName to app.whoLikes })
             }
         }
@@ -49,7 +52,11 @@ class HomeViewModel @AssistedInject constructor(private val homeStateRepository:
     private val showCountriesDialogMutable = SingleLiveEvent<CountriesHolder>()
     val showCountriesDialog: LiveData<CountriesHolder> = showCountriesDialogMutable
 
-    val span = HomeTitle(stringRes, colorRes, getHomeTitleType(homeStateRepository.currentT()), getCountry(homeStateRepository.currentT()))
+    val span = HomeTitle(stringRes, colorRes, getHomeTitleType(homeStateRepository.current()), getCountry(homeStateRepository.current()))
+
+    init {
+        "HomeViewModel init ${this.hashCode()} ${viewModelScope.hashCode()}".log()
+    }
 
     @AssistedInject.Factory
     interface Factory {
@@ -108,6 +115,7 @@ class HomeViewModel @AssistedInject constructor(private val homeStateRepository:
             }
             AMONG_FRIENDS -> {
                 span.type = HomeTitle.Type.AMONG_FRIENDS
+                getAppsAmongFriends()
             }
         }
     }
@@ -120,7 +128,7 @@ class HomeViewModel @AssistedInject constructor(private val homeStateRepository:
 
     fun loadData() {
         when(span.type) {
-            HomeTitle.Type.AMONG_FRIENDS,
+            HomeTitle.Type.AMONG_FRIENDS -> getAppsAmongFriends()
             HomeTitle.Type.IN_ANOTHER_COUNTRY,
             HomeTitle.Type.IN_MY_COUNTRY -> {
                 getDefaultCountry()?.let {
@@ -132,9 +140,23 @@ class HomeViewModel @AssistedInject constructor(private val homeStateRepository:
     }
 
     fun getAllWorldApps() {
-        startBgJob {
+         startBgJob {
+            "startBgJob getAllWorldApps()".log()
             callRetrofit(
                 call = wumfApi.getNotMyApps(GetNotMyAppsRequest(allWorld = true, friends= emptyList())),
+                result = { response ->
+                    fillApps(response)
+                    "appsIsNotEmpty=${response?.apps?.isNotEmpty()}"
+                }
+            )
+        }
+    }
+
+    fun getAppsAmongFriends() {
+        startBgJob {
+            val friends = tdClient.getContacts().userIds.map { it }
+            callRetrofit(
+                call = wumfApi.getNotMyApps(GetNotMyAppsRequest(amongFriends = true, friends=friends)),
                 result = { response ->
                     fillApps(response)
                     "appsIsNotEmpty=${response?.apps?.isNotEmpty()}"
@@ -159,7 +181,7 @@ class HomeViewModel @AssistedInject constructor(private val homeStateRepository:
                 Log.e("testr", "error=", e)
             })
         response?.let{
-            toast(result.invoke(it))
+            result.invoke(it)
         }
     }
 
@@ -182,6 +204,7 @@ class HomeViewModel @AssistedInject constructor(private val homeStateRepository:
     }
 
     private fun fillApps(response: GetNotMyAppsResponse?) {
+        "fill apps apps=${response?.apps?.size}".log()
         response?.let {
             val likes = prepareLikesForAdapter(it.apps)
             homeStateRepository.update(createHomeState(it.apps, span.type, span.country?.mcc?:0, span.country?.name?:""))

@@ -49,7 +49,8 @@
                     android:paddingEnd="16dp"
                     android:text="@string/log_in_anonymously"
                     android:textColor="@android:color/white"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:layout_width="278dp"

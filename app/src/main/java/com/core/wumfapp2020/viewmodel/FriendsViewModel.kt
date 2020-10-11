@@ -1,43 +1,70 @@
 package com.core.wumfapp2020.viewmodel
 
+import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import com.app.api.api.WumfApi
+import com.core.wumfapp2020.api.GetFriendsRequest
 import com.core.wumfapp2020.fragment.FriendsFragmentDirections
 import com.core.wumfapp2020.memory.FriendsRepository
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.memory.impl.Friend
+import com.core.wumfapp2020.util.FriendsUtils
 import com.google.android.play.core.splitinstall.SplitInstallManager
+import krafts.alex.tg.TgClient
 import wumf.com.appsprovider2.AppContainer
 import wumf.com.appsprovider2.AppProvider
 import javax.inject.Inject
 
 class FriendsViewModel @Inject constructor(private val manager: SplitInstallManager,
-                                           private val sharedViewModel: SharedViewModel, userInfoRepository: UserInfoRepository,
+                                           private val sharedViewModel: SharedViewModel,
+                                           userInfoRepository: UserInfoRepository,
                                            private val friendsRepository: FriendsRepository,
-                                            private val appProvider: AppProvider): AnyFragmentBaseViewModel() {
+                                           private val appProvider: AppProvider,
+                                           private val wumfApi: WumfApi,
+                                           private val tdClient: TgClient): AnyFragmentBaseViewModel() {
 
     private val directions = FriendsFragmentDirections.Companion
 
     val inProgress = ObservableBoolean(false)
-    val friends: List<ItemFriendViewModel>
+    val friends = ObservableArrayList<ItemFriendViewModel>()
 
     init {
-        friends = friendsRepository.currentT()?.friends?.map {
+        fillFriendsListFromMemory()
+        startBgJob {
+            fillFriendsApps()
+        }
+    }
+
+    fun fillFriendsListFromMemory() {
+        friends.clear()
+        val friendsList = friendsRepository.current()?.friends?.map {
             ItemFriendViewModel(friend = it, openFriendPhoto = {}, openFriendDetail = {
                 navigate(directions.actionFriendsToFriendDetail(friend = it))
             })
         } ?: ArrayList()
-        startBgJob {
-            friends.forEach {
-                it.apps.forEach {itemApp->
-                    val appContainer = appProvider.getAppContainer(itemApp.appId)
-                    itemApp.tmpAppContainer = appContainer
-                }
-                it.apps.forEach {itemApp->
-                    itemApp.appContainer.set(itemApp.tmpAppContainer)
-                    itemApp.tmpAppContainer = null
-                }
+        friends.addAll(friendsList)
+    }
+
+    suspend fun fillFriendsApps() {
+        friends.forEach {
+            it.apps.forEach { itemApp->
+                val appContainer = appProvider.getAppContainer(itemApp.appId)
+                itemApp.tmpAppContainer = appContainer
             }
+            it.apps.forEach {itemApp->
+                itemApp.appContainer.set(itemApp.tmpAppContainer)
+                itemApp.tmpAppContainer = null
+            }
+        }
+    }
+
+
+    fun loadData() {
+        asyncCall {
+            FriendsUtils.syncFriends(friendsRepository = friendsRepository, wumfApi = wumfApi, client = tdClient)
+            fillFriendsListFromMemory()
+            fillFriendsApps()
         }
     }
 

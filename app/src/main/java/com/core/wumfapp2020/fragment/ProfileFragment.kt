@@ -5,6 +5,7 @@ import android.view.View
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.VisibleBottomTabsState
 import com.core.wumfapp2020.base.AppBaseFragment
+import com.core.wumfapp2020.base.TabFragment
 import com.core.wumfapp2020.base.showLogOutDialog
 import com.core.wumfapp2020.databinding.FrgProfileBinding
 import com.core.wumfapp2020.di.injector
@@ -12,7 +13,7 @@ import com.core.wumfapp2020.viewmodel.ProfileViewModel
 import com.library.core.lazySavedStateViewModel
 import kotlin.system.exitProcess
 
-class ProfileFragment : AppBaseFragment<FrgProfileBinding, ProfileViewModel>(R.layout.frg_profile) {
+class ProfileFragment : TabFragment<FrgProfileBinding, ProfileViewModel>(R.layout.frg_profile) {
 
     override val viewModel by lazySavedStateViewModel {
         injector.profileViewModel

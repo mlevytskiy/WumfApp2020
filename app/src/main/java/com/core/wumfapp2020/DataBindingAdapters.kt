@@ -44,6 +44,22 @@ object DataBindingAdapters {
     }
 
     @JvmStatic
+    @BindingAdapter("filePath", "defaultImage")
+    fun setImage(view: ImageView, filePath: String?, defaultImage: Drawable) {
+        var isFileExist = false
+        filePath?.let {
+            val imgFile = File(filePath)
+            if(imgFile.exists()) {
+                isFileExist = true
+                view.setImageURI(Uri.fromFile(imgFile))
+            }
+        }
+        if (!isFileExist) {
+            view.setImageDrawable(defaultImage)
+        }
+    }
+
+    @JvmStatic
     @BindingAdapter("animatedDrawable")
     fun bindAnimation(imageView: ImageView, isStart: Boolean) {
         val animatedDrawable = imageView.drawable as Animatable
@@ -90,11 +106,11 @@ object DataBindingAdapters {
         view.setBackgroundResource(imageResId)
     }
 
-    @JvmStatic
-    @BindingAdapter("android:visibility")
-    fun setVisibility(view: View, visible: Boolean) {
-        view.visibility = if (visible) View.VISIBLE else View.GONE
-    }
+//    @JvmStatic
+//    @BindingAdapter("android:visibility")
+//    fun setVisibility(view: View, visible: Boolean) {
+//        view.visibility = if (visible) View.VISIBLE else View.GONE
+//    }
 
     @JvmStatic
     @BindingAdapter("transformationMethod")

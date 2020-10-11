@@ -10,6 +10,7 @@ import com.app.api.api.WumfApi
 import com.core.dynamicfeature.fragment.EnterPhoneNumberFragmentDirections
 import com.core.wumfapp2020.api.Friend
 import com.core.wumfapp2020.memory.UserInfoRepository
+import com.core.wumfapp2020.util.FriendsUtils
 import com.core.wumfapp2020.viewmodel.AnyFragmentBaseViewModel
 import com.core.wumfapp2020.viewmodel.ResultStatus
 import com.core.wumfapp2020.viewmodel.SharedViewModel
@@ -55,7 +56,7 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
     val code = ObservableField<String>("")
 
     val waitResultFromTelegramPasswordScreen = ObservableField<Boolean>(false)
-    val loginToTelegram = MediatorLiveData<LoginToTelegram>().also {mediator->
+    val loginToTelegram = MediatorLiveData<LoginToTelegram>().also { mediator ->
         mediator.postValue(LoginToTelegram.ENTER_NUMBER)
         mediator.addSource(client.loginState) {
             passwordAlias.set("")
@@ -183,23 +184,7 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
                 registrationResponse.token
             }
             val dataForDialog = prepareDataForSuccessDialog(me = me, contacts = contacts, wumfContacts = wumfContactsIds.map { it.id } )
-            val users = ArrayList<TdApi.User>()
-            wumfContactsIds.forEach {
-                try {
-                    val user = client.getUser(it.id)
-                    user.restrictionReason = it.apps
-                    users.add(user)
-                } catch (ex: Exception) {
-                    //ignore
-                }
-            }
-            try {
-                users[0].profilePhoto?.small?.id?.let {
-                    users[0].profilePhoto?.small?.local = client.downloadFile(it).local
-                }
-            } catch (e: Exception) {
-                //ignore
-            }
+            val users = FriendsUtils.getFullInfoFriends(friends = wumfContactsIds, client = client)
             dataForDialog.friends.addAll(users)
             userInfoRepository.setToken(token)
             showSuccessMutable.postEvent(dataForDialog)

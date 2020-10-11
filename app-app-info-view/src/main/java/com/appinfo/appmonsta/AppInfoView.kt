@@ -11,6 +11,7 @@ import android.util.Log
 import android.util.SparseArray
 import android.view.Gravity.CENTER
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -73,8 +74,10 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
             setModel(it)
         } ?:run {
             model?.gpApp?.let {
+                Log.i("testrr", "setModel gpApp icon=${model?.gpApp?.iconUrl}")
                 setModel(it)
             } ?:kotlin.run {
+                Log.i("testrr","setModel clearView")
                 clearView()
             }
         }

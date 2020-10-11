@@ -1,5 +1,7 @@
 package com.app.api.api
 
+import com.core.wumfapp2020.api.GetFriendsRequest
+import com.core.wumfapp2020.api.GetFriendsResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -18,6 +20,9 @@ interface WumfApi {
 
     @GET("/getApps")
     fun getApps(): Call<GetAppsResponse>
+
+    @POST("/getFriends")
+    fun getFriends(@Body friendsRequest: GetFriendsRequest): Call<GetFriendsResponse>
 
     @POST("/addApp")
     fun addApp(@Body appRequest: AddAppRequest): Call<AddAppResponse>

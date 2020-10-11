@@ -75,10 +75,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
-                    android:textStyle="bold"
                     android:layout_gravity="center"
                     android:minLines="1"
                     android:text="@{viewModel.name}"
+                    android:textColor="@color/black"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp" />
 
@@ -87,10 +87,10 @@
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:paddingTop="8dp"
-                    android:textStyle="bold"
                     android:layout_gravity="center"
                     android:minLines="1"
                     android:text="@{viewModel.phoneNumber}"
+                    android:textColor="@color/black"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp" />
 

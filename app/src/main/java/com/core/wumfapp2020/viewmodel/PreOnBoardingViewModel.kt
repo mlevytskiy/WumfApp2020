@@ -44,13 +44,15 @@ class PreOnBoardingViewModel @Inject constructor(private val manager: SplitInsta
     }
 
     fun signInWithTelegram() {
-        if (!checkInternetConnection()) return
         inProgress.set(true)
-        startBgJob {
-            delay(2000)
-            inProgress.set(false)
-//            startDownloadModule()
-        }
+        navigate(directions.actionPreOnBoardingToOnBoarding())
+//        if (!checkInternetConnection()) return
+//        inProgress.set(true)
+//        startBgJob {
+//            delay(2000)
+//            inProgress.set(false)
+////            startDownloadModule()
+//        }
 
     }
 
