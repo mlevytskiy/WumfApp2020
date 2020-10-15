@@ -14,7 +14,6 @@ import com.core.wumfapp2020.di.injector
 import com.core.wumfapp2020.viewmodel.AnyFragmentBaseViewModel
 import com.library.core.BaseFragment
 
-
 abstract class AppBaseFragment<B : ViewDataBinding, VM : AnyFragmentBaseViewModel>(uiRes: Int): BaseFragment<B, VM>(uiRes) {
 
     protected open val bottomTabs: BottomTabsState =

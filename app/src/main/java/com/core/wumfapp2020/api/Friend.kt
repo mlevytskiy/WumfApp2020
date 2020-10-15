@@ -1,3 +1,5 @@
 package com.core.wumfapp2020.api
 
-class Friend(val id: Int, val apps: String)
+import androidx.annotation.Keep
+
+class Friend(@Keep val id: Int, @Keep val apps: String)

@@ -1,7 +1,6 @@
 package com.library.core
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
@@ -36,10 +36,11 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(private val
         if (view == null) {
             binding = DataBindingUtil.inflate(inflater, uiRes, container, false)
             setReusedView(binding.root)
-            Log.i("testr", "onCreateView ${this.javaClass}")
         } else {
             view.parent?.let {
-                (it as ViewGroup).removeView(view)
+                val containerView = (it as FragmentContainerView)
+                containerView.endViewTransition(view)
+                containerView.removeViewInLayout(view)
             }
             binding = DataBindingUtil.findBinding<B?>(view) ?: DataBindingUtil.bind(view)!!
         }

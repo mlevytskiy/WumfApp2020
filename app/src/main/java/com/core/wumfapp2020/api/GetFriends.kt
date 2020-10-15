@@ -1,5 +1,7 @@
 package com.core.wumfapp2020.api
 
-class GetFriendsRequest(val userIds: List<Int>)
+import androidx.annotation.Keep
 
-class GetFriendsResponse(val users: List<Friend>)
+class GetFriendsRequest(@Keep val userIds: List<Int>)
+
+class GetFriendsResponse(@Keep val users: List<Friend>)
