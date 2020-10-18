@@ -19,7 +19,9 @@ import kotlinx.coroutines.delay
 import org.drinkless.td.libcore.telegram.TdApi
 
 class SuccessLoginViewModel @AssistedInject constructor(@Assisted val image: TdApi.File?,
-                                                        @Assisted val name: String, @Assisted val contactsAmount: Int,
+                                                        @Assisted val name: String,
+                                                        @Assisted val surname: String,
+                                                        @Assisted val contactsAmount: Int,
                                                         @Assisted private val telegramId: Int?,
                                                         @Assisted private val phoneNumber: String?,
                                                         @Assisted val dismissDialog: ()->Unit,
@@ -56,6 +58,7 @@ class SuccessLoginViewModel @AssistedInject constructor(@Assisted val image: TdA
                     registrationInfo.hasRegistration = true
                     registrationInfo.isRegWumfChecked = true
                     registrationInfo.name = name
+                    registrationInfo.surname = surname
                     registrationInfo.telegramId = telegramId
                     registrationInfo.phoneNumber = phoneNumber
                     userInfoRepository.setTelegramUser(registrationInfo)
@@ -93,7 +96,7 @@ class SuccessLoginViewModel @AssistedInject constructor(@Assisted val image: TdA
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(image: TdApi.File?, name: String, contactsAmount: Int, telegramId: Int?, phoneNumber: String?,
+        fun create(image: TdApi.File?, name: String, surname: String, contactsAmount: Int, telegramId: Int?, phoneNumber: String?,
                    allContacts: List<Int>, contactsWithWumf: List<TdApi.User>, dismissDialog: ()->Unit): SuccessLoginViewModel
     }
 

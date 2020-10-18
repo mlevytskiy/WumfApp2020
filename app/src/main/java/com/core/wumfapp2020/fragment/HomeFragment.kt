@@ -54,7 +54,7 @@ class HomeFragment : TabFragment<FrgHomeBinding, HomeViewModel>(R.layout.frg_hom
                     context.showInGooglePlay(app.packageName)
                 }, {
                     dialog?.dismiss()
-                    viewModel.navigateToPeopleWhoLikes()
+                    viewModel.navigateToPeopleWhoLikes(app = app, likes = likes.toIntArray())
                 }, likes
             )
         }

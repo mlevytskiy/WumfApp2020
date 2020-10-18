@@ -48,6 +48,7 @@ class EnterPhoneNumberFragment: AppBaseFragment<FrgEnterPhoneNumberBinding, Ente
                 context = requireContext(),
                 image = it.image,
                 name = it.name,
+                surname = it.surname,
                 telegramId = it.telegramId,
                 phoneNumber = it.phoneNumber,
                 allContacts = it.contacts,

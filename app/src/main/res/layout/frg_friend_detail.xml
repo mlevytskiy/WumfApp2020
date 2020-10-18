@@ -18,64 +18,89 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="wrap_content">
 
-            <ImageView
+            <RelativeLayout
+                android:id="@+id/top_panel"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/home_top_bg"
-                android:scaleType="centerCrop"/>
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/black_alpha_50" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/home_top_bg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black_alpha_50" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    style="@style/Toolbar"
+                    app:setMarginTopAsStatusBarHeight="@{true}" />
+
+            </RelativeLayout>
+
+            <androidx.legacy.widget.Space
+                android:id="@+id/space"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="55dp"
+                app:layout_constraintBottom_toBottomOf="@id/top_panel"
+                app:layout_constraintLeft_toLeftOf="@id/top_panel"
+                app:layout_constraintRight_toRightOf="@id/top_panel" />
 
             <ImageView
                 android:id="@+id/photo"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                app:filePath="@{viewModel.friend.photo}"
-                app:defaultImage="@{@drawable/ic_no_profile}"
-                android:textColor="@android:color/white"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
                 android:layout_marginStart="35dp"
                 android:layout_marginEnd="35dp"
-                android:gravity="center|start"
-                android:layout_centerInParent="true" />
+                android:padding="4dp"
+                android:gravity="center"
+                app:defaultImage="@{@drawable/ic_no_profile}"
+                app:filePath="@{viewModel.friend.photo}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/space"
+                android:background="@color/white_text" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="32dp" >
-
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.friend.name}"
-                    android:textColor="@color/white_text" />
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/photo" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@{viewModel.friend.surname}"
-                    android:textColor="@color/white_text" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.friend.name}"
+                        android:textColor="@color/black" />
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@{viewModel.friend.surname}"
+                        android:textColor="@color/black" />
 
-            <androidx.appcompat.widget.Toolbar
-                style="@style/Toolbar"
-                android:id="@+id/toolbar"
-                android:layout_marginTop="16dp" />
+                </LinearLayout>
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.core.core_adapters.AppsRecycleView
+            android:layout_marginTop="-8dp"
             android:id="@+id/apps_recycle_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

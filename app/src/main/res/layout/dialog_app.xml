@@ -81,7 +81,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Show people who likes"
+                android:text="@string/show_people_who_likes"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 

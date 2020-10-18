@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -17,8 +18,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.OnApplyWindowInsetsListener
+import androidx.core.view.ViewCompat
 import com.core.wumfapp2020.di.injector
 import com.library.core.log
+import io.opencensus.stats.Stats.setState
 
 class FastActivity : AppCompatActivity() {
 
@@ -51,6 +56,8 @@ class FastActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_fast)
         val bgView = findViewById<View>(R.id.bg_view)
+        "FastActivity onCreate()".log()
+        val root = findViewById<View>(R.id.root)
         findViewById<MotionLayout>(R.id.root).setTransitionListener(object:TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
 

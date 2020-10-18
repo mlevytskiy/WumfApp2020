@@ -46,7 +46,19 @@
 
     <fragment android:id="@+id/people_who_likes"
         android:name="com.core.wumfapp2020.fragment.PeopleWhoLikesFragment"
-        tools:layout="@layout/frg_people_who_likes" />
+        tools:layout="@layout/frg_people_who_likes" >
+
+        <argument
+            android:name="app"
+            app:argType="wumf.com.appsprovider2.AppContainer"
+            app:nullable="false" />
+
+        <argument
+            android:name="likes"
+            app:argType="integer[]"
+            app:nullable="false" />
+
+    </fragment>
 
     <fragment android:id="@+id/add_app_in_my_collection"
         android:name="com.core.wumfapp2020.fragment.AddAppInMyCollectionFragment"

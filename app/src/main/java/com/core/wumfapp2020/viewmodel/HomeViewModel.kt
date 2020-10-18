@@ -20,6 +20,7 @@ import com.library.core.log
 import com.squareup.inject.assisted.AssistedInject
 import krafts.alex.tg.TgClient
 import retrofit2.Call
+import wumf.com.appsprovider2.AppContainer
 import wumf.com.detectphone.AppCountryDetector
 import wumf.com.detectphone.Country
 
@@ -165,8 +166,8 @@ class HomeViewModel @AssistedInject constructor(private val homeStateRepository:
         }
     }
 
-    fun navigateToPeopleWhoLikes() {
-        navigate(directions.actionHomeToPeopleWhoLikes())
+    fun navigateToPeopleWhoLikes(app: AppContainer, likes: IntArray) {
+        navigate(directions.actionHomeToPeopleWhoLikes(app=app, likes = likes))
     }
 
     fun getDefaultCountry(): Country? {

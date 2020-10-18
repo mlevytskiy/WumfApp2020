@@ -14,6 +14,7 @@ class RegistrationInfoConverter : PropertyConverter<RegistrationInfo, String> {
         val strBuilder = StringBuilder()
         strBuilder.append(entityProperty.photo).append(DIMEN)
         strBuilder.append(entityProperty.name).append(DIMEN)
+        strBuilder.append(entityProperty.surname).append(DIMEN)
         strBuilder.append(entityProperty.telegramId).append(DIMEN)
         strBuilder.append(entityProperty.hasRegistration).append(DIMEN)
         strBuilder.append(entityProperty.isRegWumfChecked).append(DIMEN)
@@ -29,14 +30,15 @@ class RegistrationInfoConverter : PropertyConverter<RegistrationInfo, String> {
         val arr = databaseValue.split(DIMEN)
         result.photo = arr[0]
         result.name = arr[1]
+        result.surname = arr[2]
         try {
-            result.telegramId = arr[2].toInt()
+            result.telegramId = arr[3].toInt()
         } catch (e: Exception) {
             result.telegramId = 0
         }
-        result.hasRegistration = arr[3].toBoolean()
-        result.isRegWumfChecked = arr[4].toBoolean()
-        result.phoneNumber = arr[5]
+        result.hasRegistration = arr[4].toBoolean()
+        result.isRegWumfChecked = arr[5].toBoolean()
+        result.phoneNumber = arr[6]
         return result
     }
 

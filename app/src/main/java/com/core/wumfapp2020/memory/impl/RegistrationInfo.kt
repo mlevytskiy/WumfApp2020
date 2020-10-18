@@ -4,6 +4,7 @@ class RegistrationInfo {
 
     var telegramId: Int? = null
     var name: String? = null
+    var surname: String? = null
     var photo: String? = null
 
     var isRegWumfChecked: Boolean? = false

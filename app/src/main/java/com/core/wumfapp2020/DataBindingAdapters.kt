@@ -21,16 +21,21 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginTop
 import androidx.databinding.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.library.core.log
 import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 object DataBindingAdapters {
+
+    var statusBarHeight = 0
+    var bottomTabsHeight = 0
 
     @JvmStatic
     @BindingAdapter("filePath")
@@ -40,6 +45,27 @@ object DataBindingAdapters {
             if(imgFile.exists()) {
                 view.setImageURI(Uri.fromFile(imgFile))
             }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setMarginTopAsStatusBarHeight")
+    fun setMarginTopAsStatusBarHeight(view: View, value: Boolean) {
+        if (value) {
+            val p = view.layoutParams as ViewGroup.MarginLayoutParams
+            p.setMargins(p.leftMargin, statusBarHeight, p.rightMargin, p.bottomMargin)
+            view.layoutParams = p
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setMarginTopAsBottomTabsHeight")
+    fun setMarginTopAsBottomTabsHeight(view: View, value: Boolean) {
+        if (value) {
+            val p = view.layoutParams as ViewGroup.MarginLayoutParams
+            "bottomTabsHeight=$bottomTabsHeight".log()
+            p.setMargins(p.leftMargin, bottomTabsHeight, p.rightMargin, p.bottomMargin)
+            view.layoutParams = p
         }
     }
 

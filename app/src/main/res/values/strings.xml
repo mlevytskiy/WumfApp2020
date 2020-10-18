@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Wumf</string>
     <string name="title_dynamicfeature_onboarding">OnBoarding</string>
     <string name="no_internet_connection">No internet\nconnection</string>
@@ -42,6 +42,7 @@
     <string name="thank_you">%s!\nThanks for downloading this app!</string>
 
     <string name="who_from_your_contacts_use_the_app_no_contacts">No people from your contacts use the app</string>
+    <string name="show_people_who_likes" tools:ignore="ExtraTranslation">Show people who likes</string>
     <plurals name="who_from_your_contacts_use_the_app">
         <item quantity="zero">No people from your contacts use the app</item>
         <item quantity="one">1 person from your contacts use the app</item>

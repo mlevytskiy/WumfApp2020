@@ -17,7 +17,7 @@ interface ViewModelProvision {
     var friendDetailViewModelFactory: FriendDetailViewModel.Factory
     var profileViewModel: ProfileViewModel
     var moreViewModel: MoreViewModel
-    var peopleWhoLikesViewModel: PeopleWhoLikesViewModel
+    var peopleWhoLikesViewModelFactory: PeopleWhoLikesViewModel.Factory
     var mainActivityViewModel: MainActivityViewModel
     var sharedViewModel: SharedViewModel
     var addAppInMyCollectionViewModel : AddAppInMyCollectionViewModel

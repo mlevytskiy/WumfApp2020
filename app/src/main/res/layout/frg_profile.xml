@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -27,76 +27,68 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:src="@drawable/home_top_bg"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@color/black_alpha_50" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Profile"
-                android:textSize="40dp"
-                android:textColor="@android:color/white"
-                android:layout_marginStart="35dp"
-                android:layout_marginEnd="35dp"
-                android:padding="8dp"
-                android:gravity="center|start"
-                android:layout_centerInParent="true" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="@{viewModel.hasProfile}"
-            android:layout_margin="@dimen/spacing_16"
-            android:gravity="center" >
-
-            <ImageView
-                android:id="@+id/photo"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center"
-                app:filePath="@{viewModel.photo}"
-                android:visibility="@{!viewModel.hasPhoto}" />
+                android:background="@color/black_alpha_50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_gravity="center" >
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:setMarginTopAsStatusBarHeight="@{true}"
+                android:gravity="center">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/photo"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="35dp"
+                    android:padding="4dp"
+                    app:defaultImage="@{@drawable/ic_no_profile}"
+                    app:filePath="@{viewModel.photo}"
+                    android:background="@color/white_text" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
                     android:layout_gravity="center"
-                    android:minLines="1"
-                    android:text="@{viewModel.name}"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/spacing_8" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:paddingTop="8dp"
-                    android:layout_gravity="center"
-                    android:minLines="1"
-                    android:text="@{viewModel.phoneNumber}"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.name}"
+                        android:textColor="@color/white_text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@{viewModel.surname}"
+                        android:textColor="@color/white_text"
+                        android:visibility="@{!TextUtils.isEmpty(viewModel.surname)}" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:layout_width="match_parent"
@@ -109,6 +101,7 @@
             android:background="@color/red"
             android:layout_gravity="center"
             android:textColor="@color/white_text"
+            app:setMarginTopAsBottomTabsHeight="@{true}"
             android:text="Log out"
             android:onClick="@{()->viewModel.onClickLogOut()}"
             android:layout_marginBottom="@dimen/spacing_64" />

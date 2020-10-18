@@ -227,7 +227,8 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
         }
         val name = me.firstName
         val contactsIds = contacts.userIds.toList()
-        return MyInfo(image = file, name = name, friendIds = wumfContacts, contacts = contactsIds, telegramId = me.id, phoneNumber = phoneNumber.get())
+        return MyInfo(image = file, name = name, surname = me.lastName, friendIds = wumfContacts, contacts = contactsIds,
+            telegramId = me.id, phoneNumber = phoneNumber.get())
     }
 
     fun navigateToHome() {
@@ -253,7 +254,7 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
         )
     }
 
-    class MyInfo(val image: TdApi.File?, val name: String, val telegramId: Int, val phoneNumber: String?,
+    class MyInfo(val image: TdApi.File?, val name: String, val surname: String, val telegramId: Int, val phoneNumber: String?,
                  val friends: ArrayList<TdApi.User> = ArrayList(), val contacts: List<Int>, val friendIds: List<Int>)
 
     enum class LoginToTelegram {

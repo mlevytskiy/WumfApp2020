@@ -35,19 +35,29 @@ fun showCheckAppIfExistOnGooglePlayDialog(context: Context, appContainer: AppCon
     return dialog
 }
 
-fun showSuccessLoginDialog(context: Context, image: TdApi.File?, name: String, telegramId: Int?, phoneNumber: String?,
+fun showSuccessLoginDialog(context: Context, image: TdApi.File?, name: String, surname: String, telegramId: Int?, phoneNumber: String?,
     allContacts: List<Int>, contactsWithWumf: List<TdApi.User>) {
 
     dialog = createDialogBuilder(context)
-        .setView(createSuccessLoginDialogView(context, image, name, contactsWithWumf.size, telegramId, phoneNumber, allContacts, contactsWithWumf) { dialog?.dismiss() })
+        .setView(createSuccessLoginDialogView(
+            context = context,
+            image = image,
+            name = name,
+            surname = surname,
+            contactsAmount = contactsWithWumf.size,
+            telegramId = telegramId,
+            phoneNumber = phoneNumber,
+            allContacts = allContacts,
+            contactsWithWumf = contactsWithWumf
+        ) { dialog?.dismiss() })
         .show()
 }
 
-fun createSuccessLoginDialogView(context: Context, image: TdApi.File?, name: String, contactsAmount: Int, telegramId: Int?, phoneNumber: String?,
-                                 allContacts: List<Int>, contactsWithWumf: List<TdApi.User>, dismissDialog: ()->Unit): View {
+fun createSuccessLoginDialogView(context: Context, image: TdApi.File?, name: String, surname: String, contactsAmount: Int, telegramId: Int?,
+                                 phoneNumber: String?, allContacts: List<Int>, contactsWithWumf: List<TdApi.User>, dismissDialog: ()->Unit): View {
     val binding = DialogSuccessLoginBinding.inflate(getLayoutInflater(context))
     val viewModel = getAppComponent().successLoginViewModelFactory.create(
-        image = image, name = name, contactsAmount = contactsAmount, telegramId = telegramId, phoneNumber = phoneNumber,
+        image = image, name = name, surname = surname, contactsAmount = contactsAmount, telegramId = telegramId, phoneNumber = phoneNumber,
         allContacts = allContacts, contactsWithWumf = contactsWithWumf, dismissDialog = dismissDialog)
     binding.viewModel = viewModel
     viewModel.doWork()

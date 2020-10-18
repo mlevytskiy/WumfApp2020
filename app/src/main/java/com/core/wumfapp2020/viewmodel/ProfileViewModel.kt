@@ -36,14 +36,16 @@ class ProfileViewModel @Inject constructor(private val manager: SplitInstallMana
     val inProgress = ObservableBoolean(false)
     val hasPhoto: Boolean
     val photo: String?
-    val name = ObservableField<String>()
+    val name: String?
+    val surname: String?
     val phoneNumber = ObservableField<String>()
     val hasProfile = true
 
     init {
         photo = userInfoRepository.getTelegramUser()?.photo
         hasPhoto = !photo.isNullOrEmpty()
-        name.set(userInfoRepository.getTelegramUser()?.name)
+        name = userInfoRepository.getTelegramUser()?.name
+        surname = userInfoRepository.getTelegramUser()?.surname
         phoneNumber.set(userInfoRepository.getTelegramUser()?.phoneNumber)
     }
 
