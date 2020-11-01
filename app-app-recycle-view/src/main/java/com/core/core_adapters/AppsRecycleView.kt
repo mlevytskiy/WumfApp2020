@@ -3,11 +3,10 @@ package com.core.core_adapters
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
-import androidx.core.view.children
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.*
 import wumf.com.appsprovider2.AppContainer
 import wumf.com.appsprovider2.AppProvider
@@ -102,11 +101,12 @@ class AppsRecycleView(context: Context, attr: AttributeSet?) : RecyclerView(cont
             }
         }
         adapterX = null
+        val glide = Glide.with(this)
         startBgJob {
             appProvider?.getNextApps(
                 updateBlock = { apps ->
                     adapterX?.notifyDataSetChanged() ?: run {
-                        adapterX = AppsAdapter(apps, likes, itemListener)
+                        adapterX = AppsAdapter(apps, likes, itemListener, glide)
                         adapterX?.stateRestorationPolicy = Adapter.StateRestorationPolicy.ALLOW
                         setAdapter(adapterX)
                     }
@@ -128,5 +128,4 @@ class AppsRecycleView(context: Context, attr: AttributeSet?) : RecyclerView(cont
             block.invoke(this)
         })
     }
-
 }

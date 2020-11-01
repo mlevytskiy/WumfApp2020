@@ -3,19 +3,16 @@ package com.appinfo.appmonsta
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.net.Uri
-import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.Log
-import android.util.SparseArray
 import android.view.Gravity.CENTER
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -23,7 +20,6 @@ import com.bumptech.glide.request.target.Target
 import wumf.com.appsprovider2.App
 import wumf.com.appsprovider2.AppContainer
 import wumf.com.appsprovider2.GooglePlayApp
-import java.io.File
 
 const val NORMAL_MODE = 0
 const val SMALL_MODE = 1
@@ -34,6 +30,7 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
     private val imageView: ImageView
     private val whoLikesContainer: View
     private val whoLikesTxt: TextView
+    var glide : RequestManager? = null
     var mode: Int = NORMAL_MODE
         set(value) {
             field = value
@@ -71,10 +68,11 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
     fun setModel(model: AppContainer?) {
         model?.app?.let {
+            (glide ?: Glide.with(this)).clear(imageView)
             setModel(it)
         } ?:run {
             model?.gpApp?.let {
-                Log.i("testrr", "setModel gpApp icon=${model?.gpApp?.iconUrl}")
+                Log.i("testrr", "setModel gpApp icon=${model.gpApp?.iconUrl}")
                 setModel(it)
             } ?:kotlin.run {
                 Log.i("testrr","setModel clearView")
@@ -85,6 +83,7 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
     fun clearView() {
         textView.setText("")
+        (glide ?: Glide.with(this)).clear(imageView)
         imageView.setImageDrawable(null)
         imageView.setBackgroundColor(Color.LTGRAY)
         whoLikesContainer.visibility = View.GONE
@@ -114,7 +113,7 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
             textView.text = model.name
         }
         setLikes(model.packageName)
-        Glide.with(this).load(model.iconUrl)
+        (glide ?: Glide.with(this)).load(model.iconUrl)
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -153,5 +152,4 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
     fun Context.toPixels(dp: Int): Int {
         return (dp * (this.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT))
     }
-
 }
