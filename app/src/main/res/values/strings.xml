@@ -25,6 +25,15 @@
         <item>among friends</item>
     </string-array>
 
+    <string-array name="languages">
+        <item>English</item>
+        <item>한국어</item>
+        <item>Deutsche</item>
+        <item>Französisch</item>
+        <item>Русский</item>
+        <item>Spanisch</item>
+    </string-array>
+
     <string name="app_exist_on_google_play">"app exist on google play :)"</string>
     <string name="app_isnt_on_google_play">"app isn't exist on google play :("</string>
     <string name="bad_internet_connection">bad internet connection</string>
@@ -43,11 +52,11 @@
 
     <string name="who_from_your_contacts_use_the_app_no_contacts">No people from your contacts use the app</string>
     <string name="show_people_who_likes" tools:ignore="ExtraTranslation">Show people who likes</string>
+    <string name="language">Language</string>
     <plurals name="who_from_your_contacts_use_the_app">
         <item quantity="zero">No people from your contacts use the app</item>
         <item quantity="one">1 person from your contacts use the app</item>
         <item quantity="other">%d people from your contacts use the app</item>
     </plurals>
-
 
 </resources>

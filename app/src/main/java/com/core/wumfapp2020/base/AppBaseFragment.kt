@@ -8,7 +8,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.navigation.NavOptions
 import com.core.wumfapp2020.BottomTabsState
 import com.core.wumfapp2020.GoneBottomTabsState
-import com.core.wumfapp2020.MainActivity
+import com.core.wumfapp2020.activities.MainActivity
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.di.injector
 import com.core.wumfapp2020.viewmodel.AnyFragmentBaseViewModel

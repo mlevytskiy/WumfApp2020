@@ -2,4 +2,5 @@
 <resources>
     <string name="phone_number">Phone Number</string>
     <string name="country">Ukraine</string>
+    <string name="language_in_edi_phone_number_ui">Language</string>
 </resources>

@@ -2,10 +2,7 @@ package com.core.wumfapp2020.fragment
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.databinding.DataBindingUtil
-import com.core.wumfapp2020.MainActivity
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.VisibleBottomTabsState
 import com.core.wumfapp2020.base.*
@@ -18,7 +15,6 @@ import com.core.wumfapp2020.viewmodel.home.HomeTitle
 import com.library.core.lazySavedStateViewModel
 import wumf.com.detectphone.AppCountryDetector
 import wumf.com.detectphone.Country
-import java.lang.ref.WeakReference
 
 class HomeFragment : TabFragment<FrgHomeBinding, HomeViewModel>(R.layout.frg_home) {
 
@@ -58,6 +54,11 @@ class HomeFragment : TabFragment<FrgHomeBinding, HomeViewModel>(R.layout.frg_hom
                 }, likes
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.appsRecycleView.scrollToPosition(0)
     }
 
     private fun detectChekedItemInPickAppCategoryDialog(type: HomeTitle.Type): Int {

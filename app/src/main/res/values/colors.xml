@@ -10,13 +10,16 @@
     <color name="orange">#F65C1F</color>
 
     <color name="cpb_red_dark">#ffcd3a3a</color>
+    <color name="peach_orange">#FDCFA0</color>
 
     <color name="red">#ffAF0B10</color>
+    <color name="apricot">#F0857A</color>
     <color name="green">#ff0B6A4E</color>
     <color name="black">#ff000000</color>
 
     <color name="gray1">#7f54B6CB</color>
     <color name="gray2">#ffffffff</color>
+    <color name="gray4">#ECF1EC</color>
     <color name="white_with_transparance">#7fffffff</color>
     <color name="black_with_transparance">#7f000000</color>
     <color name="white_text">#fffefefe</color>
@@ -25,6 +28,8 @@
     <color name="anonymouslyBg">#ff232427</color>
     <color name="yellow">#FECD50</color>
     <color name="finn_alpha_69">#AF6B255E</color>
+    <color name="light_wisteria">#C6A7D2</color>
+    <color name="bermuda">#86DCC8</color>
     <color name="observatory_alpha_6">#10008577</color>
 
     <color name="blue">#FF0057B8</color>

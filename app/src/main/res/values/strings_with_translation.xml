@@ -1,0 +1,4 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="welcome_text"><![CDATA[<p>Hi friend!</p><p>Here you can:</p><p>• Create collection with your favourite apps and share them with friends. <a href="http://google.com/">Details...</a></p><p>• Install and use different plugins. <a href="http://google.com/">Details...</a></p>]]></string>
+    <string name="country">Country</string>
+</resources>

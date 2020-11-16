@@ -5,14 +5,12 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Gravity.CENTER
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -30,7 +28,6 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
     private val imageView: ImageView
     private val whoLikesContainer: View
     private val whoLikesTxt: TextView
-    var glide : RequestManager? = null
     var mode: Int = NORMAL_MODE
         set(value) {
             field = value
@@ -68,14 +65,12 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
     fun setModel(model: AppContainer?) {
         model?.app?.let {
-            (glide ?: Glide.with(this)).clear(imageView)
+            Glide.with(this).clear(imageView)
             setModel(it)
         } ?:run {
             model?.gpApp?.let {
-                Log.i("testrr", "setModel gpApp icon=${model.gpApp?.iconUrl}")
                 setModel(it)
             } ?:kotlin.run {
-                Log.i("testrr","setModel clearView")
                 clearView()
             }
         }
@@ -83,7 +78,7 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
     fun clearView() {
         textView.setText("")
-        (glide ?: Glide.with(this)).clear(imageView)
+        Glide.with(this).clear(imageView)
         imageView.setImageDrawable(null)
         imageView.setBackgroundColor(Color.LTGRAY)
         whoLikesContainer.visibility = View.GONE
@@ -113,7 +108,9 @@ class AppInfoView(context: Context, attrs: AttributeSet) : LinearLayout(context,
             textView.text = model.name
         }
         setLikes(model.packageName)
-        (glide ?: Glide.with(this)).load(model.iconUrl)
+        val pkg = model.packageName
+        val url = model.iconUrl
+        Glide.with(this).load(model.iconUrl)
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,

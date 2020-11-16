@@ -1,5 +1,5 @@
 <resources>
 
     <string name="phone_number">Номер телефона</string>
-
+    <string name="language_in_edi_phone_number_ui">Язык</string>
 </resources>

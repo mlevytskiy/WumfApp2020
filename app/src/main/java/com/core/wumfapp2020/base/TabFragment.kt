@@ -2,7 +2,7 @@ package com.core.wumfapp2020.base
 
 import android.view.View
 import androidx.databinding.ViewDataBinding
-import com.core.wumfapp2020.MainActivity
+import com.core.wumfapp2020.activities.MainActivity
 import com.core.wumfapp2020.VisibleBottomTabsState
 import com.core.wumfapp2020.viewmodel.AnyFragmentBaseViewModel
 import java.lang.ref.WeakReference

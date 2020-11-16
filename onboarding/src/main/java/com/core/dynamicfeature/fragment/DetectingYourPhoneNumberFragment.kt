@@ -8,7 +8,7 @@ import com.core.dynamicfeature.R
 import com.core.dynamicfeature.databinding.FrgDetectingPhoneNumberBinding
 import com.core.dynamicfeature.di.featureInjector
 import com.core.dynamicfeature.viewmodel.DetectingYourPhoneNumberViewModel
-import com.core.wumfapp2020.MainActivity
+import com.core.wumfapp2020.activities.MainActivity
 import com.core.wumfapp2020.base.AppBaseFragment
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.credentials.Credential

@@ -12,7 +12,6 @@ class AppViewHolder(parent: ViewGroup, private val likes: Map<String, List<Int>>
 
     fun bind(app: AppContainer, clickBlock: ((AppContainer, List<Int>)->Unit)?, glide: RequestManager) {
         (itemView as AppInfoView).setLikesHashMap(likes)
-        itemView.glide = glide
         itemView.setModel(app)
         itemView.setOnClickListener { clickBlock?.invoke(app, likes.get(app.packageName)?: emptyList()) }
     }

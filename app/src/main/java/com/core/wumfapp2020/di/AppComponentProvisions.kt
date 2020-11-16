@@ -3,9 +3,11 @@ package com.core.wumfapp2020.di
 import android.content.Context
 import com.app.api.api.WumfApi
 import com.core.wumfapp2020.base.dialogViewModels.*
-import com.core.wumfapp2020.memory.FriendsRepository
 import com.core.wumfapp2020.memory.UserInfoRepository
 import com.core.wumfapp2020.viewmodel.*
+import com.core.wumfapp2020.viewmodel.act.MainViewModel
+import com.core.wumfapp2020.viewmodel.act.PickCountryViewModel
+import com.core.wumfapp2020.viewmodel.act.PickLanguageViewModel
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import krafts.alex.tg.TgClient
 
@@ -18,7 +20,9 @@ interface ViewModelProvision {
     var profileViewModel: ProfileViewModel
     var moreViewModel: MoreViewModel
     var peopleWhoLikesViewModelFactory: PeopleWhoLikesViewModel.Factory
-    var mainActivityViewModel: MainActivityViewModel
+    var mainViewModel: MainViewModel
+    var pickCountryViewModel: PickCountryViewModel
+    var pickLanguageViewModel: PickLanguageViewModel
     var sharedViewModel: SharedViewModel
     var addAppInMyCollectionViewModel : AddAppInMyCollectionViewModel
     var checkAppInGooglePlayFactory: CheckAppInGooglePlayViewModel.Factory

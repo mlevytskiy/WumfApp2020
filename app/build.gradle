@@ -6,7 +6,9 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'io.objectbox'
 
 android {
-
+    lintOptions{
+        disable 'MissingTranslation'
+    }
     def keysPropertiesFile = rootProject.file("wumf.properties")
     def keysProperties = new Properties()
     if (keysPropertiesFile.exists()) {
@@ -90,6 +92,8 @@ android {
 dependencies {
     api project(':core-common')
     implementation project(':app-tg')
+    implementation project(':localehelper')
+    implementation project(':app-edit-phone-number-ui')
     implementation project(':app-app-recycle-view')
     implementation project(':app-get-all-apps')
     implementation project(':app-app-info-view')

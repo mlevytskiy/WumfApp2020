@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.core.wumfapp2020.viewmodel.MainActivityViewModel" />
+            type="com.core.wumfapp2020.viewmodel.act.MainViewModel" />
     </data>
 
 

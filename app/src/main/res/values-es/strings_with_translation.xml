@@ -1,0 +1,5 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="welcome_text"><![CDATA[Spanish]]></string>
+    <string name="language">idioma</string>
+    <string name="country">país</string>
+</resources>

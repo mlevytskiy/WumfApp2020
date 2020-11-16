@@ -66,4 +66,9 @@
         <item name="android:letterSpacing" tools:ignore="NewApi">0.01</item>
     </style>
 
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">#7f777777</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+
 </resources>

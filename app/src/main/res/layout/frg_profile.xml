@@ -58,10 +58,10 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="35dp"
                     android:layout_marginEnd="35dp"
-                    android:padding="4dp"
+                    android:padding="3dp"
                     app:defaultImage="@{@drawable/ic_no_profile}"
                     app:filePath="@{viewModel.photo}"
-                    android:background="@color/white_text" />
+                    android:background="@color/white_with_transparance" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

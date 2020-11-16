@@ -44,7 +44,7 @@ class GooglePlayAppsProvider(context: Context) {
                     val images = doc.select("img[src]")
                     val appIcon = images.filter {
                         val url = it.absUrl("src")
-                        url.startsWith("https://lh3.googleusercontent.com/")
+                        url.contains("googleusercontent.com/")
                     }.find {
                         (it.attr("alt").contentEquals("Cover art"))
                     }?.absUrl("src")
