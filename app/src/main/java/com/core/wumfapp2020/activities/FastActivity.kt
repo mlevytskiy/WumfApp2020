@@ -1,11 +1,13 @@
 package com.core.wumfapp2020.activities
 
 import android.animation.ArgbEvaluator
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.telephony.TelephonyManager
 import android.text.Html
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +32,7 @@ import com.onboarding.enterphonenumberui.TagEditText
 import com.zeugmasolutions.localehelper.LocaleHelper
 import wumf.com.detectphone.Country
 import java.util.*
+
 
 class FastActivity : ChangeLanguageActivity() {
 
@@ -68,19 +71,20 @@ class FastActivity : ChangeLanguageActivity() {
         languageView = findViewById(R.id.language)
         val local = LocaleHelper.getLocale(this)
         languageView?.setTagLabel(getString(R.string.language))
-        val language = local.language
+        val language = local.displayLanguage.capitalize()
         languageView?.setTagValue(language)
 
         countryView = findViewById(R.id.country)
 
-        val countryName = local.country
+        currCountry = getCountry(this)
+        val countryName = currCountry?.name ?: local.displayCountry.capitalize()
 
         countryView?.setTagLabel(getString(R.string.country))
         countryView?.setTagValue(countryName)
         val bgView = findViewById<View>(R.id.bg_view)
         "FastActivity onCreate()".log()
         val root = findViewById<View>(R.id.root)
-        findViewById<MotionLayout>(R.id.root).setTransitionListener(object:TransitionListener {
+        findViewById<MotionLayout>(R.id.root).setTransitionListener(object : TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
 
             }
@@ -103,7 +107,7 @@ class FastActivity : ChangeLanguageActivity() {
         rotate.interpolator = WaveInterpolator()
 
         rotate.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) { }
+            override fun onAnimationRepeat(animation: Animation?) {}
 
             override fun onAnimationEnd(animation: Animation?) {
                 val welcomeText = this@FastActivity.resources.getString(R.string.welcome_text)
@@ -112,7 +116,7 @@ class FastActivity : ChangeLanguageActivity() {
                 rootView.transitionToEnd()
             }
 
-            override fun onAnimationStart(animation: Animation?) { }
+            override fun onAnimationStart(animation: Animation?) {}
 
         })
         val image = findViewById<View>(R.id.image)
@@ -195,14 +199,29 @@ class FastActivity : ChangeLanguageActivity() {
         //startActivity(Intent(this, PickCountryActivity::class.java))
     }
 
-//    private fun getLanguageFullName(): String {
-//        if (language.isNotEmpty()) {
-//            val result = currLanguage.getFullLanguageName(language)
-//            result?.let {
-//                return it
-//            }
-//        }
-//        return currLanguage.detectCurrentLanguage()
-//    }
+    private fun getCountry(context: Context) : Country? {
+        val iso = getUserCountryIso(context)
+        if (iso == null) {
+            return null
+        }
+        return CountriesUtil.syncLoad(context).find { country-> country.code == iso }
+    }
+
+    private fun getUserCountryIso(context: Context): String? {
+        try {
+            val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            val simCountry = tm.simCountryIso
+            if (simCountry != null && simCountry.length == 2) { // SIM country code is available
+                return simCountry.toLowerCase(Locale.US)
+            } else if (tm.phoneType != TelephonyManager.PHONE_TYPE_CDMA) { // device is not 3G (would be unreliable)
+                val networkCountry = tm.networkCountryIso
+                if (networkCountry != null && networkCountry.length == 2) { // network country code is available
+                    return networkCountry.toLowerCase(Locale.US)
+                }
+            }
+        } catch (e: Exception) {
+        }
+        return null
+    }
 
 }
