@@ -21,7 +21,7 @@ import com.library.core.BaseViewModel
 import com.library.core.lazyViewModel
 import java.lang.ref.WeakReference
 
-class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main, R.id.main_nav_host) {
+class MainActivity : ChangeLanguageActivity2<ActivityMainBinding, MainViewModel>(R.layout.activity_main, R.id.main_nav_host) {
 
     override val viewModel by lazyViewModel { injector.mainViewModel }
 

@@ -2,4 +2,5 @@
     <string name="welcome_text"><![CDATA[<p>Привет Друг!</p><p>В этом приложении можно:</p><p>• Делиться колекциями любимых приложений с друзьями. <a href="http://google.com/">Подробнее...</a></p><p>• Устанавливать различные дополнения. <a href="http://google.com/">Подробнее...</a></p>]]></string>
     <string name="language">Язык</string>
     <string name="country">Страна</string>
+    <string name="log_in_with_telegram">Войти через Telegram</string>
 </resources>

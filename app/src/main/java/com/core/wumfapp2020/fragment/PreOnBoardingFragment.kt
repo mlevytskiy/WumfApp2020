@@ -1,6 +1,8 @@
 package com.core.wumfapp2020.fragment
 
+import android.graphics.Color
 import android.os.Handler
+import android.view.WindowManager
 import androidx.navigation.dynamicfeatures.DynamicInstallMonitor
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.base.AppBaseFragment
@@ -26,6 +28,11 @@ class PreOnBoardingFragment : AppBaseFragment<FrgPreOnBoardingBinding, PreOnBoar
     override fun onVisible() {
         viewModel.handleOnBoardingResult(viewModel.sharedViewModel.status == ResultStatus.SUCCESS)
         viewModel.sharedViewModel.status = null
+        requireActivity().window.apply {
+            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            statusBarColor = Color.BLACK
+        }
 //        viewModel.sharedViewModel.status?.let {
 //            viewModel.handleOnBoardingResult(it == ResultStatus.SUCCESS)
 //            viewModel.sharedViewModel.status = null

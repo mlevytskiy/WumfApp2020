@@ -32,15 +32,5 @@
             tools:ignore="LockedOrientationActivity"
             android:configChanges="locale" />
 
-        <activity android:name=".activities.PickCountryActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="locale"
-            tools:ignore="LockedOrientationActivity" />
-
-        <activity android:name=".activities.PickLanguageActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="locale"
-            tools:ignore="LockedOrientationActivity" />
-
     </application>
 </manifest>

@@ -2,4 +2,5 @@
     <string name="welcome_text"><![CDATA[Franch]]></string>
     <string name="language">Langue</string>
     <string name="country">pays</string>
+    <string name="log_in_with_telegram">Connectez-vous avec Telegram</string>
 </resources>

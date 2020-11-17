@@ -2,4 +2,5 @@
     <string name="welcome_text"><![CDATA[Japs]]></string>
     <string name="language">言語</string>
     <string name="country">国</string>
+    <string name="log_in_with_telegram">Telegramでログイン</string>
 </resources>

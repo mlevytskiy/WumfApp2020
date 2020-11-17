@@ -2,4 +2,5 @@
     <string name="welcome_text"><![CDATA[Deatch]]></string>
     <string name="language">Sprache</string>
     <string name="country">Land</string>
+    <string name="log_in_with_telegram">Loggen Sie sich mit Telegramm ein</string>
 </resources>
