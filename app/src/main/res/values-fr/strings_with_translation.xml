@@ -3,4 +3,32 @@
     <string name="language">Langue</string>
     <string name="country">pays</string>
     <string name="log_in_with_telegram">Connectez-vous avec Telegram</string>
+
+    <string name="home">Accueil</string>
+    <string name="apps">Apps</string>
+    <string name="friends">Copains</string>
+    <string name="profile">Profil</string>
+    <string name="more">plus</string>
+    <string name="cancel">annuler</string>
+    <string name="close">proche</string>
+
+    <string name = "the_most_useful_apps">Applications recommandées \n</string>
+
+    <string-array name = "type_of_apps">
+        <item>dans le monde</item>
+        <item>dans %s</item>
+        <item>dans un autre pays</item>
+        <item>entre amis</item>
+    </string-array>
+
+    <string name = "your_own_app_collection">"Votre propre collection d'applications"</string>
+    <string name = "log_out">Déconnexion</string>
+    <string name = "show_in_google_play">Afficher dans Google Play</string>
+    <string name = "show_people_who_likes">Afficher les personnes qui aiment</string>
+
+    <string name = "are_you_sure">Êtes-vous sûr?</string>
+    <string name = "remove_all_data_about_me">Supprimer toutes les données me concernant</string>
+    <string name = "remove_from_my_collection">Supprimer de ma collection</string>
+    <string name = "thank_you">"%s!\nMerci d'avoir téléchargé cette application!"</string>
+
 </resources>

@@ -3,4 +3,34 @@
     <string name="language">言語</string>
     <string name="country">国</string>
     <string name="log_in_with_telegram">Telegramでログイン</string>
+
+    <string name="home">家</string>
+    <string name="apps">アプリ</string>
+    <string name="friends">友達</string>
+    <string name="profile">プロフィール</string>
+    <string name="more">もっと</string>
+    <string name="cancel">キャンセル</string>
+    <string name="close">閉じる</string>
+
+    <string name="the_most_useful_apps">推奨アプリ\n</string>
+
+    <string-array name="type_of_apps">
+        <item>世界</item>
+        <item>％s</item>
+        <item>他の国で</item>
+        <item>友達同士</item>
+    </string-array>
+
+    <string name="your_own_app_collection">独自のアプリコレクション</string>
+    <string name="log_out">ログアウト</string>
+    <string name="show_in_google_play">GooglePlayで表示</string>
+    <string name="show_people_who_likes">好きな人を表示する</string>
+
+    <string name="are_you_sure">よろしいですか？</string>
+    <string name="remove_all_data_about_me">自分に関するすべてのデータを削除する</string>
+    <string name="remove_from_my_collection">コレクションから削除</string>
+    <string name="thank_you">％s\nこのアプリをダウンロードしていただきありがとうございます！</string>
+
+
+
 </resources>

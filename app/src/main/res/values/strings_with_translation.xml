@@ -2,4 +2,32 @@
     <string name="welcome_text"><![CDATA[<p>Hi friend!</p><p>Here you can:</p><p>• Create collection with your favourite apps and share them with friends. <a href="http://google.com/">Details...</a></p><p>• Install and use different plugins. <a href="http://google.com/">Details...</a></p>]]></string>
     <string name="country">Country</string>
     <string name="log_in_with_telegram">Login with Telegram</string>
+
+    <string name="home">Home</string>
+    <string name="apps">Apps</string>
+    <string name="friends">Friends</string>
+    <string name="profile">Profile</string>
+    <string name="more">more</string>
+    <string name="cancel">cancel</string>
+    <string name="close">close</string>
+
+    <string name="the_most_useful_apps">Recommended apps\n</string>
+
+    <string-array name="type_of_apps">
+        <item>in the world</item>
+        <item>in %s</item>
+        <item>in another country</item>
+        <item>among friends</item>
+    </string-array>
+
+    <string name="your_own_app_collection">Your own app collection</string>
+    <string name="log_out">Log out</string>
+    <string name="show_in_google_play">Show in google play</string>
+    <string name="show_people_who_likes">Show people who likes</string>
+
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="remove_all_data_about_me">Remove all data about me</string>
+    <string name="remove_from_my_collection">Remove from\nmy collection</string>
+    <string name="thank_you">%s!\nThanks for downloading this app!</string>
+
 </resources>

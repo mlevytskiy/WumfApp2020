@@ -7,23 +7,6 @@
     <string name="log_in_anonymously">Log in Anonymously</string>
     <string name="wait_your_phone_number_detecting">Wait\nYour phone number\ndetecting...\n(+XXX)????6??8??</string>
 
-    <string name="home">Home</string>
-    <string name="apps">Apps</string>
-    <string name="friends">Friends</string>
-    <string name="profile">Profile</string>
-    <string name="more">more</string>
-    <string name="cancel">cancel</string>
-    <string name="close">close</string>
-
-    <string name="the_most_useful_apps">Recommended apps\n</string>
-
-    <string-array name="type_of_apps">
-        <item>in the world</item>
-        <item>in %s</item>
-        <item>in another country</item>
-        <item>among friends</item>
-    </string-array>
-
     <string-array name="languages">
         <item>English</item>
         <item>한국어</item>
@@ -44,13 +27,8 @@
     <string name="message_we_cant_adding_app_to_your_collection">"We can't adding %s to your collection.\nWe coudn't find it on google play"</string>
 
     <string name="message_bad_internet_connection">Bad internet connection</string>
-    <string name="your_own_app_collection">Your own app collection</string>
-    <string name="remove_from_my_collection">Remove from\nmy collection</string>
-
-    <string name="thank_you">%s!\nThanks for downloading this app!</string>
 
     <string name="who_from_your_contacts_use_the_app_no_contacts">No people from your contacts use the app</string>
-    <string name="show_people_who_likes" tools:ignore="ExtraTranslation">Show people who likes</string>
     <string name="language">Language</string>
     <plurals name="who_from_your_contacts_use_the_app">
         <item quantity="zero">No people from your contacts use the app</item>

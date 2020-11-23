@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_16"
-            android:text="Are you sure?"
+            android:text="@string/are_you_sure"
             android:textSize="20dp"
             android:textColor="@color/black"
             android:layout_gravity="center" />
@@ -31,7 +31,7 @@
             android:layout_marginTop="@dimen/spacing_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Remove all data about me"
+            android:text="@string/remove_all_data_about_me"
             android:textSize="18dp"
             android:textColor="@color/black"
             android:layout_gravity="center" />

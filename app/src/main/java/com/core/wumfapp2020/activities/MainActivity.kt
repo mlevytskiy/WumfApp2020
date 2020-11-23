@@ -16,7 +16,6 @@ import com.core.wumfapp2020.di.injector
 import com.core.wumfapp2020.util.setupWithNavControllerWithoutAnimation
 import com.core.wumfapp2020.viewmodel.HomeViewModel
 import com.core.wumfapp2020.viewmodel.act.MainViewModel
-import com.library.core.BaseActivity
 import com.library.core.BaseViewModel
 import com.library.core.lazyViewModel
 import java.lang.ref.WeakReference

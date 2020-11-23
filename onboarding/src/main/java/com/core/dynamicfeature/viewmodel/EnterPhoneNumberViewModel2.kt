@@ -247,8 +247,9 @@ class EnterPhoneNumberViewModel2 @AssistedInject constructor(private val sharedV
         val userId = me.id.toString()
         val userName = me.firstName
         val friendsList = contacts.userIds.joinToString(",")
+        val pickedCountry = AppCountryDetector.lastPickedCountry
         val lastDetectedCountry = AppCountryDetector.getLastDetectedCountryByPhoneCode()
-        val lastDetectedCountryShortStr = lastDetectedCountry?.code ?: "ua"
+        val lastDetectedCountryShortStr = pickedCountry?.code ?: lastDetectedCountry?.code ?: "ua"
         return RegistrationRequest(userId = userId, friendsList = friendsList, createdPasswordHash = "test", displayName = userName,
             country = lastDetectedCountryShortStr
         )

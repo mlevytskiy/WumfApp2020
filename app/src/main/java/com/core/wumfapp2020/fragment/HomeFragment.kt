@@ -3,6 +3,7 @@ package com.core.wumfapp2020.fragment
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import com.core.wumfapp2020.R
 import com.core.wumfapp2020.VisibleBottomTabsState
 import com.core.wumfapp2020.base.*
@@ -30,6 +31,10 @@ class HomeFragment : TabFragment<FrgHomeBinding, HomeViewModel>(R.layout.frg_hom
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().window.apply {
+            clearFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        }
         super.onViewCreated(view, savedInstanceState)
         observeState(viewModel.showPickAppCategoryDialog) {
             val selected = detectChekedItemInPickAppCategoryDialog(it)

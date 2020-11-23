@@ -47,7 +47,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Show in google play"
+                android:text="@string/show_in_google_play"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 

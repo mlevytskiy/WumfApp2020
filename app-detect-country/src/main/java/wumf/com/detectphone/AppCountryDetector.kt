@@ -15,6 +15,7 @@ object AppCountryDetector {
     private val countryNames: HashMap<Int, String> = HashMap()
 
     private var lastDetectedCountry: Country? = null
+    var lastPickedCountry: Country? = null
 
     fun detectCountryByPhoneCode(mcc: Int?): Country? {
         val codeIso = countryCodes[mcc]?.toLowerCase(Locale.ROOT) ?: ""

@@ -92,7 +92,7 @@ fun showLogOutDialog(context: Context, resultListener: (Boolean) -> Unit) {
         .setOnCancelListener {
             resultListener(false)
         }
-        .setPositiveButton("Log out") { dialog, _ ->
+        .setPositiveButton(context.getString(R.string.log_out)) { dialog, _ ->
             resultListener(true)
         }
         .setView(createLogoutDialogView(context, viewModel))

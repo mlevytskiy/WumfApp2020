@@ -30,6 +30,7 @@ import com.core.wumfapp2020.util.CurrentLanguageModel
 import com.library.core.log
 import com.onboarding.enterphonenumberui.TagEditText
 import com.zeugmasolutions.localehelper.LocaleHelper
+import wumf.com.detectphone.AppCountryDetector
 import wumf.com.detectphone.Country
 import java.util.*
 
@@ -191,6 +192,7 @@ class FastActivity : ChangeLanguageActivity() {
     fun onClickCountry(view: View) {
         countryDialog = showCountriesDialog(this, {
             currCountry = it
+            AppCountryDetector.lastPickedCountry = it
             val countryView: TagEditText = findViewById(R.id.country)
             countryView.setTagValue(it.name)
             countryDialog?.dismiss()
